@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Calendar, Ruler, Command, LifeBuoy, Send, Bot } from "lucide-react";
+import { Calendar, Command, LifeBuoy, Send, Bot } from "lucide-react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavSecondary } from "@/components/sidebar/nav-secondary";
