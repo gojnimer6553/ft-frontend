@@ -25,7 +25,6 @@ export const Route = createRootRouteWithContext<RootContext>()({
     return <div>Página não encontrada</div>;
   },
   beforeLoad: async ({ location }) => {
-    console.log(import.meta.env);
     try {
       const session = await account.get();
       queryClient.ensureQueryData({

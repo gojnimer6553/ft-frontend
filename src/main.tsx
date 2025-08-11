@@ -28,6 +28,7 @@ declare module "@tanstack/react-router" {
   }
 }
 
+console.log(import.meta.env);
 // Render the app
 const rootElement = document.getElementById("app");
 if (rootElement && !rootElement.innerHTML) {
