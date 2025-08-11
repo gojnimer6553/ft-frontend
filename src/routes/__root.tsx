@@ -1,11 +1,9 @@
-import FullPageLoader from "@/components/FullPageLoader";
 import { account } from "@/lib/appwrite";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   createRootRouteWithContext,
   redirect,
-  useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Toaster } from "@/components/ui/sonner";
