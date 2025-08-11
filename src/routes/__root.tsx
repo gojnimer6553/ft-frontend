@@ -1,0 +1,53 @@
+import FullPageLoader from "@/components/FullPageLoader";
+import { account } from "@/lib/appwrite";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  Outlet,
+  createRootRouteWithContext,
+  redirect,
+  useRouterState,
+} from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { Toaster } from "@/components/ui/sonner";
+interface RootContext {
+  session?: ReturnType<typeof account.createEmailPasswordSession>;
+}
+
+const queryClient = new QueryClient();
+
+export const Route = createRootRouteWithContext<RootContext>()({
+  component: () => (
+    <QueryClientProvider client={queryClient}>
+      <TanStackRouterDevtools position="top-right" />
+      <RootOutlet />
+      <Toaster position="top-center" offset={60} />
+    </QueryClientProvider>
+  ),
+  notFoundComponent: () => {
+    return <div>Página não encontrada</div>;
+  },
+  beforeLoad: async ({ location }) => {
+    try {
+      const session = await account.get();
+      queryClient.ensureQueryData({
+        queryKey: ["session"],
+        initialData: session,
+      });
+      return { session };
+    } catch {
+      if (location.pathname === "/login")
+        return {
+          session: undefined,
+        };
+      throw redirect({
+        to: "/login",
+      });
+    }
+  },
+});
+
+const RootOutlet = () => {
+  /*   const status = useRouterState({ select: (s) => s.status });
+  if (status === "pending") return <FullPageLoader />; */
+  return <Outlet />;
+};
