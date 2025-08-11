@@ -1,35 +1,37 @@
-# Stage 1: Build
+# Build stage
 FROM node:18-alpine AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Install pnpm globally
-RUN npm install -g pnpm
-
-# Copy package manifest files
-COPY package.json pnpm-lock.yaml ./
+# Copy lock files and package.json
+COPY package.json package-lock.json* pnpm-lock.yaml* ./
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN if [ -f pnpm-lock.yaml ]; then \
+      npm install -g pnpm && pnpm install; \
+    else \
+      npm install; \
+    fi
 
-# Copy all source files
+# Copy source code
 COPY . .
 
-# Build the project (adjust if your build output is different)
-RUN pnpm run build
+# Build the app (make sure VITE_ env vars are set before this step if needed)
+RUN npm run build
 
-# Stage 2: Production with Nginx
-FROM nginx:stable-alpine
+# Production stage
+FROM node:18-alpine
 
-# Remove default nginx static files
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-# Copy built files from builder stage (assuming Vite default build output)
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Install serve to serve static files
+RUN npm install -g serve
 
-# Expose port 80
-EXPOSE 80
+# Copy built files from builder
+COPY --from=builder /app/dist ./dist
 
-# Start Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+# Expose port 3000
+EXPOSE 3000
+
+# Run the serve static server on port 3000
+CMD ["serve", "-s", "dist", "-l", "3000"]
