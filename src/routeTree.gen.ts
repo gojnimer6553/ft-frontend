@@ -13,6 +13,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as _authenticatedLayoutRouteImport } from './routes/__authenticatedLayout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as _authenticatedLayoutHomeRouteImport } from './routes/__authenticatedLayout/home'
+import { Route as _authenticatedLayoutChatRouteImport } from './routes/__authenticatedLayout/chat'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -34,15 +35,23 @@ const _authenticatedLayoutHomeRoute =
     path: '/home',
     getParentRoute: () => _authenticatedLayoutRoute,
   } as any)
+const _authenticatedLayoutChatRoute =
+  _authenticatedLayoutChatRouteImport.update({
+    id: '/chat',
+    path: '/chat',
+    getParentRoute: () => _authenticatedLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
 }
 export interface FileRoutesById {
@@ -50,18 +59,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/__authenticatedLayout': typeof _authenticatedLayoutRouteWithChildren
   '/login': typeof LoginRoute
+  '/__authenticatedLayout/chat': typeof _authenticatedLayoutChatRoute
   '/__authenticatedLayout/home': typeof _authenticatedLayoutHomeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/home'
+  fullPaths: '/' | '/login' | '/chat' | '/home'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/home'
+  to: '/' | '/login' | '/chat' | '/home'
   id:
     | '__root__'
     | '/'
     | '/__authenticatedLayout'
     | '/login'
+    | '/__authenticatedLayout/chat'
     | '/__authenticatedLayout/home'
   fileRoutesById: FileRoutesById
 }
@@ -101,14 +112,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedLayoutHomeRouteImport
       parentRoute: typeof _authenticatedLayoutRoute
     }
+    '/__authenticatedLayout/chat': {
+      id: '/__authenticatedLayout/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof _authenticatedLayoutChatRouteImport
+      parentRoute: typeof _authenticatedLayoutRoute
+    }
   }
 }
 
 interface _authenticatedLayoutRouteChildren {
+  _authenticatedLayoutChatRoute: typeof _authenticatedLayoutChatRoute
   _authenticatedLayoutHomeRoute: typeof _authenticatedLayoutHomeRoute
 }
 
 const _authenticatedLayoutRouteChildren: _authenticatedLayoutRouteChildren = {
+  _authenticatedLayoutChatRoute: _authenticatedLayoutChatRoute,
   _authenticatedLayoutHomeRoute: _authenticatedLayoutHomeRoute,
 }
 

@@ -16,7 +16,7 @@ RUN if [ -f pnpm-lock.yaml ]; then \
 # Copy source code
 COPY . .
 
-# Build the app (make sure VITE_ env vars are set before this step if needed)
+
 RUN npm run build
 
 # Production stage
