@@ -18,7 +18,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 
 export function NavMain({
   items,
@@ -45,13 +45,13 @@ export function NavMain({
             <Collapsible key={item.title} asChild defaultOpen={isActive}>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild tooltip={item.title}>
-                  <a
-                    href={item.url}
+                  <Link
+                    to={item.url}
                     className={isActive ? "font-semibold" : ""}
                   >
                     <item.icon />
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
                 {item.items?.length ? (
                   <>
@@ -69,14 +69,14 @@ export function NavMain({
                           return (
                             <SidebarMenuSubItem key={subItem.title}>
                               <SidebarMenuSubButton asChild>
-                                <a
-                                  href={subItem.url}
+                                <Link
+                                  to={subItem.url}
                                   className={
                                     isSubItemActive ? "font-semibold" : ""
                                   }
                                 >
                                   <span>{subItem.title}</span>
-                                </a>
+                                </Link>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
                           );
