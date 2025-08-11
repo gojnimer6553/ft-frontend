@@ -37,7 +37,7 @@ export function NavMain({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>Food Tracker</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           const isActive = location.pathname === item.url;
