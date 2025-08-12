@@ -27,7 +27,7 @@ const tolgee = Tolgee()
   .use(
     BackendFetch({
       prefix:
-        "https://minio-cow0w00w0go4080kcggk4gos.guilhermekarine.com/24d986b640d147718e690a282a6da482",
+        "https://minio-cow0w00w0go4080kcggk4gos.guilhermekarine.com/tolgee-cdn-bucket-main/24d986b640d147718e690a282a6da482",
     })
   )
   .init({
