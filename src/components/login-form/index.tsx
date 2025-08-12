@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { account } from "@/lib/appwrite";
 import { cn } from "@/lib/utils";
-import { useLocation } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { OAuthProvider } from "appwrite";
 import EmailAndPasswordForm from "./email-and-password";
@@ -17,7 +16,6 @@ export default function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const location = useLocation();
   const { t } = useTranslate();
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
