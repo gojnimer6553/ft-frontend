@@ -47,7 +47,7 @@ export default function useExecution(
       params.method
     );
   };
-  const { data, mutate } = useMutation({
+  const { data, mutate, status } = useMutation({
     mutationFn: executeFunction,
     onMutate: () => {
       setExecutionStatus("pending");
@@ -83,6 +83,6 @@ export default function useExecution(
 
   return {
     mutate,
-    status: executionStatus,
+    status: executionParams.async ? executionStatus : status,
   };
 }
