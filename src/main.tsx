@@ -18,8 +18,6 @@ import {
 } from "@tolgee/react";
 import FullPageLoader from "./components/FullPageLoader.tsx";
 
-console.log(import.meta.env);
-
 const tolgee = Tolgee()
   .use(DevTools())
   .use(FormatSimple())
@@ -33,6 +31,7 @@ const tolgee = Tolgee()
     apiKey: import.meta.env.VITE_APP_TOLGEE_API_KEY,
   });
 
+tolgee.run();
 // Create a new router instance
 const router = createRouter({
   routeTree,
