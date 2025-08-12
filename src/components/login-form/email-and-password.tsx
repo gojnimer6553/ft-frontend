@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button";
 
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -11,11 +8,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
+import { Input } from "@/components/ui/input";
 import { account } from "@/lib/appwrite";
-import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useTranslate } from "@tolgee/react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const formSchema = z.object({
   email: z
@@ -37,6 +38,7 @@ const formSchema = z.object({
 type IFormValues = z.infer<typeof formSchema>;
 
 const EmailAndPasswordForm = () => {
+  const { t } = useTranslate();
   const redirectParams = useSearch({
     strict: false,
     // @ts-expect-error
@@ -77,9 +79,12 @@ const EmailAndPasswordForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t("login.email")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Digite aqui..." {...field} />
+                  <Input
+                    placeholder={t("login.email-placeholder")}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -93,11 +98,11 @@ const EmailAndPasswordForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("login.password")}</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder="Digite aqui..."
+                    placeholder={t("login.password-placeholder")}
                     {...field}
                   />
                 </FormControl>

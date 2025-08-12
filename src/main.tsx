@@ -1,12 +1,35 @@
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 
-import "./styles.css";
 import reportWebVitals from "./reportWebVitals.ts";
+import "./styles.css";
+
+import {
+  DevTools,
+  FormatSimple,
+  LanguageDetector,
+  LanguageStorage,
+  Tolgee,
+  TolgeeProvider,
+} from "@tolgee/react";
+import FullPageLoader from "./components/FullPageLoader.tsx";
+
+const tolgee = Tolgee()
+  .use(DevTools())
+  .use(FormatSimple())
+  .use(LanguageStorage())
+  .use(LanguageDetector())
+  .init({
+    defaultLanguage: "en",
+    availableLanguages: ["en", "pt-BR"],
+    // for development
+    apiUrl: import.meta.env.VITE_APP_TOLGEE_API_URL,
+    apiKey: import.meta.env.VITE_APP_TOLGEE_API_KEY,
+  });
 
 // Create a new router instance
 const router = createRouter({
@@ -28,14 +51,15 @@ declare module "@tanstack/react-router" {
   }
 }
 
-console.log(import.meta.env);
 // Render the app
 const rootElement = document.getElementById("app");
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <TolgeeProvider tolgee={tolgee} fallback={<FullPageLoader />}>
+        <RouterProvider router={router} />
+      </TolgeeProvider>
     </StrictMode>
   );
 }
@@ -43,4 +67,4 @@ if (rootElement && !rootElement.innerHTML) {
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(console.log);
