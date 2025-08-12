@@ -9,6 +9,7 @@ import reportWebVitals from "./reportWebVitals.ts";
 import "./styles.css";
 
 import {
+  BackendFetch,
   DevTools,
   FormatSimple,
   LanguageDetector,
@@ -23,6 +24,12 @@ const tolgee = Tolgee()
   .use(FormatSimple())
   .use(LanguageStorage())
   .use(LanguageDetector())
+  .use(
+    BackendFetch({
+      prefix:
+        "https://minio-cow0w00w0go4080kcggk4gos.guilhermekarine.com/24d986b640d147718e690a282a6da482",
+    })
+  )
   .init({
     defaultLanguage: "pt-BR",
     availableLanguages: ["en", "pt-BR"],
