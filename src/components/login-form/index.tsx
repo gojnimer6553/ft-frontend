@@ -37,7 +37,7 @@ export default function LoginForm({
                 {t("login.loginWithApple")}
               </Button>
               <Button
-                onClick={async () => {
+                onClick={() => {
                   const baseUrl = `${window.location.protocol}//${window.location.host}`;
                   account.createOAuth2Session(
                     OAuthProvider.Google,

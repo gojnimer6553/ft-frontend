@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { account } from "@/lib/appwrite";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -6,7 +7,6 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Toaster } from "@/components/ui/sonner";
 interface RootContext {
   session?: ReturnType<typeof account.createEmailPasswordSession>;
 }
@@ -24,7 +24,8 @@ export const Route = createRootRouteWithContext<RootContext>()({
   notFoundComponent: () => {
     return <div>Página não encontrada</div>;
   },
-  beforeLoad: async ({ location }) => {
+  beforeLoad: async ({ context: { session }, location: { pathname } }) => {
+    if (!!session) return;
     try {
       const session = await account.get();
       queryClient.ensureQueryData({
@@ -33,7 +34,7 @@ export const Route = createRootRouteWithContext<RootContext>()({
       });
       return { session };
     } catch {
-      if (location.pathname === "/login")
+      if (pathname === "/login")
         return {
           session: undefined,
         };
