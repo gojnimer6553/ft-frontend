@@ -18,6 +18,8 @@ import {
 } from "@tolgee/react";
 import FullPageLoader from "./components/FullPageLoader.tsx";
 
+console.log(import.meta.env);
+
 const tolgee = Tolgee()
   .use(DevTools())
   .use(FormatSimple())
