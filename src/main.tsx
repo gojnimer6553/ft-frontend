@@ -8,14 +8,21 @@ import { routeTree } from "./routeTree.gen";
 import reportWebVitals from "./reportWebVitals.ts";
 import "./styles.css";
 
-import { DevTools, FormatSimple, Tolgee, TolgeeProvider } from "@tolgee/react";
+import {
+  DevTools,
+  FormatSimple,
+  LanguageDetector,
+  LanguageStorage,
+  Tolgee,
+  TolgeeProvider,
+} from "@tolgee/react";
 import FullPageLoader from "./components/FullPageLoader.tsx";
 
 const tolgee = Tolgee()
   .use(DevTools())
   .use(FormatSimple())
-  /*   .use(LanguageStorage())
-  .use(LanguageDetector()) */
+  .use(LanguageStorage())
+  .use(LanguageDetector())
   .init({
     defaultLanguage: "pt-BR",
     availableLanguages: ["en", "pt-BR"],
