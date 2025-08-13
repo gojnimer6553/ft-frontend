@@ -8,9 +8,9 @@ import { routeTree } from "./routeTree.gen";
 import reportWebVitals from "./reportWebVitals.ts";
 import "./styles.css";
 
+import FullPageLoader from "@/components/feedback/FullPageLoader.tsx";
 import tolgee, { TolgeeProvider } from "@/lib/ tolgee.ts";
 import { QueryClient } from "@tanstack/react-query";
-import FullPageLoader from "./components/FullPageLoader.tsx";
 
 const queryClient = new QueryClient();
 
