@@ -8,9 +8,11 @@ export default function FullPageLoader() {
         className="size-96 object-scale-down rounded-full animate-pulse"
         src="/assets/main-logo.png"
       />
-      <p className="font-mono text-2xl animate-pulse">
-        {t("feedback.loading")}
-      </p>
+      {
+        <p className="font-mono text-2xl animate-pulse">
+          {t("feedback.loading")} ...
+        </p>
+      }
     </div>
   );
 }

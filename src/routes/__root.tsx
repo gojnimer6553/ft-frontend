@@ -1,3 +1,4 @@
+import FullPageNotFound from "@/components/feedback/FullPageNotFound";
 import { Toaster } from "@/components/ui/sonner";
 import { account } from "@/lib/appwrite";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -15,9 +16,7 @@ export const Route = createRootRouteWithContext<RootContext>()({
       queryClient: context.queryClient,
     };
   },
-  notFoundComponent: () => {
-    return <div>Página não encontrada</div>;
-  },
+  notFoundComponent: FullPageNotFound,
 });
 
 function RootComponent() {

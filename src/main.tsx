@@ -8,7 +8,6 @@ import { routeTree } from "./routeTree.gen";
 import reportWebVitals from "./reportWebVitals.ts";
 import "./styles.css";
 
-import FullPageLoader from "@/components/feedback/FullPageLoader.tsx";
 import tolgee, { TolgeeProvider } from "@/lib/ tolgee.ts";
 import { QueryClient } from "@tanstack/react-query";
 
@@ -41,7 +40,7 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <TolgeeProvider tolgee={tolgee} fallback={<FullPageLoader />}>
+      <TolgeeProvider tolgee={tolgee}>
         <RouterProvider router={router} />
       </TolgeeProvider>
     </StrictMode>
