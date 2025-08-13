@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { account } from "@/lib/appwrite";
+import { useSearch } from "@tanstack/react-router";
 import { OAuthProvider } from "appwrite";
 
 export default function OAuth2Button({
@@ -11,6 +12,10 @@ export default function OAuth2Button({
   provider: OAuthProvider;
   icon?: React.ReactNode;
 } & React.ComponentProps<"button">) {
+  const redirectParams = useSearch({
+    strict: false,
+    select: (s) => s.redirect,
+  });
   return (
     <Button
       {...props}
@@ -18,7 +23,7 @@ export default function OAuth2Button({
         const baseUrl = `${window.location.protocol}//${window.location.host}`;
         account.createOAuth2Session(
           provider,
-          baseUrl,
+          `${baseUrl}${redirectParams ?? ""}`,
           `${baseUrl}/login-error`
         );
       }}

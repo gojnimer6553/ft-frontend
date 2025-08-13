@@ -11,7 +11,10 @@ import { Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/__authenticatedLayout")({
   component: RouteComponent,
-  beforeLoad: async ({ context: { session, queryClient } }) => {
+  beforeLoad: async ({
+    context: { session, queryClient },
+    location: { pathname },
+  }) => {
     if (!!session) return;
     try {
       const session = await account.get();
@@ -23,6 +26,9 @@ export const Route = createFileRoute("/__authenticatedLayout")({
     } catch {
       throw redirect({
         to: "/login",
+        search: {
+          redirect: pathname,
+        },
       });
     }
   },

@@ -41,9 +41,8 @@ const EmailAndPasswordForm = () => {
   const { t } = useTranslate();
   const redirectParams = useSearch({
     strict: false,
-    // @ts-expect-error
     select: (s) => s.redirect,
-  }) as any;
+  });
   const navigate = useNavigate({
     from: "/login",
   });
