@@ -17,12 +17,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useNavigate } from "@tanstack/react-router";
-import { account } from "@/lib/appwrite";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
 import useSession from "@/hooks/queries/user";
+import { account } from "@/lib/appwrite";
 import { getInitials } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 const LogoutItem = () => {
   const navigate = useNavigate();
@@ -38,6 +38,7 @@ const LogoutItem = () => {
       return promise;
     },
     onSuccess: () => {
+      sessionStorage.setItem("logged-out", "true");
       navigate({
         to: "/login",
       });

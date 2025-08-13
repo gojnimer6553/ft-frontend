@@ -9,15 +9,30 @@ import {
 import { account } from "@/lib/appwrite";
 import { Outlet } from "@tanstack/react-router";
 
+type ISession = Awaited<ReturnType<typeof account.get>>;
+
+let cachedSession: ISession | undefined;
+let cachedAt = 0;
+const CACHE_TTL = 1000 * 60 * 120; // 120 minutes
+
 export const Route = createFileRoute("/__authenticatedLayout")({
   component: RouteComponent,
-  beforeLoad: async ({
-    context: { session, queryClient },
-    location: { pathname },
-  }) => {
-    if (!!session) return;
+  beforeLoad: async ({ context: { queryClient }, location: { pathname } }) => {
+    if (sessionStorage.getItem("logged-out")) {
+      cachedSession = undefined;
+      cachedAt = 0;
+      sessionStorage.removeItem("logged-out");
+    }
     try {
-      const session = await account.get();
+      let session!: ISession;
+      const now = Date.now();
+      const isCachedSessionValid = now - cachedAt < CACHE_TTL;
+      if (cachedSession && isCachedSessionValid) session = cachedSession;
+      else {
+        session = await account.get();
+        cachedSession = session;
+        cachedAt = now;
+      }
       queryClient.ensureQueryData({
         queryKey: ["session"],
         initialData: session,
