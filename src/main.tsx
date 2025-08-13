@@ -9,13 +9,17 @@ import reportWebVitals from "./reportWebVitals.ts";
 import "./styles.css";
 
 import tolgee, { TolgeeProvider } from "@/lib/ tolgee.ts";
+import { QueryClient } from "@tanstack/react-query";
 import FullPageLoader from "./components/FullPageLoader.tsx";
+
+const queryClient = new QueryClient();
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
   context: {
     session: undefined,
+    queryClient,
   },
   defaultPreload: "intent",
   scrollRestoration: true,

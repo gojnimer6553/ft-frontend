@@ -1,14 +1,31 @@
 import { AppSidebar } from "@/components/sidebar";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { account } from "@/lib/appwrite";
+import { Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/__authenticatedLayout")({
   component: RouteComponent,
+  beforeLoad: async ({ context: { session, queryClient } }) => {
+    if (!!session) return;
+    try {
+      const session = await account.get();
+      queryClient.ensureQueryData({
+        queryKey: ["session"],
+        initialData: session,
+      });
+      return { session };
+    } catch {
+      throw redirect({
+        to: "/login",
+      });
+    }
+  },
 });
 
 function RouteComponent() {

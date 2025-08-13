@@ -9,26 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
+import { Route as _authenticationLayoutRouteImport } from './routes/__authenticationLayout'
 import { Route as _authenticatedLayoutRouteImport } from './routes/__authenticatedLayout'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as _authenticatedLayoutIndexRouteImport } from './routes/__authenticatedLayout/index'
+import { Route as _authenticationLayoutLoginRouteImport } from './routes/__authenticationLayout/login'
 import { Route as _authenticatedLayoutHomeRouteImport } from './routes/__authenticatedLayout/home'
 import { Route as _authenticatedLayoutChatRouteImport } from './routes/__authenticatedLayout/chat'
 
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const _authenticationLayoutRoute = _authenticationLayoutRouteImport.update({
+  id: '/__authenticationLayout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const _authenticatedLayoutRoute = _authenticatedLayoutRouteImport.update({
   id: '/__authenticatedLayout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const _authenticatedLayoutIndexRoute =
+  _authenticatedLayoutIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => _authenticatedLayoutRoute,
+  } as any)
+const _authenticationLayoutLoginRoute =
+  _authenticationLayoutLoginRouteImport.update({
+    id: '/login',
+    path: '/login',
+    getParentRoute: () => _authenticationLayoutRoute,
+  } as any)
 const _authenticatedLayoutHomeRoute =
   _authenticatedLayoutHomeRouteImport.update({
     id: '/home',
@@ -43,52 +50,53 @@ const _authenticatedLayoutChatRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
+  '/login': typeof _authenticationLayoutLoginRoute
+  '/': typeof _authenticatedLayoutIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
+  '/login': typeof _authenticationLayoutLoginRoute
+  '/': typeof _authenticatedLayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/__authenticatedLayout': typeof _authenticatedLayoutRouteWithChildren
-  '/login': typeof LoginRoute
+  '/__authenticationLayout': typeof _authenticationLayoutRouteWithChildren
   '/__authenticatedLayout/chat': typeof _authenticatedLayoutChatRoute
   '/__authenticatedLayout/home': typeof _authenticatedLayoutHomeRoute
+  '/__authenticationLayout/login': typeof _authenticationLayoutLoginRoute
+  '/__authenticatedLayout/': typeof _authenticatedLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/chat' | '/home'
+  fullPaths: '/chat' | '/home' | '/login' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/chat' | '/home'
+  to: '/chat' | '/home' | '/login' | '/'
   id:
     | '__root__'
-    | '/'
     | '/__authenticatedLayout'
-    | '/login'
+    | '/__authenticationLayout'
     | '/__authenticatedLayout/chat'
     | '/__authenticatedLayout/home'
+    | '/__authenticationLayout/login'
+    | '/__authenticatedLayout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   _authenticatedLayoutRoute: typeof _authenticatedLayoutRouteWithChildren
-  LoginRoute: typeof LoginRoute
+  _authenticationLayoutRoute: typeof _authenticationLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/__authenticationLayout': {
+      id: '/__authenticationLayout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof _authenticationLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__authenticatedLayout': {
@@ -98,12 +106,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/__authenticatedLayout/': {
+      id: '/__authenticatedLayout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof _authenticatedLayoutIndexRouteImport
+      parentRoute: typeof _authenticatedLayoutRoute
+    }
+    '/__authenticationLayout/login': {
+      id: '/__authenticationLayout/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof _authenticationLayoutLoginRouteImport
+      parentRoute: typeof _authenticationLayoutRoute
     }
     '/__authenticatedLayout/home': {
       id: '/__authenticatedLayout/home'
@@ -125,20 +140,34 @@ declare module '@tanstack/react-router' {
 interface _authenticatedLayoutRouteChildren {
   _authenticatedLayoutChatRoute: typeof _authenticatedLayoutChatRoute
   _authenticatedLayoutHomeRoute: typeof _authenticatedLayoutHomeRoute
+  _authenticatedLayoutIndexRoute: typeof _authenticatedLayoutIndexRoute
 }
 
 const _authenticatedLayoutRouteChildren: _authenticatedLayoutRouteChildren = {
   _authenticatedLayoutChatRoute: _authenticatedLayoutChatRoute,
   _authenticatedLayoutHomeRoute: _authenticatedLayoutHomeRoute,
+  _authenticatedLayoutIndexRoute: _authenticatedLayoutIndexRoute,
 }
 
 const _authenticatedLayoutRouteWithChildren =
   _authenticatedLayoutRoute._addFileChildren(_authenticatedLayoutRouteChildren)
 
+interface _authenticationLayoutRouteChildren {
+  _authenticationLayoutLoginRoute: typeof _authenticationLayoutLoginRoute
+}
+
+const _authenticationLayoutRouteChildren: _authenticationLayoutRouteChildren = {
+  _authenticationLayoutLoginRoute: _authenticationLayoutLoginRoute,
+}
+
+const _authenticationLayoutRouteWithChildren =
+  _authenticationLayoutRoute._addFileChildren(
+    _authenticationLayoutRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   _authenticatedLayoutRoute: _authenticatedLayoutRouteWithChildren,
-  LoginRoute: LoginRoute,
+  _authenticationLayoutRoute: _authenticationLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
