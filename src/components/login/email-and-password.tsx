@@ -40,7 +40,7 @@ type IFormValues = z.infer<typeof formSchema>;
 const EmailAndPasswordForm = () => {
   const { t } = useTranslate();
   const redirectParams = useSearch({
-    strict: false,
+    from: "/__authenticationLayout",
     select: (s) => s.redirect,
   });
   const navigate = useNavigate({

@@ -15,16 +15,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { OAuthProvider } from "appwrite";
 
-interface LoginSearch {
-  redirect?: string;
-}
 export const Route = createFileRoute("/__authenticationLayout/login")({
   component: RouteComponent,
-  validateSearch: (search: Record<string, unknown>): LoginSearch => {
-    return {
-      redirect: search.redirect as string | undefined,
-    };
-  },
 });
 
 function RouteComponent() {

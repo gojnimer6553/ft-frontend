@@ -13,7 +13,7 @@ export default function OAuth2Button({
   icon?: React.ReactNode;
 } & React.ComponentProps<"button">) {
   const redirectParams = useSearch({
-    strict: false,
+    from: "/__authenticationLayout",
     select: (s) => s.redirect,
   });
   return (
