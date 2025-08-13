@@ -10,8 +10,22 @@ import "./styles.css";
 
 import tolgee, { TolgeeProvider } from "@/lib/ tolgee.ts";
 import { QueryClient } from "@tanstack/react-query";
+import { account } from "./lib/appwrite.ts";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      queryFn: ({ queryKey }) => {
+        switch (queryKey[0]) {
+          case "session":
+            return account.get;
+          default:
+            return undefined;
+        }
+      },
+    },
+  },
+});
 
 // Create a new router instance
 const router = createRouter({
