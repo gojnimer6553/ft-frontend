@@ -1,13 +1,56 @@
 {
-  "login": {
-    "login": "Login"
-  },
   "feedback": {
-    "loading": "Loading"
+    "loading": "Loading",
+    "notFound": {
+      "backToDiary": "Back to Home Page",
+      "contactSupport": "Contact Support",
+      "description": "Looks like this page went on a diet and disappeared! Our chef cat couldn't find what you're looking for in the kitchen.",
+      "funMessage": "Don't worry, our chef cat is always cooking up something delicious! \uD83C\uDF7D️",
+      "logoAlt": "Food Calendar Track",
+      "title": "Oops! Page Not Found"
+    }
   },
+  "login": {
+    "agreeTo": "By clicking continue, you agree to our",
+    "and": "and",
+    "dontHaveAccount": "Don't have an account?",
+    "email": "Email",
+    "email-placeholder": "Write here...",
+    "login": "Login",
+    "loginWithApple": "Login with Apple",
+    "loginWithAppleOrGoogle": "Login with your account",
+    "loginWithGoogle": "Login with Google",
+    "orContinueWith": "Or continue with",
+    "password": "Password",
+    "password-placeholder": "Write here...",
+    "privacyPolicy": "Privacy Policy",
+    "signUp": "Sign up",
+    "termsOfService": "Terms of Service",
+    "welcomeBack": "Welcome back"
+  },
+  "register": {
+    "agreeTo": "By clicking sign up, you agree to our",
+    "alreadyHaveAccount": "Already have an account?",
+    "and": "and",
+    "createAccount": "Create your account",
+    "email": "Email",
+    "email-placeholder": "Write here...",
+    "login": "Login",
+    "orContinueWith": "Or continue with",
+    "password": "Password",
+    "password-placeholder": "Write here...",
+    "privacyPolicy": "Privacy Policy",
+    "signUp": "Sign up",
+    "signUpWithApple": "Sign up with Apple",
+    "signUpWithAppleOrGoogle": "Sign up with your account",
+    "signUpWithGoogle": "Sign up with Google",
+    "termsOfService": "Terms of Service"
+  },
+  "soon": "Soon",
   "validation": {
-    "required": "Required field",
     "invalidEmail": "Invalid email",
-    "passwordMin": "Minimum {{count}} characters"
+    "passwordMin": "Minimum {{count}} characters",
+    "required": "Required field"
   }
 }
+

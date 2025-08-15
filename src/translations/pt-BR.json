@@ -1,13 +1,56 @@
 {
-  "login": {
-    "login": "Entrar"
-  },
   "feedback": {
-    "loading": "Carregando"
+    "loading": "Carregando",
+    "notFound": {
+      "backToDiary": "Voltar para a página principal",
+      "contactSupport": "Contatar suporte",
+      "description": "Parece que esta página entrou em uma dieta e desapareceu! Nosso gato chef não encontrou o que você procura na cozinha.",
+      "funMessage": "Não se preocupe, nosso gato chef está sempre preparando algo delicioso! \uD83C\uDF7D️",
+      "logoAlt": "Calendário de Refeições",
+      "title": "Ops! Página não encontrada"
+    }
   },
+  "login": {
+    "agreeTo": "Ao clicar em continuar, você concorda com nossos",
+    "and": "e",
+    "dontHaveAccount": "Não tem uma conta?",
+    "email": "Email",
+    "email-placeholder": "Digite aqui...",
+    "login": "Entrar",
+    "loginWithApple": "Entrar com Apple",
+    "loginWithAppleOrGoogle": "Faça login com sua conta",
+    "loginWithGoogle": "Entrar com Google",
+    "orContinueWith": "Ou continue com",
+    "password": "Senha",
+    "password-placeholder": "Digite aqui...",
+    "privacyPolicy": "Política de Privacidade",
+    "signUp": "Cadastre-se",
+    "termsOfService": "Termos de Serviço",
+    "welcomeBack": "Bem-vindo de volta"
+  },
+  "register": {
+    "agreeTo": "Ao clicar em cadastrar, você concorda com nossos",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "and": "e",
+    "createAccount": "Crie sua conta",
+    "email": "Email",
+    "email-placeholder": "Digite aqui...",
+    "login": "Entrar",
+    "orContinueWith": "Ou continue com",
+    "password": "Senha",
+    "password-placeholder": "Digite aqui...",
+    "privacyPolicy": "Política de Privacidade",
+    "signUp": "Cadastre-se",
+    "signUpWithApple": "Cadastre-se com Apple",
+    "signUpWithAppleOrGoogle": "Cadastre-se com sua conta",
+    "signUpWithGoogle": "Cadastre-se com Google",
+    "termsOfService": "Termos de Serviço"
+  },
+  "soon": "Em breve",
   "validation": {
-    "required": "Campo obrigatório",
     "invalidEmail": "Email inválido",
-    "passwordMin": "Mínimo de {{count}} caracteres"
+    "passwordMin": "Mínimo de {{count}} caracteres",
+    "required": "Campo obrigatório"
   }
 }
+
