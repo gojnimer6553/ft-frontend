@@ -69,11 +69,22 @@ function RouteComponent() {
                 </div>
               </div>
               <div className="relative hidden bg-background md:flex md:items-center md:justify-center">
-                <img
-                  src="/assets/mascot/mascot_default.png"
-                  alt={t("login.welcomeBack")}
-                  className="h-32 w-32 object-contain"
-                />
+                <div className="flex flex-col items-center text-center">
+                  <div className="relative">
+                    <span className="absolute -inset-2 rounded-full bg-orange-200 opacity-50 blur-md animate-pulse"></span>
+                    <img
+                      src="/assets/mascot/mascot_default.png"
+                      alt={t("login.welcomeBack")}
+                      className="relative h-32 w-32 object-contain animate-bounce"
+                    />
+                  </div>
+                  <h2 className="mt-4 text-2xl font-bold text-orange-500">
+                    {t("login.appName")}
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    {t("login.funDescription")}
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>

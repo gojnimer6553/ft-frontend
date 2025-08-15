@@ -26,7 +26,9 @@
     "privacyPolicy": "Privacy Policy",
     "signUp": "Sign up",
     "termsOfService": "Terms of Service",
-    "welcomeBack": "Welcome back"
+    "welcomeBack": "Welcome back",
+    "appName": "Laranjito",
+    "funDescription": "Your juicy sidekick!"
   },
   "register": {
     "agreeTo": "By clicking sign up, you agree to our",

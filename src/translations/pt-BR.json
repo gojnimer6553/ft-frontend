@@ -26,7 +26,9 @@
     "privacyPolicy": "Política de Privacidade",
     "signUp": "Cadastre-se",
     "termsOfService": "Termos de Serviço",
-    "welcomeBack": "Bem-vindo de volta"
+    "welcomeBack": "Bem-vindo de volta",
+    "appName": "Laranjito",
+    "funDescription": "Seu companheiro suculento!"
   },
   "register": {
     "agreeTo": "Ao clicar em cadastrar, você concorda com nossos",
