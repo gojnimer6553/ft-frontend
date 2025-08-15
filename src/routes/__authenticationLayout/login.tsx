@@ -68,11 +68,11 @@ function RouteComponent() {
                   </div>
                 </div>
               </div>
-              <div className="relative hidden bg-muted md:block">
+              <div className="relative hidden bg-background md:flex md:items-center md:justify-center">
                 <img
                   src="/assets/mascot/mascot_default.png"
                   alt={t("login.welcomeBack")}
-                  className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                  className="h-32 w-32 object-contain"
                 />
               </div>
             </CardContent>

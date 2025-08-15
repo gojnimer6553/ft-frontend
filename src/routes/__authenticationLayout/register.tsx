@@ -22,7 +22,7 @@ function RouteComponent() {
   }, []);
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted py-6 md:py-10">
-      <div className="w-full max-w-sm md:max-w-3xl">
+      <div className="w-full max-w-sm">
         <div className={cn("flex flex-col gap-6")}>
           <Card className="overflow-hidden">
             <CardContent className="p-0 md:flex">
@@ -80,14 +80,14 @@ function RouteComponent() {
               </div>
               <div
                 className={cn(
-                  "relative hidden overflow-hidden bg-muted transition-all duration-500 md:block md:w-1/2",
+                  "relative hidden bg-background transition-all duration-500 md:flex md:w-1/2 md:items-center md:justify-center",
                   hideRight && "md:w-0 md:translate-x-full"
                 )}
               >
                 <img
                   src="/assets/mascot/mascot_thumbs_up.png"
                   alt={t("register.createAccount")}
-                  className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                  className="h-32 w-32 object-contain"
                 />
               </div>
             </CardContent>
