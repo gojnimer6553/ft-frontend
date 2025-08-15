@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as _authenticationLayoutRouteImport } from './routes/__authenticationLayout'
 import { Route as _authenticatedLayoutRouteImport } from './routes/__authenticatedLayout'
 import { Route as _authenticatedLayoutIndexRouteImport } from './routes/__authenticatedLayout/index'
+import { Route as _authenticationLayoutRegisterRouteImport } from './routes/__authenticationLayout/register'
 import { Route as _authenticationLayoutLoginRouteImport } from './routes/__authenticationLayout/login'
 import { Route as _authenticatedLayoutHomeRouteImport } from './routes/__authenticatedLayout/home'
 import { Route as _authenticatedLayoutChatRouteImport } from './routes/__authenticatedLayout/chat'
@@ -29,6 +30,12 @@ const _authenticatedLayoutIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => _authenticatedLayoutRoute,
+  } as any)
+const _authenticationLayoutRegisterRoute =
+  _authenticationLayoutRegisterRouteImport.update({
+    id: '/register',
+    path: '/register',
+    getParentRoute: () => _authenticationLayoutRoute,
   } as any)
 const _authenticationLayoutLoginRoute =
   _authenticationLayoutLoginRouteImport.update({
@@ -53,12 +60,14 @@ export interface FileRoutesByFullPath {
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
   '/login': typeof _authenticationLayoutLoginRoute
+  '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
   '/login': typeof _authenticationLayoutLoginRoute
+  '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
 }
 export interface FileRoutesById {
@@ -68,13 +77,14 @@ export interface FileRoutesById {
   '/__authenticatedLayout/chat': typeof _authenticatedLayoutChatRoute
   '/__authenticatedLayout/home': typeof _authenticatedLayoutHomeRoute
   '/__authenticationLayout/login': typeof _authenticationLayoutLoginRoute
+  '/__authenticationLayout/register': typeof _authenticationLayoutRegisterRoute
   '/__authenticatedLayout/': typeof _authenticatedLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/chat' | '/home' | '/login' | '/'
+  fullPaths: '/chat' | '/home' | '/login' | '/register' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/chat' | '/home' | '/login' | '/'
+  to: '/chat' | '/home' | '/login' | '/register' | '/'
   id:
     | '__root__'
     | '/__authenticatedLayout'
@@ -82,6 +92,7 @@ export interface FileRouteTypes {
     | '/__authenticatedLayout/chat'
     | '/__authenticatedLayout/home'
     | '/__authenticationLayout/login'
+    | '/__authenticationLayout/register'
     | '/__authenticatedLayout/'
   fileRoutesById: FileRoutesById
 }
@@ -112,6 +123,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof _authenticatedLayoutIndexRouteImport
       parentRoute: typeof _authenticatedLayoutRoute
+    }
+    '/__authenticationLayout/register': {
+      id: '/__authenticationLayout/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof _authenticationLayoutRegisterRouteImport
+      parentRoute: typeof _authenticationLayoutRoute
     }
     '/__authenticationLayout/login': {
       id: '/__authenticationLayout/login'
@@ -154,10 +172,12 @@ const _authenticatedLayoutRouteWithChildren =
 
 interface _authenticationLayoutRouteChildren {
   _authenticationLayoutLoginRoute: typeof _authenticationLayoutLoginRoute
+  _authenticationLayoutRegisterRoute: typeof _authenticationLayoutRegisterRoute
 }
 
 const _authenticationLayoutRouteChildren: _authenticationLayoutRouteChildren = {
   _authenticationLayoutLoginRoute: _authenticationLayoutLoginRoute,
+  _authenticationLayoutRegisterRoute: _authenticationLayoutRegisterRoute,
 }
 
 const _authenticationLayoutRouteWithChildren =
