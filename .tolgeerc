@@ -1,8 +1,8 @@
 {
     "$schema": "https://docs.tolgee.io/cli-schema.json",
     "format": "JSON_TOLGEE",
-    "apiUrl": "https://tolgee.guilhermekarine.com",
-    "apiKey": "tgpak_gjpxemtvofwximbqnzsxm3rrgfvtknlugbxde3dugz2hg",
+    "apiUrl": "https://tolgee.laranjito.com",
+    "apiKey": "tgpak_gjpw2mtgofqxey3pme3wq3jzmizte23umnvg45ddni3xg",
     "patterns": [
         "./src/**/*.ts?(x)"
     ],
