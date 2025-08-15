@@ -11,6 +11,7 @@ import "./styles.css";
 import tolgee, { TolgeeProvider } from "@/lib/tolgee";
 import { QueryClient } from "@tanstack/react-query";
 import FullPageLoader from "./components/feedback/full-page-loader.tsx";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const queryClient = new QueryClient();
 
@@ -41,9 +42,11 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <TolgeeProvider tolgee={tolgee} fallback={<FullPageLoader />}>
-        <RouterProvider router={router} />
-      </TolgeeProvider>
+      <ThemeProvider>
+        <TolgeeProvider tolgee={tolgee} fallback={<FullPageLoader />}>
+          <RouterProvider router={router} />
+        </TolgeeProvider>
+      </ThemeProvider>
     </StrictMode>
   );
 }
