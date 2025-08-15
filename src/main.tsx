@@ -8,7 +8,7 @@ import { routeTree } from "./routeTree.gen";
 import reportWebVitals from "./reportWebVitals.ts";
 import "./styles.css";
 
-import tolgee, { TolgeeProvider } from "@/lib/ tolgee.ts";
+import tolgee, { TolgeeProvider } from "@/lib/tolgee";
 import { QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
