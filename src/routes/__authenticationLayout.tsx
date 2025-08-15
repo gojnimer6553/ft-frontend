@@ -5,10 +5,17 @@ interface LoginSearch {
   redirect?: string;
 }
 
+let isUserLoggedIn!: boolean | undefined;
+
 export const Route = createFileRoute("/__authenticationLayout")({
   component: RouteComponent,
   beforeLoad: async ({ search }) => {
-    const isUserLoggedIn = await account.get().catch(() => false);
+    if (isUserLoggedIn === undefined) {
+      isUserLoggedIn = await account
+        .get()
+        .then(() => true)
+        .catch(() => false);
+    }
     if (!!isUserLoggedIn)
       throw redirect({
         to: search.redirect ?? "/",
