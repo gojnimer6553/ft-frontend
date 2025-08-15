@@ -14,7 +14,7 @@ export default function FullPageNotFound() {
           <img
             alt={t("feedback.notFound.logoAlt")}
             className="size-[200px] mx-auto"
-            src="/assets/main-logo.png"
+            src="/assets/mascot/mascot_detective.png"
           />
         </div>
 
