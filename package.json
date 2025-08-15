@@ -7,7 +7,9 @@
     "start": "vite --port 3000",
     "build": "vite build && tsc",
     "serve": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "pull-translations": "tolgee pull",
+    "push-translations": "tolgee push"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -25,6 +27,7 @@
     "@tanstack/react-router": "^1.130.2",
     "@tanstack/react-router-devtools": "^1.131.5",
     "@tanstack/router-plugin": "^1.121.2",
+    "@tolgee/cli": "^2.14.0",
     "@tolgee/react": "^6.2.7",
     "appwrite": "^18.2.0",
     "class-variance-authority": "^0.7.1",

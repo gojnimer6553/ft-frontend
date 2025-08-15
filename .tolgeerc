@@ -1,0 +1,19 @@
+{
+    "$schema": "https://docs.tolgee.io/cli-schema.json",
+    "format": "JSON_TOLGEE",
+    "apiUrl": "https://tolgee.guilhermekarine.com",
+    "apiKey": "tgpak_gjpxemtvofwximbqnzsxm3rrgfvtknlugbxde3dugz2hg",
+    "patterns": [
+        "./src/**/*.ts?(x)"
+    ],
+    "push": {
+        "filesTemplate": "./src/translations/{languageTag}.json",
+        "language": [
+            "pt-BR",
+            "en"
+        ]
+    },
+    "pull": {
+        "path": "./src/translations"
+    }
+}
