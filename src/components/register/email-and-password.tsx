@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-
 import {
   Form,
   FormControl,
@@ -14,11 +13,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
+import { ID } from "appwrite";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const EmailAndPasswordForm = () => {
+const RegisterEmailAndPasswordForm = () => {
   const { t } = useTranslate();
 
   const formSchema = z.object({
@@ -43,7 +43,7 @@ const EmailAndPasswordForm = () => {
     select: (s) => s.redirect,
   });
   const navigate = useNavigate({
-    from: "/login",
+    from: "/register",
   });
   const formMethods = useForm<IFormValues>({
     resolver: zodResolver(formSchema),
@@ -54,13 +54,15 @@ const EmailAndPasswordForm = () => {
   });
 
   const { isPending, mutate } = useMutation({
-    mutationFn: (data: IFormValues) =>
-      account.createEmailPasswordSession(data.email, data.password),
+    mutationFn: async (data: IFormValues) => {
+      await account.create(ID.unique(), data.email, data.password);
+      return account.createEmailPasswordSession(data.email, data.password);
+    },
     onSuccess: () =>
       navigate({
         to: redirectParams ?? "/",
       }),
-    onError: (err) => {
+    onError: (err: any) => {
       toast.error(err.message);
     },
   });
@@ -77,10 +79,10 @@ const EmailAndPasswordForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("login.email")}</FormLabel>
+                <FormLabel>{t("register.email")}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={t("login.email-placeholder")}
+                    placeholder={t("register.email-placeholder")}
                     {...field}
                   />
                 </FormControl>
@@ -96,11 +98,11 @@ const EmailAndPasswordForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("login.password")}</FormLabel>
+                <FormLabel>{t("register.password")}</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
-                    placeholder={t("login.password-placeholder")}
+                    placeholder={t("register.password-placeholder")}
                     {...field}
                   />
                 </FormControl>
@@ -114,11 +116,11 @@ const EmailAndPasswordForm = () => {
           type="submit"
           className="w-full"
         >
-          {t("login.login")}
+          {t("register.signUp")}
         </Button>
       </form>
     </Form>
   );
 };
 
-export default EmailAndPasswordForm;
+export default RegisterEmailAndPasswordForm;

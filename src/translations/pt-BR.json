@@ -1,0 +1,13 @@
+{
+  "login": {
+    "login": "Entrar"
+  },
+  "feedback": {
+    "loading": "Carregando"
+  },
+  "validation": {
+    "required": "Campo obrigatório",
+    "invalidEmail": "Email inválido",
+    "passwordMin": "Mínimo de {{count}} caracteres"
+  }
+}
