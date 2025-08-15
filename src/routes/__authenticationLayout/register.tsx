@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { OAuthProvider } from "appwrite";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/__authenticationLayout/register")({
   component: RouteComponent,
@@ -15,13 +16,22 @@ export const Route = createFileRoute("/__authenticationLayout/register")({
 
 function RouteComponent() {
   const { t } = useTranslate();
+  const [hideRight, setHideRight] = useState(false);
+  useEffect(() => {
+    setHideRight(true);
+  }, []);
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-muted py-6 md:py-10">
       <div className="w-full max-w-sm md:max-w-3xl">
         <div className={cn("flex flex-col gap-6")}>
           <Card className="overflow-hidden">
-            <CardContent className="grid p-0 md:grid-cols-2">
-              <div className="p-6 md:p-8">
+            <CardContent className="p-0 md:flex">
+              <div
+                className={cn(
+                  "p-6 md:p-8 transition-all duration-500 md:w-1/2",
+                  hideRight && "md:w-full"
+                )}
+              >
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col items-center text-center">
                     <h1 className="text-2xl font-bold">
@@ -68,7 +78,12 @@ function RouteComponent() {
                   </div>
                 </div>
               </div>
-              <div className="relative hidden bg-muted md:block">
+              <div
+                className={cn(
+                  "relative hidden overflow-hidden bg-muted transition-all duration-500 md:block md:w-1/2",
+                  hideRight && "md:w-0 md:translate-x-full"
+                )}
+              >
                 <img
                   src="/assets/mascot/mascot_thumbs_up.png"
                   alt={t("register.createAccount")}
