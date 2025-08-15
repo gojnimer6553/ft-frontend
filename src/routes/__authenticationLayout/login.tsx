@@ -75,7 +75,7 @@ function RouteComponent() {
                 <img
                   src="/assets/mascot/mascot_full_body.png"
                   alt={t("login.welcomeBack")}
-                  className="w-40 object-contain"
+                  className="w-60 object-contain"
                 />
                 <div className="absolute bottom-4 text-center">
                   <h2 className="text-3xl font-bold text-orange-500 drop-shadow-md">
