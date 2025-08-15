@@ -8,8 +8,8 @@
     "build": "vite build && tsc",
     "serve": "vite preview",
     "test": "vitest run",
-    "pull-translations": "tolgee pull",
-    "push-translations": "tolgee push"
+    "tgee-pull": "tolgee pull",
+    "tgee-push": "tolgee push"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
