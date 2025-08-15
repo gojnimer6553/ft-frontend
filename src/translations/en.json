@@ -28,6 +28,24 @@
     "termsOfService": "Terms of Service",
     "welcomeBack": "Welcome back"
   },
+  "register": {
+    "agreeTo": "By clicking sign up, you agree to our",
+    "alreadyHaveAccount": "Already have an account?",
+    "and": "and",
+    "createAccount": "Create your account",
+    "email": "Email",
+    "email-placeholder": "Write here...",
+    "login": "Login",
+    "orContinueWith": "Or continue with",
+    "password": "Password",
+    "password-placeholder": "Write here...",
+    "privacyPolicy": "Privacy Policy",
+    "signUp": "Sign up",
+    "signUpWithApple": "Sign up with Apple",
+    "signUpWithAppleOrGoogle": "Sign up with your account",
+    "signUpWithGoogle": "Sign up with Google",
+    "termsOfService": "Terms of Service"
+  },
   "soon": "Soon",
   "validation": {
     "invalidEmail": "Invalid email",

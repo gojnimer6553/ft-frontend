@@ -28,6 +28,24 @@
     "termsOfService": "Termos de Serviço",
     "welcomeBack": "Bem-vindo de volta"
   },
+  "register": {
+    "agreeTo": "Ao clicar em cadastrar, você concorda com nossos",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "and": "e",
+    "createAccount": "Crie sua conta",
+    "email": "Email",
+    "email-placeholder": "Digite aqui...",
+    "login": "Entrar",
+    "orContinueWith": "Ou continue com",
+    "password": "Senha",
+    "password-placeholder": "Digite aqui...",
+    "privacyPolicy": "Política de Privacidade",
+    "signUp": "Cadastre-se",
+    "signUpWithApple": "Cadastre-se com Apple",
+    "signUpWithAppleOrGoogle": "Cadastre-se com sua conta",
+    "signUpWithGoogle": "Cadastre-se com Google",
+    "termsOfService": "Termos de Serviço"
+  },
   "soon": "Em breve",
   "validation": {
     "invalidEmail": "Email inválido",
