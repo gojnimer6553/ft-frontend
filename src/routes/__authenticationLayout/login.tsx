@@ -61,8 +61,11 @@ function RouteComponent() {
                   </div>
                   <EmailAndPasswordForm />
                   <div className="text-center text-sm">
-                    {t("login.dontHaveAccount")} {" "}
-                    <Link to="/register" className="underline underline-offset-4">
+                    {t("login.dontHaveAccount")}{" "}
+                    <Link
+                      to="/register"
+                      className="underline underline-offset-4"
+                    >
                       {t("login.signUp")}
                     </Link>
                   </div>
@@ -70,7 +73,7 @@ function RouteComponent() {
               </div>
               <div className="relative hidden bg-background md:flex md:items-center md:justify-center">
                 <img
-                  src="/assets/mascot/mascot_default.png"
+                  src="/assets/mascot/mascot_full_body.png"
                   alt={t("login.welcomeBack")}
                   className="h-40 w-40 object-contain"
                 />
@@ -86,7 +89,7 @@ function RouteComponent() {
             </CardContent>
           </Card>
           <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-            {t("login.agreeTo")} <a href="#">{t("login.termsOfService")}</a> {" "}
+            {t("login.agreeTo")} <a href="#">{t("login.termsOfService")}</a>{" "}
             {t("login.and")} <a href="#">{t("login.privacyPolicy")}</a>.
           </div>
         </div>
@@ -94,4 +97,3 @@ function RouteComponent() {
     </div>
   );
 }
-
