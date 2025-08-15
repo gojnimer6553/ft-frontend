@@ -186,60 +186,62 @@ function RouteComponent() {
         }}
         className="space-y-2 border-t p-4"
       >
-        <div className="flex items-end gap-2">
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={
-              loading ? "Aguardando resposta..." : "Digite sua mensagem..."
-            }
-            aria-label="Mensagem"
-            disabled={loading}
-            rows={1}
-            className="flex-1 resize-none overflow-hidden rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] disabled:opacity-50"
-          />
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              aria-label="Anexar arquivo"
+        <div className="rounded-md border bg-background p-2 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring">
+          <div className="flex items-end gap-2">
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={
+                loading ? "Aguardando resposta..." : "Digite sua mensagem..."
+              }
+              aria-label="Mensagem"
               disabled={loading}
-              onClick={() => alert("Anexar arquivo (mock)")}
-            >
-              <Paperclip className="h-4 w-4" />
-            </Button>
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              aria-label="Microfone"
-              disabled={loading}
-              onClick={() => alert("Microfone (mock)")}
-            >
-              <Mic className="h-4 w-4" />
-            </Button>
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              aria-label="Limpar"
-              disabled={!messages.length && !input}
-              onClick={handleClear}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-            <Button
-              type="submit"
-              size="icon"
-              aria-label="Enviar mensagem"
-              disabled={!input.trim() || loading}
-              loading={loading}
-            >
-              <Send className="h-4 w-4" />
-            </Button>
+              rows={1}
+              className="flex-1 resize-none overflow-hidden bg-transparent px-0 py-1 text-sm placeholder:text-muted-foreground focus:outline-none disabled:opacity-50"
+            />
+            <div className="flex items-center gap-2 pb-1">
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                aria-label="Anexar arquivo"
+                disabled={loading}
+                onClick={() => alert("Anexar arquivo (mock)")}
+              >
+                <Paperclip className="h-4 w-4" />
+              </Button>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                aria-label="Microfone"
+                disabled={loading}
+                onClick={() => alert("Microfone (mock)")}
+              >
+                <Mic className="h-4 w-4" />
+              </Button>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                aria-label="Limpar"
+                disabled={!messages.length && !input}
+                onClick={handleClear}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+              <Button
+                type="submit"
+                size="icon"
+                aria-label="Enviar mensagem"
+                disabled={!input.trim() || loading}
+                loading={loading}
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
         <div className="text-right text-xs text-muted-foreground">
