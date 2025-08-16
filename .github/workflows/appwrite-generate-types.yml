@@ -15,8 +15,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install Appwrite CLI
-        run: npm install -g appwrite/cli
       - name: Generate Appwrite Client
         uses: appwrite/setup-for-appwrite@v1
         with:
@@ -24,8 +22,9 @@ jobs:
           endpoint: ${{ secrets.APPWRITE_ENDPOINT }}
           key: ${{ secrets.API_KEY }}
           project: ${{ vars.PROJECT_ID }}
+          force: true
       - name: Pull Appwrite Collections
-        run: appwrite pull collections --all --force
+        run: appwrite pull collections --all
       - name: Generate Appwrite Types
         run: appwrite types src/types
       - name: Commit and push generated types and config
