@@ -3,8 +3,9 @@ import { useChat } from "@ai-sdk/react";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { OpenAIChatTransport } from "@/lib/openai-chat-transport";
+import { toast } from "sonner";
 
 export function Chat() {
   const transport = useMemo(() => new OpenAIChatTransport(), []);
@@ -19,14 +20,28 @@ export function Chat() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim()) return;
-    await sendMessage({
+
+    const promise = sendMessage({
       role: "user",
       parts: [{ type: "text", text: input }],
     });
-    setInput("");
+
+    toast.promise(promise, {
+      loading: "Sending...",
+      success: "Message sent",
+      error: "Failed to send message",
+    });
+
+    try {
+      await promise;
+      setInput("");
+    } catch {
+      // error handled by toast
+    }
   }
 
-  const isLoading = status !== "ready";
+  const isLoading = status !== "ready" && status !== "error";
+  const isError = status === "error";
 
   return (
     <div className="flex h-full flex-col">
@@ -54,16 +69,26 @@ export function Chat() {
             <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
           </div>
         )}
+        {isError && (
+          <div className="flex justify-center text-sm text-destructive">
+            Something went wrong
+          </div>
+        )}
         <div ref={endRef} />
       </div>
       <form
         onSubmit={handleSubmit}
         className="flex gap-2 border-t bg-background p-4"
       >
-        <Input
+        <PlaceholdersAndVanishInput
+          placeholders={[
+            "Type your message",
+            "Ask anything...",
+            "Start chatting",
+          ]}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message"
+          disabled={isLoading}
           className="flex-1"
         />
         <Button type="submit" disabled={isLoading || !input.trim()}>
