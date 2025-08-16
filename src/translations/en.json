@@ -56,6 +56,16 @@
     "submit": "Join waitlist",
     "success": "Thanks! We'll be in touch."
   },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Have questions? We're here to help.",
+    "email": "Email",
+    "emailPlaceholder": "Write your email...",
+    "message": "Message",
+    "messagePlaceholder": "Write your message...",
+    "submit": "Send message",
+    "success": "Thanks! We'll get back to you."
+  },
   "soon": "Soon",
   "validation": {
     "invalidEmail": "Invalid email",
