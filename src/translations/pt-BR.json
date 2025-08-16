@@ -48,6 +48,14 @@
     "signUpWithGoogle": "Cadastre-se com Google",
     "termsOfService": "Termos de Serviço"
   },
+  "waitlist": {
+    "title": "Entre na lista de espera",
+    "description": "Deixe seu email e avisaremos você!",
+    "email": "Email",
+    "email-placeholder": "voce@exemplo.com",
+    "button": "Entrar na lista",
+    "success": "Obrigado por se inscrever!"
+  },
   "soon": "Em breve",
   "validation": {
     "invalidEmail": "Email inválido",
