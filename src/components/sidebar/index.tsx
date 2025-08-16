@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Calendar, Command, LifeBuoy, Send, Bot } from "lucide-react";
+import {
+  Calendar,
+  Command,
+  LifeBuoy,
+  Send,
+  Bot,
+  type LucideIcon,
+} from "lucide-react";
 
 import { ContactDrawer } from "@/components/contact-drawer";
 
@@ -44,7 +51,7 @@ const data = {
     {
       title: "Support",
       icon: LifeBuoy,
-      render: (item) => (
+      render: (item: { title: string; icon: LucideIcon }) => (
         <ContactDrawer>
           <SidebarMenuButton size="sm">
             <item.icon />
