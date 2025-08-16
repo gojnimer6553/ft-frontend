@@ -7,7 +7,7 @@ export default function FullPageNotFound() {
   const { t } = useTranslate();
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted flex items-center justify-center p-4">
+    <div className="min-h-dvh bg-gradient-to-br from-background to-muted flex items-center justify-center p-4">
       <div className="text-center max-w-md mx-auto">
         {/* Logo */}
         <div className="mb-8">
