@@ -18,7 +18,7 @@ jobs:
       - name: Install Appwrite CLI
         run: npm install -g appwrite/cli
       - name: Generate Appwrite Client
-        uses: appwrite/setup-for-appwrite@v2
+        uses: appwrite/setup-for-appwrite@v1
         with:
           method: key
           endpoint: ${{ secrets.APPWRITE_ENDPOINT }}
