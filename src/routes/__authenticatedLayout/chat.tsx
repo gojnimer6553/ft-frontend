@@ -14,8 +14,21 @@ function ChatPage() {
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({
       api: "https://ai.laranjito.com/v1/chat/completions",
-      body: { model: "gpt-4o-mini" },
       credentials: "omit",
+      body: { model: "gpt-4o-mini", stream: true },
+      prepareSendMessagesRequest({ messages, body }) {
+        return {
+          body: {
+            ...body,
+            messages: messages.map((m) => ({
+              role: m.role,
+              content: m.parts
+                .map((p) => (p.type === "text" ? p.text : ""))
+                .join(""),
+            })),
+          },
+        };
+      },
     }),
   });
   const [input, setInput] = useState("");
