@@ -15,7 +15,7 @@ function ChatPage() {
     transport: new TextStreamChatTransport({
       api: "https://ai.laranjito.com/v1/chat/completions",
       credentials: "omit",
-      body: { model: "gpt-4o-mini", stream: { type: "text" } },
+      body: { model: "gpt-4o-mini", stream: true },
       prepareSendMessagesRequest({ messages, body }) {
         return {
           body: {
