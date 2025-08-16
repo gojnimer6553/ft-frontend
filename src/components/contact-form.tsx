@@ -25,7 +25,7 @@ interface ContactFormProps {
 
 export function ContactForm({ className, onSubmitted }: ContactFormProps) {
   const { t } = useTranslate();
-  const { data } = useSession();
+  const session = useSession().data;
 
   const formSchema = z.object({
     email: z
@@ -39,18 +39,18 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
 
   const formMethods = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: data?.email ?? "", message: "" },
+    defaultValues: { email: session?.email ?? "", message: "" },
   });
 
   useEffect(() => {
-    if (data?.email) {
-      formMethods.setValue("email", data.email);
+    if (session?.email) {
+      formMethods.setValue("email", session.email);
     }
-  }, [data, formMethods]);
+  }, [session, formMethods]);
 
   const onSubmit = () => {
     toast.success(t("contact.success"));
-    formMethods.reset({ email: data?.email ?? "", message: "" });
+    formMethods.reset({ email: session?.email ?? "", message: "" });
     onSubmitted?.();
   };
 
@@ -60,7 +60,7 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
         onSubmit={formMethods.handleSubmit(onSubmit)}
         className={cn("flex flex-col gap-4", className)}
       >
-        {!data && (
+        {!session && (
           <FormField
             control={formMethods.control}
             name="email"
