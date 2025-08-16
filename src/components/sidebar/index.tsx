@@ -54,7 +54,7 @@ const data = {
       icon: LifeBuoy,
       render: (item: { title: string; icon: LucideIcon }) => (
         <ContactCredenza>
-          <SidebarMenuButton size="sm">
+          <SidebarMenuButton>
             <item.icon />
             <span>{item.title}</span>
           </SidebarMenuButton>
@@ -66,7 +66,7 @@ const data = {
       icon: Send,
       render: (item: { title: string; icon: LucideIcon }) => (
         <FeedbackCredenza>
-          <SidebarMenuButton size="sm">
+          <SidebarMenuButton>
             <item.icon />
             <span>{item.title}</span>
           </SidebarMenuButton>
