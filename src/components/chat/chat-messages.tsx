@@ -11,7 +11,7 @@ interface ChatMessagesProps {
 
 function AnimatedEllipsis() {
   return (
-    <span className="inline-flex w-[3ch] text-muted-foreground">
+    <span className="inline-flex w-[3ch] font-bold text-muted-foreground">
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
@@ -62,19 +62,25 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
         onScroll={handleScroll}
         className="chat-scrollbar flex flex-1 min-h-0 flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
       >
-        {messages.map((m, idx) => (
-          <ChatBubble
-            key={m.id}
-            role={m.role}
-            layoutId={
-              !isLoading && prevIsLoading.current && idx === messages.length - 1 && m.role === "assistant"
-                ? "assistant-bubble"
-                : undefined
-            }
-          >
-            {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
-          </ChatBubble>
-        ))}
+        {messages.map((m, idx) => {
+          const isLatestAssistant = idx === messages.length - 1 && m.role === "assistant";
+          if (isLoading && isLatestAssistant) {
+            return null;
+          }
+          return (
+            <ChatBubble
+              key={m.id}
+              role={m.role}
+              layoutId={
+                !isLoading && prevIsLoading.current && isLatestAssistant
+                  ? "assistant-bubble"
+                  : undefined
+              }
+            >
+              {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
+            </ChatBubble>
+          );
+        })}
         {isLoading && (
           <ChatBubble role="assistant" layoutId="assistant-bubble">
             <AnimatedEllipsis />
