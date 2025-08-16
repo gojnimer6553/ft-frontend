@@ -1,24 +1,24 @@
-import { useState } from "react";
 import { ContactForm } from "@/components/contact-form";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerTrigger,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-  DrawerDescription,
+  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useTranslate } from "@tolgee/react";
+import { useState } from "react";
 
-export function ContactDrawer() {
+export function ContactDrawer({ children }: React.ComponentProps<"div">) {
   const { t } = useTranslate();
   const [open, setOpen] = useState(false);
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button>{t("contact.title")}</Button>
+        {children ?? <Button>{t("contact.title")}</Button>}
       </DrawerTrigger>
       <DrawerContent className="h-[80vh]">
         <img
