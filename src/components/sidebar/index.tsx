@@ -47,28 +47,30 @@ export function AppSidebar() {
           render: (open: boolean | undefined) => (
             <TooltipProvider disableHoverableContent>
               <Tooltip delayDuration={100}>
-                <ContactCredenza>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-10 mb-1"
-                    >
-                      <span className={cn(open === false ? "" : "mr-4")}>
-                        <LifeBuoy size={18} />
-                      </span>
-                      <p
-                        className={cn(
-                          "max-w-[200px] truncate",
-                          open === false
-                            ? "-translate-x-96 opacity-0"
-                            : "translate-x-0 opacity-100"
-                        )}
+                <ContactCredenza
+                  trigger={
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start h-10 mb-1"
                       >
-                        Support
-                      </p>
-                    </Button>
-                  </TooltipTrigger>
-                </ContactCredenza>
+                        <span className={cn(open === false ? "" : "mr-4")}>
+                          <LifeBuoy size={18} />
+                        </span>
+                        <p
+                          className={cn(
+                            "max-w-[200px] truncate",
+                            open === false
+                              ? "-translate-x-96 opacity-0"
+                              : "translate-x-0 opacity-100"
+                          )}
+                        >
+                          Support
+                        </p>
+                      </Button>
+                    </TooltipTrigger>
+                  }
+                />
                 {open === false && (
                   <TooltipContent side="right">Support</TooltipContent>
                 )}
@@ -82,28 +84,30 @@ export function AppSidebar() {
           render: (open: boolean | undefined) => (
             <TooltipProvider disableHoverableContent>
               <Tooltip delayDuration={100}>
-                <FeedbackCredenza>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start h-10 mb-1"
-                    >
-                      <span className={cn(open === false ? "" : "mr-4")}>
-                        <Send size={18} />
-                      </span>
-                      <p
-                        className={cn(
-                          "max-w-[200px] truncate",
-                          open === false
-                            ? "-translate-x-96 opacity-0"
-                            : "translate-x-0 opacity-100"
-                        )}
+                <FeedbackCredenza
+                  trigger={
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start h-10 mb-1"
                       >
-                        Feedback
-                      </p>
-                    </Button>
-                  </TooltipTrigger>
-                </FeedbackCredenza>
+                        <span className={cn(open === false ? "" : "mr-4")}>
+                          <Send size={18} />
+                        </span>
+                        <p
+                          className={cn(
+                            "max-w-[200px] truncate",
+                            open === false
+                              ? "-translate-x-96 opacity-0"
+                              : "translate-x-0 opacity-100"
+                          )}
+                        >
+                          Feedback
+                        </p>
+                      </Button>
+                    </TooltipTrigger>
+                  }
+                />
                 {open === false && (
                   <TooltipContent side="right">Feedback</TooltipContent>
                 )}

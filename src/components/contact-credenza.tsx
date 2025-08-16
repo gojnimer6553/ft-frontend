@@ -10,20 +10,20 @@ import {
   CredenzaBody,
 } from "@/components/ui/credenza";
 import { useTranslate } from "@tolgee/react";
-import { useState, type ComponentPropsWithoutRef } from "react";
+import { useState, type ComponentPropsWithoutRef, type ReactElement } from "react";
 
 type ContactCredenzaProps = {
-  children?: React.ReactNode;
+  trigger?: ReactElement;
 } & ComponentPropsWithoutRef<typeof CredenzaTrigger>;
 
-export function ContactCredenza({ children, ...props }: ContactCredenzaProps) {
+export function ContactCredenza({ trigger, ...props }: ContactCredenzaProps) {
   const { t } = useTranslate();
   const [open, setOpen] = useState(false);
 
   return (
     <Credenza open={open} onOpenChange={setOpen}>
       <CredenzaTrigger asChild {...props}>
-        {children ?? <Button>{t("contact.title")}</Button>}
+        {trigger ?? <Button>{t("contact.title")}</Button>}
       </CredenzaTrigger>
       <CredenzaContent>
         <img
