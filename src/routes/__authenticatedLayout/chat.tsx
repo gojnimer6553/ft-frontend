@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useChat } from "@ai-sdk/react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,14 +9,8 @@ export const Route = createFileRoute("/__authenticatedLayout/chat")({
   component: ChatPage,
 });
 
-type ChatMessage = {
-  id: number;
-  role: "user" | "assistant";
-  content: string;
-};
-
 function ChatPage() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const { messages, setMessages } = useChat();
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
@@ -27,7 +22,11 @@ function ChatPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim()) return;
-    const userMsg = { id: Date.now(), role: "user" as const, content: input };
+    const userMsg = {
+      id: Date.now().toString(),
+      role: "user" as const,
+      parts: [{ type: "text" as const, text: input }],
+    };
     const nextMessages = [...messages, userMsg];
     setMessages(nextMessages);
     setInput("");
@@ -42,17 +41,22 @@ function ChatPage() {
             model: "gpt-4o-mini",
             messages: nextMessages.map((m) => ({
               role: m.role,
-              content: m.content,
+              content: m.parts
+                .map((p) => (p.type === "text" ? p.text : ""))
+                .join(""),
             })),
           }),
         }
       );
       const data = await res.json();
-      const reply =
-        data.choices?.[0]?.message?.content ?? "";
+      const reply = data.choices?.[0]?.message?.content ?? "";
       setMessages([
         ...nextMessages,
-        { id: Date.now() + 1, role: "assistant", content: reply },
+        {
+          id: (Date.now() + 1).toString(),
+          role: "assistant" as const,
+          parts: [{ type: "text" as const, text: reply }],
+        },
       ]);
     } catch (err) {
       console.error(err);
@@ -78,7 +82,7 @@ function ChatPage() {
                   : "bg-muted"
               }`}
             >
-              {m.content}
+              {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
             </div>
           </div>
         ))}
