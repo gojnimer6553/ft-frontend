@@ -11,5 +11,11 @@ export type Prospects = Models.Document & {
 export type Feedbacks = Models.Document & {
     email: string;
     userId: string | null;
-    feedback: string;
+    message: string;
+}
+
+export type Contacts = Models.Document & {
+    userId: string | null;
+    message: string;
+    email: string;
 }
