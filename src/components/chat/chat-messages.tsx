@@ -1,5 +1,6 @@
-import { ArrowDown, Loader2 } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { motion, LayoutGroup } from "motion/react";
 import { ChatBubble } from "./chat-bubble";
 import type { UIMessage } from "ai";
 
@@ -8,9 +9,27 @@ interface ChatMessagesProps {
   isLoading: boolean;
 }
 
+function AnimatedEllipsis() {
+  return (
+    <span className="inline-flex w-[3ch] font-bold text-muted-foreground">
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className="w-[1ch]"
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }}
+        >
+          .
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
 export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const prevIsLoading = useRef(isLoading);
 
   const scrollToBottom = () => {
     const el = containerRef.current;
@@ -25,6 +44,10 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
     }
   }, [messages, isAtBottom]);
 
+  useEffect(() => {
+    prevIsLoading.current = isLoading;
+  }, [isLoading]);
+
   const handleScroll = () => {
     const el = containerRef.current;
     if (!el) return;
@@ -35,22 +58,36 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
 
   return (
     <div className="relative flex flex-1 w-full min-h-0">
-      <div
-        ref={containerRef}
-        onScroll={handleScroll}
-        className="chat-scrollbar flex flex-1 min-h-0 flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
-      >
-        {messages.map((m) => (
-          <ChatBubble key={m.id} role={m.role}>
-            {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
-          </ChatBubble>
-        ))}
-        {isLoading && (
-          <div className="flex justify-center">
-            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-          </div>
-        )}
-      </div>
+      <LayoutGroup>
+        <div
+          ref={containerRef}
+          onScroll={handleScroll}
+          className="chat-scrollbar flex flex-1 min-h-0 flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
+        >
+          {messages.map((m, idx) => {
+            const isLast = idx === messages.length - 1;
+            const isStreaming = isLoading && isLast && m.role === "assistant";
+            if (isStreaming) {
+              return null;
+            }
+            const showMorph = !isLoading && prevIsLoading.current && isLast && m.role === "assistant";
+            return (
+              <ChatBubble
+                key={m.id}
+                role={m.role}
+                layoutId={showMorph ? "assistant-bubble" : undefined}
+              >
+                {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
+              </ChatBubble>
+            );
+          })}
+          {isLoading && (
+            <ChatBubble role="assistant" layoutId="assistant-bubble" key="typing">
+              <AnimatedEllipsis />
+            </ChatBubble>
+          )}
+        </div>
+      </LayoutGroup>
       {!isAtBottom && (
         <button
           onClick={scrollToBottom}
