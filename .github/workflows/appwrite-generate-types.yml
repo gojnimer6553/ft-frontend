@@ -20,11 +20,12 @@ jobs:
         with:
           method: key
           endpoint: ${{ vars.APPWRITE_ENDPOINT }}
-          project: ${{ vars.PROJECT_ID }}
-          key: ${{ secrets.API_KEY }}
+          project: ${{ vars.APPWRITE_PROJECT_ID }}
+          key: ${{ secrets.APPWRITE_API_KEY }}
           force: true
+          all: true
       - name: Pull Appwrite Collections
-        run: appwrite pull collections --all
+        run: appwrite pull collections
       - name: Generate Appwrite Types
         run: appwrite types src/types
       - name: Commit and push generated types and config
