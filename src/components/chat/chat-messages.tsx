@@ -1,6 +1,6 @@
 import { ArrowDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ChatBubble } from "./chat-bubble";
 import type { UIMessage } from "ai";
 
@@ -29,8 +29,6 @@ function AnimatedEllipsis() {
 export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
-  const prevIsLoading = useRef(isLoading);
-  const loadingStartIndex = useRef<number>(Infinity);
 
   const scrollToBottom = () => {
     const el = containerRef.current;
@@ -44,14 +42,6 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       scrollToBottom();
     }
   }, [messages, isAtBottom]);
-  useEffect(() => {
-    if (isLoading && !prevIsLoading.current) {
-      loadingStartIndex.current = messages.length;
-    } else if (!isLoading && prevIsLoading.current) {
-      loadingStartIndex.current = Infinity;
-    }
-    prevIsLoading.current = isLoading;
-  }, [isLoading, messages.length]);
 
   const handleScroll = () => {
     const el = containerRef.current;
@@ -61,6 +51,9 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
     setIsAtBottom(atBottom);
   };
 
+  const lastMessage = messages[messages.length - 1];
+  const showTyping = isLoading && (!lastMessage || lastMessage.role !== "assistant");
+
   return (
     <div className="relative flex flex-1 w-full min-h-0">
       <div
@@ -68,32 +61,26 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
         onScroll={handleScroll}
         className="chat-scrollbar flex flex-1 min-h-0 flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
       >
-        {messages.map((m, idx) => {
-          const isLatestAssistant = idx === messages.length - 1 && m.role === "assistant";
-          const isStreamingAssistant =
-            isLoading && m.role === "assistant" && idx >= loadingStartIndex.current;
-          if (isStreamingAssistant) {
-            return null;
-          }
-          return (
+        <AnimatePresence mode="popLayout">
+          {messages.map((m, idx) => (
             <ChatBubble
               key={m.id}
               role={m.role}
               layoutId={
-                !isLoading && prevIsLoading.current && isLatestAssistant
+                idx === messages.length - 1 && m.role === "assistant"
                   ? "assistant-bubble"
                   : undefined
               }
             >
               {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
             </ChatBubble>
-          );
-        })}
-        {isLoading && (
-          <ChatBubble role="assistant" layoutId="assistant-bubble">
-            <AnimatedEllipsis />
-          </ChatBubble>
-        )}
+          ))}
+          {showTyping && (
+            <ChatBubble role="assistant" layoutId="assistant-bubble">
+              <AnimatedEllipsis />
+            </ChatBubble>
+          )}
+        </AnimatePresence>
       </div>
       {!isAtBottom && (
         <button
