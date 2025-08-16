@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { APPWRITE_FUNCTION_ID } from "@/lib/appwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
@@ -37,7 +38,7 @@ export function WaitlistForm({ className, onSubmitted }: WaitlistFormProps) {
     defaultValues: { email: "" },
   });
 
-  const { mutate } = useFunction();
+  const { mutate } = useFunction(APPWRITE_FUNCTION_ID);
 
   const onSubmit = (values: FormValues) => {
     mutate(

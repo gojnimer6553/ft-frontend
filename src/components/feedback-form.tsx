@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { APPWRITE_FUNCTION_ID } from "@/lib/appwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
@@ -40,7 +41,7 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
     defaultValues: { email: "", message: "" },
   });
 
-  const { mutate } = useFunction();
+  const { mutate } = useFunction(APPWRITE_FUNCTION_ID);
 
   const onSubmit = (values: FormValues) => {
     mutate(

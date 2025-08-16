@@ -1,9 +1,8 @@
 import useExecution from "./use-execution";
 import { ExecutionMethod } from "appwrite";
 
-const FUNCTION_ID = "689feffd0007270a4aa1";
-
 export default function useFunction(
+  functionId: string,
   executionParams: Parameters<typeof useExecution>[0] = { async: false }
 ) {
   const { mutate, status } = useExecution(executionParams);
@@ -14,7 +13,7 @@ export default function useFunction(
   ) =>
     mutate(
       {
-        functionId: FUNCTION_ID,
+        functionId,
         body: params.body,
         path: params.path,
         method: ExecutionMethod.POST,
