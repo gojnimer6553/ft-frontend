@@ -1,13 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Chat } from "@/components/chat/chat";
 
 export const Route = createFileRoute("/__authenticatedLayout/chat")({
-  component: RouteComponent,
+  component: Chat,
 });
 
-function RouteComponent() {
-  return (
-    <div className="w-full h-full flex  justify-center items-center">
-      <p className="font-mono text-3xl">Em desenvolvimento</p>
-    </div>
-  );
-}
