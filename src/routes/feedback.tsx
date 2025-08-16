@@ -1,4 +1,5 @@
 import { FeedbackForm } from "@/components/feedback-form";
+import { AppVersion } from "@/components/app-version";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 
@@ -21,6 +22,9 @@ function FeedbackPage() {
           <h1 className="text-3xl font-bold">{t("feedback.title")}</h1>
           <p className="text-muted-foreground">{t("feedback.description")}</p>
           <FeedbackForm className="w-full" />
+          <p className="text-xs text-muted-foreground">
+            {t("feedback.version")} <AppVersion />
+          </p>
         </div>
       </div>
     </div>
