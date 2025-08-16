@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
-import React from "react";
+import type { ReactNode } from "react";
 
 interface ChatBubbleProps {
   role: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export function ChatBubble({ role, children }: ChatBubbleProps) {

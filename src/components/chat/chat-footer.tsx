@@ -1,4 +1,3 @@
-import React from "react";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 
 interface ChatFooterProps {

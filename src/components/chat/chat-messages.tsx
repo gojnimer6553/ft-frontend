@@ -1,10 +1,10 @@
 import { ArrowDown, Loader2 } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChatBubble } from "./chat-bubble";
-import type { CoreMessage } from "ai";
+import type { UIMessage } from "ai";
 
 interface ChatMessagesProps {
-  messages: CoreMessage[];
+  messages: UIMessage[];
   isLoading: boolean;
 }
 
@@ -42,7 +42,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       >
         {messages.map((m) => (
           <ChatBubble key={m.id} role={m.role}>
-            {m.parts?.map((p) => (p.type === "text" ? p.text : "")).join("")}
+            {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
           </ChatBubble>
         ))}
         {isLoading && (

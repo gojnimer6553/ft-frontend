@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useChat } from "@ai-sdk/react";
 import { useTranslate } from "@tolgee/react";
 import { OpenAIChatTransport } from "@/lib/openai-chat-transport";
