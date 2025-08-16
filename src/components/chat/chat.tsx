@@ -26,8 +26,8 @@ export function Chat() {
   const isLoading = status !== "ready";
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex-1 space-y-4 overflow-y-auto p-4">
+    <div className="flex h-full flex-col items-center px-4">
+      <div className="flex-1 w-full max-w-2xl space-y-4 overflow-y-auto overflow-x-hidden py-4">
         {messages.map((m) => (
           <div
             key={m.id}
@@ -36,7 +36,7 @@ export function Chat() {
             }`}
           >
             <div
-              className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
+              className={`max-w-[80%] break-words whitespace-pre-wrap rounded-lg px-3 py-2 text-sm ${
                 m.role === "user"
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted"
@@ -53,17 +53,17 @@ export function Chat() {
         )}
         <div ref={endRef} />
       </div>
-        <div className="border-t bg-background p-4">
-          <PlaceholdersAndVanishInput
-            placeholders={[
-              t("chat.placeholder.typeYourMessage"),
-              t("chat.placeholder.askQuestion"),
-              t("chat.placeholder.shareThoughts"),
-            ]}
-            onSubmit={handleSubmit}
-            disabled={isLoading}
-          />
-        </div>
+      <div className="w-full max-w-2xl bg-background p-4">
+        <PlaceholdersAndVanishInput
+          placeholders={[
+            t("chat.placeholder.typeYourMessage"),
+            t("chat.placeholder.askQuestion"),
+            t("chat.placeholder.shareThoughts"),
+          ]}
+          onSubmit={handleSubmit}
+          disabled={isLoading}
+        />
+      </div>
     </div>
   );
 }
