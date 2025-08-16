@@ -54,7 +54,8 @@ function RouteComponent() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="min-h-0 overflow-hidden">
+      {/* Allow the main content area to scroll when necessary */}
+      <SidebarInset className="min-h-0 overflow-x-hidden overflow-y-auto">
         <header className="flex h-16 shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
@@ -63,7 +64,7 @@ function RouteComponent() {
             <ModeToggle />
           </div>
         </header>
-        <div className="flex flex-1 min-h-0 flex-col gap-4 p-4 pt-0 overflow-hidden">
+        <div className="flex flex-1 min-h-0 flex-col gap-4 p-4 pt-0 overflow-x-hidden overflow-y-auto">
           <Outlet />
         </div>
       </SidebarInset>
