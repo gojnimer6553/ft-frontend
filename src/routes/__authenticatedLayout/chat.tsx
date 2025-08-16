@@ -1,7 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
-import { TextStreamChatTransport } from "ai";
+import {
+  HttpChatTransport,
+  type UIMessage,
+  type UIMessageChunk,
+} from "ai";
+import { createParser } from "eventsource-parser";
+import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,9 +16,9 @@ export const Route = createFileRoute("/__authenticatedLayout/chat")({
   component: ChatPage,
 });
 
-function ChatPage() {
-  const { messages, sendMessage, status } = useChat({
-    transport: new TextStreamChatTransport({
+class OpenAIChatTransport extends HttpChatTransport<UIMessage> {
+  constructor() {
+    super({
       api: "https://ai.laranjito.com/v1/chat/completions",
       credentials: "omit",
       body: { model: "gpt-4o-mini", stream: true },
@@ -29,8 +35,64 @@ function ChatPage() {
           },
         };
       },
-    }),
-  });
+    });
+  }
+
+  protected processResponseStream(
+    stream: ReadableStream<Uint8Array>
+  ): ReadableStream<UIMessageChunk> {
+    const decoder = new TextDecoder();
+
+    return new ReadableStream<UIMessageChunk>({
+      start(controller) {
+        let currentId: string | null = null;
+        const parser = createParser((event) => {
+          if (event.type !== "event") return;
+          const data = event.data;
+          if (data === "[DONE]") {
+            if (currentId) controller.enqueue({ type: "text-end", id: currentId });
+            controller.close();
+            return;
+          }
+          try {
+            const json = JSON.parse(data);
+            const id = json.id || currentId || "res";
+            if (!currentId) {
+              currentId = id;
+              controller.enqueue({ type: "text-start", id });
+            }
+            const content = json.choices?.[0]?.delta?.content;
+            if (content) {
+              controller.enqueue({ type: "text-delta", id, delta: content });
+            }
+          } catch {
+            // ignore non-JSON chunks
+          }
+        });
+
+        const reader = stream.getReader();
+        function read() {
+          reader
+            .read()
+            .then(({ value, done }) => {
+              if (done) {
+                controller.close();
+                return;
+              }
+              parser.feed(decoder.decode(value, { stream: true }));
+              read();
+            })
+            .catch((err) => controller.error(err));
+        }
+        read();
+      },
+    });
+  }
+}
+
+function ChatPage() {
+  const transport = useMemo(() => new OpenAIChatTransport(), []);
+  const { messages, sendMessage, status } = useChat({ transport });
   const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -71,6 +133,11 @@ function ChatPage() {
             </div>
           </div>
         ))}
+        {isLoading && (
+          <div className="flex justify-center">
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          </div>
+        )}
         <div ref={endRef} />
       </div>
       <form
