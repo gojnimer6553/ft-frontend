@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20
       - name: Generate Appwrite Client
-        uses: appwrite/setup-for-appwrite@v1
+        uses: appwrite/setup-for-appwrite@main
         with:
           method: key
           endpoint: ${{ vars.APPWRITE_ENDPOINT }}
