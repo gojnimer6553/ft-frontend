@@ -1,4 +1,4 @@
-import { ArrowDown, Loader2 } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ChatBubble } from "./chat-bubble";
 import type { UIMessage } from "ai";
@@ -46,9 +46,9 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
           </ChatBubble>
         ))}
         {isLoading && (
-          <div className="flex justify-center">
-            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-          </div>
+          <ChatBubble role="assistant">
+            <span className="text-muted-foreground">...</span>
+          </ChatBubble>
         )}
       </div>
       {!isAtBottom && (
