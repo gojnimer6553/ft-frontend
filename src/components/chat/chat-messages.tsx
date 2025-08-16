@@ -1,11 +1,29 @@
-import { ArrowDown, Loader2 } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { ChatBubble } from "./chat-bubble";
 import type { UIMessage } from "ai";
 
 interface ChatMessagesProps {
   messages: UIMessage[];
   isLoading: boolean;
+}
+
+function AnimatedEllipsis() {
+  return (
+    <span className="inline-flex w-[3ch] font-bold text-muted-foreground">
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className="w-[1ch]"
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }}
+        >
+          .
+        </motion.span>
+      ))}
+    </span>
+  );
 }
 
 export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
@@ -40,15 +58,23 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
         onScroll={handleScroll}
         className="chat-scrollbar flex flex-1 min-h-0 flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
       >
-        {messages.map((m) => (
-          <ChatBubble key={m.id} role={m.role}>
+        {messages.map((m, idx) => (
+          <ChatBubble
+            key={m.id}
+            role={m.role}
+            layoutId={
+              isLoading && idx === messages.length - 1 && m.role === "assistant"
+                ? "assistant-bubble"
+                : undefined
+            }
+          >
             {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
           </ChatBubble>
         ))}
-        {isLoading && (
-          <div className="flex justify-center">
-            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-          </div>
+        {isLoading && (messages.length === 0 || messages[messages.length - 1].role !== "assistant") && (
+          <ChatBubble role="assistant" layoutId="assistant-bubble">
+            <AnimatedEllipsis />
+          </ChatBubble>
         )}
       </div>
       {!isAtBottom && (
