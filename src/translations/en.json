@@ -16,7 +16,8 @@
     "message": "Message",
     "messagePlaceholder": "Write your feedback...",
     "submit": "Send feedback",
-    "success": "Thanks for your feedback!"
+    "success": "Thanks for your feedback!",
+    "version": "Current version:"
   },
   "login": {
     "agreeTo": "By clicking continue, you agree to our",
