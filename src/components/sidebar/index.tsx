@@ -8,7 +8,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { ContactDrawer } from "@/components/contact-drawer";
+import { ContactCredenza } from "@/components/contact-credenza";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavSecondary } from "@/components/sidebar/nav-secondary";
@@ -52,12 +52,12 @@ const data = {
       title: "Support",
       icon: LifeBuoy,
       render: (item: { title: string; icon: LucideIcon }) => (
-        <ContactDrawer>
+        <ContactCredenza>
           <SidebarMenuButton size="sm">
             <item.icon />
             <span>{item.title}</span>
           </SidebarMenuButton>
-        </ContactDrawer>
+        </ContactCredenza>
       ),
     },
     {
