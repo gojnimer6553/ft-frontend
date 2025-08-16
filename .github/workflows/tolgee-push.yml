@@ -15,12 +15,11 @@ jobs:
           node-version: 20
       - name: Push translations to Tolgee
         run: |
-          npx @tolgee/cli push \
+          npx @tolgee/cli@^2 push \
             --api-url "$TOLGEE_API_URL" \
             --api-key "$TOLGEE_API_KEY" \
-            --files-template "src/translations/{languageTag}.json" \
+            --files-template "./src/translations/{languageTag}.json" \
             --force-mode OVERRIDE
         env:
           TOLGEE_API_URL: ${{ vars.TOLGEE_API_URL }}
-          TOLGEE_API_KEY: ${{ vars.TOLGEE_API_KEY }}
-
+          TOLGEE_API_KEY: ${{ secrets.TOLGEE_API_KEY }}
