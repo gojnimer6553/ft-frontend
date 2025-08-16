@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useTranslate } from "@tolgee/react"
 import { toast } from "sonner"
+import { functions } from "@/lib/appwrite"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,11 +20,22 @@ export function WaitlistCredenza() {
   const [email, setEmail] = useState("")
   const [open, setOpen] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    toast.success(t("waitlist.success"))
-    setEmail("")
-    setOpen(false)
+    try {
+      await functions.createExecution(
+        "689feffd0007270a4aa1",
+        JSON.stringify({ email }),
+        false,
+        "/waitlist",
+        "POST"
+      )
+      toast.success(t("waitlist.success"))
+      setEmail("")
+      setOpen(false)
+    } catch (err: any) {
+      toast.error(err.message)
+    }
   }
 
   return (

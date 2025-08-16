@@ -4,6 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { functions } from "@/lib/appwrite";
 
 export const Route = createFileRoute("/waitlist")({
   component: WaitlistPage,
@@ -13,10 +14,21 @@ function WaitlistPage() {
   const { t } = useTranslate();
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success(t("waitlist.success"));
-    setEmail("");
+    try {
+      await functions.createExecution(
+        "689feffd0007270a4aa1",
+        JSON.stringify({ email }),
+        false,
+        "/waitlist",
+        "POST"
+      );
+      toast.success(t("waitlist.success"));
+      setEmail("");
+    } catch (err: any) {
+      toast.error(err.message);
+    }
   };
 
   return (

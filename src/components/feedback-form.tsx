@@ -15,6 +15,7 @@ import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { functions } from "@/lib/appwrite";
 
 interface FeedbackFormProps {
   className?: string;
@@ -39,10 +40,21 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
     defaultValues: { email: "", message: "" },
   });
 
-  const onSubmit = () => {
-    toast.success(t("feedback.success"));
-    formMethods.reset();
-    onSubmitted?.();
+  const onSubmit = async (values: FormValues) => {
+    try {
+      await functions.createExecution(
+        "689feffd0007270a4aa1",
+        JSON.stringify(values),
+        false,
+        "/feedback",
+        "POST"
+      );
+      toast.success(t("feedback.success"));
+      formMethods.reset();
+      onSubmitted?.();
+    } catch (err: any) {
+      toast.error(err.message);
+    }
   };
 
   return (
