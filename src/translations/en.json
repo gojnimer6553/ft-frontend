@@ -48,6 +48,14 @@
     "signUpWithGoogle": "Sign up with Google",
     "termsOfService": "Terms of Service"
   },
+  "waitlist": {
+    "title": "Join the waitlist",
+    "description": "Be the first to know when we launch.",
+    "email": "Email",
+    "emailPlaceholder": "Write your email...",
+    "submit": "Join waitlist",
+    "success": "Thanks! We'll be in touch."
+  },
   "soon": "Soon",
   "validation": {
     "invalidEmail": "Invalid email",
