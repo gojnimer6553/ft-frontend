@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,9 +11,13 @@ export const Route = createFileRoute("/__authenticatedLayout/chat")({
 });
 
 function ChatPage() {
-  const { messages, setMessages } = useChat();
+  const { messages, sendMessage, status } = useChat({
+    transport: new DefaultChatTransport({
+      api: "https://ai.laranjito.com/v1/chat/completions",
+      body: { model: "gpt-4o-mini" },
+    }),
+  });
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,47 +27,8 @@ function ChatPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim()) return;
-    const userMsg = {
-      id: Date.now().toString(),
-      role: "user" as const,
-      parts: [{ type: "text" as const, text: input }],
-    };
-    const nextMessages = [...messages, userMsg];
-    setMessages(nextMessages);
+    await sendMessage({ text: input });
     setInput("");
-    setIsLoading(true);
-    try {
-      const res = await fetch(
-        "https://ai.laranjito.com/v1/chat/completions",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: nextMessages.map((m) => ({
-              role: m.role,
-              content: m.parts
-                .map((p) => (p.type === "text" ? p.text : ""))
-                .join(""),
-            })),
-          }),
-        }
-      );
-      const data = await res.json();
-      const reply = data.choices?.[0]?.message?.content ?? "";
-      setMessages([
-        ...nextMessages,
-        {
-          id: (Date.now() + 1).toString(),
-          role: "assistant" as const,
-          parts: [{ type: "text" as const, text: reply }],
-        },
-      ]);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
   }
 
   return (
@@ -98,7 +64,10 @@ function ChatPage() {
           placeholder="Type your message"
           className="flex-1"
         />
-        <Button type="submit" disabled={isLoading || !input.trim()}>
+        <Button
+          type="submit"
+          disabled={status !== "ready" || !input.trim()}
+        >
           Send
         </Button>
       </form>
