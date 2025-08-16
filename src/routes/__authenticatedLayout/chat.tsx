@@ -12,7 +12,7 @@ export const Route = createFileRoute("/__authenticatedLayout/chat")({
 function ChatPage() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
-      api: "https://ai.laranjito.com",
+      api: "https://ai.laranjito.com/v1",
     });
   const endRef = useRef<HTMLDivElement>(null);
 
