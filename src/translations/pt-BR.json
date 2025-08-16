@@ -69,6 +69,8 @@
     "description": "Tem perguntas? Estamos aqui para ajudar.",
     "email": "Email",
     "emailPlaceholder": "Digite seu email...",
+    "subject": "Assunto",
+    "subjectPlaceholder": "Digite seu assunto...",
     "message": "Mensagem",
     "messagePlaceholder": "Digite sua mensagem...",
     "submit": "Enviar mensagem",

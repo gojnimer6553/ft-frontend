@@ -113,6 +113,15 @@
                     "array": false,
                     "format": "email",
                     "default": null
+                },
+                {
+                    "key": "subject",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 128,
+                    "default": null,
+                    "encrypt": false
                 }
             ],
             "indexes": []

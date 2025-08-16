@@ -18,4 +18,5 @@ export type Contacts = Models.Document & {
     userId: string | null;
     message: string;
     email: string;
+    subject: string;
 }
