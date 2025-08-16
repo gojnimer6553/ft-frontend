@@ -23,9 +23,11 @@ function RootComponent() {
   const { queryClient } = Route.useLoaderData();
   return (
     <QueryClientProvider client={queryClient}>
-      <TanStackRouterDevtools position="top-right" />
-      <Outlet />
-      <Toaster position="top-center" offset={60} />
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <TanStackRouterDevtools position="top-right" />
+        <Outlet />
+        <Toaster position="top-center" offset={60} />
+      </div>
     </QueryClientProvider>
   );
 }

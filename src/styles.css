@@ -14,6 +14,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#app {
+  @apply flex h-full w-full flex-col overflow-hidden;
+}
+
 code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
