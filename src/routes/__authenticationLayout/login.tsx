@@ -78,7 +78,7 @@ function RouteComponent() {
                   className="w-60 object-contain"
                 />
                 <div className="absolute bottom-4 text-center">
-                  <h2 className="text-3xl font-bold text-orange-500 drop-shadow-md">
+                  <h2 className="font-concert text-3xl font-bold text-orange-500 drop-shadow-md">
                     {t("login.appName")}
                   </h2>
                   <p className="text-sm text-muted-foreground">
