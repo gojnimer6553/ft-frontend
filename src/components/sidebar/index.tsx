@@ -14,6 +14,7 @@ import { FeedbackCredenza } from "@/components/feedback-credenza";
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavSecondary } from "@/components/sidebar/nav-secondary";
 import { NavUser } from "@/components/sidebar/nav-user";
+import { NavProjects } from "@/components/sidebar/nav-projects";
 import {
   Sidebar,
   SidebarContent,
@@ -74,7 +75,21 @@ const data = {
       ),
     },
   ],
-  projects: [],
+  projects: [
+    {
+      name: "Design Engineering",
+      url: "#",
+    },
+    {
+      name: "Acme Corp",
+      url: "#",
+      badge: "12",
+    },
+    {
+      name: "Internal",
+      url: "#",
+    },
+  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -98,6 +113,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        <NavProjects projects={data.projects} />
         <NavMain items={data.navMain} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
