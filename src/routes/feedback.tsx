@@ -17,7 +17,7 @@ function FeedbackPage() {
           <img
             src="/assets/mascot/mascot_full_body.png"
             alt={t("feedback.title")}
-            className="w-40"
+            className="hidden w-40 md:block"
           />
           <h1 className="text-3xl font-bold">{t("feedback.title")}</h1>
           <p className="text-muted-foreground">{t("feedback.description")}</p>
