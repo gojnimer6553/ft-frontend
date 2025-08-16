@@ -6,7 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  @apply m-0 h-screen h-dvh w-screen w-dvw overflow-x-hidden overflow-y-auto;
+  @apply m-0 w-screen w-dvw overflow-x-hidden overflow-y-auto;
+  min-height: 100dvh;
+  height: var(--app-height, 100dvh);
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -16,11 +18,11 @@ body {
 
 @supports (-webkit-touch-callout: none) {
   html {
-    height: -webkit-fill-available;
+    min-height: -webkit-fill-available;
   }
 
   body {
-    height: -webkit-fill-available;
+    min-height: -webkit-fill-available;
   }
 }
 
