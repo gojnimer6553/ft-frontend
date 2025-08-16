@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Check directory folders
+        run: ls
       - name: Push translations to Tolgee
         run: |
           npx @tolgee/cli@^2 push \
@@ -20,6 +22,7 @@ jobs:
             --api-key "$TOLGEE_API_KEY" \
             --files-template "./src/translations/{languageTag}.json" \
             --force-mode OVERRIDE
+            --verbose
         env:
           TOLGEE_API_URL: ${{ vars.TOLGEE_API_URL }}
           TOLGEE_API_KEY: ${{ secrets.TOLGEE_API_KEY }}
