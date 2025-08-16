@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import useSession from "@/hooks/queries/user";
+import useExecution from "@/hooks/use-execution";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslate } from "@tolgee/react";
-import { useEffect } from "react";
+import { ExecutionMethod } from "appwrite";
 import { useForm } from "react-hook-form";
-import useSession from "@/hooks/queries/user";
-import useExecution from "@/hooks/use-execution";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -44,12 +44,6 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
     defaultValues: { email: session?.email ?? "", message: "" },
   });
 
-  useEffect(() => {
-    if (session?.email) {
-      formMethods.setValue("email", session.email);
-    }
-  }, [session, formMethods]);
-
   const onSubmit = (values: FormValues) => {
     mutate(
       {
@@ -59,6 +53,8 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
           message: values.message,
           userId: session?.$id ?? null,
         },
+        path: "/feedback",
+        method: ExecutionMethod.POST,
       },
       {
         onSuccess: () => {
@@ -126,4 +122,3 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
     </Form>
   );
 }
-
