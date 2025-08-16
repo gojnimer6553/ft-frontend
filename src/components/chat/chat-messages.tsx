@@ -11,18 +11,18 @@ interface ChatMessagesProps {
 
 function AnimatedEllipsis() {
   return (
-    <motion.span
-      className="inline-block overflow-hidden text-muted-foreground"
-      animate={{ width: ["0ch", "1ch", "2ch", "3ch", "0ch"] }}
-      transition={{
-        duration: 1.5,
-        ease: "linear",
-        repeat: Infinity,
-        times: [0, 0.25, 0.5, 0.75, 1],
-      }}
-    >
-      ...
-    </motion.span>
+    <span className="inline-flex w-[3ch] text-muted-foreground">
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className="w-[1ch]"
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+        >
+          .
+        </motion.span>
+      ))}
+    </span>
   );
 }
 
