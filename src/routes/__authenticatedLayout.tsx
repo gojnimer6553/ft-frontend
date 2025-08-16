@@ -6,6 +6,11 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 import { ModeToggle } from "@/components/mode-toggle";
 import { account } from "@/lib/appwrite";
 import { Outlet } from "@tanstack/react-router";
@@ -53,21 +58,33 @@ export const Route = createFileRoute("/__authenticatedLayout")({
 function RouteComponent() {
   return (
     <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset className="min-h-0 overflow-x-hidden overflow-y-auto">
-        <header className="flex h-16 shrink-0 items-center gap-2">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-          </div>
-          <div id="page-header-portal" className="flex-1" />
-          <div className="ml-auto px-4">
-            <ModeToggle />
-          </div>
-        </header>
-        <div className="flex flex-1 min-h-0 flex-col gap-4 p-4 pt-0 overflow-x-hidden overflow-y-auto">
-          <Outlet />
-        </div>
-      </SidebarInset>
+      <ResizablePanelGroup direction="horizontal" className="h-dvh w-screen">
+        <ResizablePanel
+          defaultSize={20}
+          minSize={10}
+          maxSize={30}
+          className="min-w-[var(--sidebar-width-icon)]"
+        >
+          <AppSidebar />
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel>
+          <SidebarInset className="min-h-0 overflow-x-hidden overflow-y-auto">
+            <header className="flex h-16 shrink-0 items-center gap-2">
+              <div className="flex items-center gap-2 px-4">
+                <SidebarTrigger className="-ml-1" />
+              </div>
+              <div id="page-header-portal" className="flex-1" />
+              <div className="ml-auto px-4">
+                <ModeToggle />
+              </div>
+            </header>
+            <div className="flex flex-1 min-h-0 flex-col gap-4 p-4 pt-0 overflow-x-hidden overflow-y-auto">
+              <Outlet />
+            </div>
+          </SidebarInset>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </SidebarProvider>
   );
 }
