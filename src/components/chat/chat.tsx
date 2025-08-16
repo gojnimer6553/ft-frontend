@@ -3,7 +3,8 @@ import { useChat } from "@ai-sdk/react";
 import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
+import { toast } from "sonner";
 import { OpenAIChatTransport } from "@/lib/openai-chat-transport";
 
 export function Chat() {
@@ -19,11 +20,22 @@ export function Chat() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim()) return;
-    await sendMessage({
-      role: "user",
-      parts: [{ type: "text", text: input }],
-    });
-    setInput("");
+    try {
+      await toast.promise(
+        sendMessage({
+          role: "user",
+          parts: [{ type: "text", text: input }],
+        }),
+        {
+          loading: "Sending message...",
+          success: "Message sent",
+          error: "Failed to send message",
+        }
+      );
+      setInput("");
+    } catch (error) {
+      // error handled by toast.promise
+    }
   }
 
   const isLoading = status !== "ready";
@@ -60,10 +72,14 @@ export function Chat() {
         onSubmit={handleSubmit}
         className="flex gap-2 border-t bg-background p-4"
       >
-        <Input
+        <PlaceholdersAndVanishInput
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message"
+          placeholders={[
+            "Type your message",
+            "Ask me anything",
+            "Need help with something?",
+          ]}
           className="flex-1"
         />
         <Button type="submit" disabled={isLoading || !input.trim()}>
