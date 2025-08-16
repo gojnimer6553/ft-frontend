@@ -70,6 +70,8 @@
     "description": "Have questions? We're here to help.",
     "email": "Email",
     "emailPlaceholder": "Write your email...",
+    "subject": "Subject",
+    "subjectPlaceholder": "Write your subject...",
     "message": "Message",
     "messagePlaceholder": "Write your message...",
     "submit": "Send message",

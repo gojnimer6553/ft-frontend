@@ -34,6 +34,7 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
       .string()
       .nonempty({ message: t("validation.required") })
       .email({ message: t("validation.invalidEmail") }),
+    subject: z.string().nonempty({ message: t("validation.required") }),
     message: z.string().nonempty({ message: t("validation.required") }),
   });
 
@@ -41,7 +42,7 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
 
   const formMethods = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: session?.email ?? "", message: "" },
+    defaultValues: { email: session?.email ?? "", subject: "", message: "" },
   });
 
   const onSubmit = (values: FormValues) => {
@@ -50,6 +51,7 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
         functionId: "689feffd0007270a4aa1",
         body: {
           email: values.email,
+          subject: values.subject,
           message: values.message,
           userId: session?.$id ?? null,
         },
@@ -59,7 +61,11 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
       {
         onSuccess: () => {
           toast.success(t("contact.success"));
-          formMethods.reset({ email: session?.email ?? "", message: "" });
+          formMethods.reset({
+            email: session?.email ?? "",
+            subject: "",
+            message: "",
+          });
           onSubmitted?.();
         },
         onError: (err: any) => toast.error(err.message),
@@ -92,6 +98,22 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
             )}
           />
         )}
+        <FormField
+          control={formMethods.control}
+          name="subject"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("contact.subject")}</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={t("contact.subjectPlaceholder")}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={formMethods.control}
           name="message"
