@@ -77,6 +77,7 @@
   },
   "chat": {
     "title": "Chat",
+    "prompt": "What can I do for you?",
     "placeholder": {
       "typeYourMessage": "Type your message",
       "askQuestion": "Ask a question",
