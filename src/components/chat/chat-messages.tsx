@@ -17,7 +17,7 @@ function AnimatedEllipsis() {
           key={i}
           className="w-[1ch]"
           animate={{ opacity: [0, 1, 0] }}
-          transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+          transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }}
         >
           .
         </motion.span>
@@ -30,6 +30,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const prevIsLoading = useRef(isLoading);
+  const loadingStartIndex = useRef<number>(Infinity);
 
   const scrollToBottom = () => {
     const el = containerRef.current;
@@ -44,8 +45,13 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
     }
   }, [messages, isAtBottom]);
   useEffect(() => {
+    if (isLoading && !prevIsLoading.current) {
+      loadingStartIndex.current = messages.length;
+    } else if (!isLoading && prevIsLoading.current) {
+      loadingStartIndex.current = Infinity;
+    }
     prevIsLoading.current = isLoading;
-  }, [isLoading]);
+  }, [isLoading, messages.length]);
 
   const handleScroll = () => {
     const el = containerRef.current;
@@ -64,7 +70,9 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       >
         {messages.map((m, idx) => {
           const isLatestAssistant = idx === messages.length - 1 && m.role === "assistant";
-          if (isLoading && isLatestAssistant) {
+          const isStreamingAssistant =
+            isLoading && m.role === "assistant" && idx >= loadingStartIndex.current;
+          if (isStreamingAssistant) {
             return null;
           }
           return (
