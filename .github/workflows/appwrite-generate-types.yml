@@ -8,24 +8,23 @@ on:
 
 jobs:
   generate-types:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install Appwrite CLI
-        run: npm install -g @appwrite/cli
       - name: Generate Appwrite Client
         run: |
-          npx appwrite client \
+          npx appwrite/cli client \
             --endpoint ${{ secrets.APPWRITE_ENDPOINT }} \
             --project-id ${{ secrets.APPWRITE_PROJECT_ID }} \
             --key ${{ secrets.APPWRITE_API_KEY }}
       - name: Pull Appwrite Collections
-        run: npx appwrite pull collections --all --force
+        run: npx appwrite/cli pull collections --all --force
       - name: Generate Appwrite Types
-        run: npx appwrite types src/types
+        run: npx appwrite/cli types src/types
       - name: Commit and push generated types and config
         run: |
           git config --global user.name "github-actions[bot]"
