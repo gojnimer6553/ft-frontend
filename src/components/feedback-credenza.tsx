@@ -25,7 +25,7 @@ export function FeedbackCredenza({ children }: { children?: React.ReactNode }) {
         <img
           src="/assets/mascot/mascot_full_body.png"
           alt="Cat mascot"
-          className="mx-auto my-4 h-40 w-auto"
+          className="mx-auto my-4 hidden h-40 w-auto md:block"
         />
         <CredenzaHeader>
           <CredenzaTitle>{t("feedback.title")}</CredenzaTitle>
