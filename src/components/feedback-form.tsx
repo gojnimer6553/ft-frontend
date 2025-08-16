@@ -15,6 +15,7 @@ import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import useFunction from "@/hooks/use-function";
 
 interface FeedbackFormProps {
   className?: string;
@@ -39,10 +40,22 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
     defaultValues: { email: "", message: "" },
   });
 
-  const onSubmit = () => {
-    toast.success(t("feedback.success"));
-    formMethods.reset();
-    onSubmitted?.();
+  const { mutate } = useFunction("689feffd0007270a4aa1");
+
+  const onSubmit = (values: FormValues) => {
+    mutate(
+      { body: values, path: "/feedback" },
+      {
+        onSuccess: () => {
+          toast.success(t("feedback.success"));
+          formMethods.reset();
+          onSubmitted?.();
+        },
+        onError: (err: any) => {
+          toast.error(err.message);
+        },
+      }
+    );
   };
 
   return (

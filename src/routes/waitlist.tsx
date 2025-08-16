@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
-import { useState } from "react";
-import { toast } from "sonner";
+import { WaitlistForm } from "@/components/waitlist-form";
 
 export const Route = createFileRoute("/waitlist")({
   component: WaitlistPage,
@@ -11,13 +8,6 @@ export const Route = createFileRoute("/waitlist")({
 
 function WaitlistPage() {
   const { t } = useTranslate();
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success(t("waitlist.success"));
-    setEmail("");
-  };
 
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center bg-muted px-4 py-10">
@@ -32,18 +22,7 @@ function WaitlistPage() {
           <p className="text-muted-foreground">
             {t("waitlist.description")}
           </p>
-          <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
-            <Input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("waitlist.emailPlaceholder")}
-            />
-            <Button type="submit" className="w-full">
-              {t("waitlist.submit")}
-            </Button>
-          </form>
+          <WaitlistForm className="flex w-full flex-col gap-4" />
         </div>
       </div>
     </div>
