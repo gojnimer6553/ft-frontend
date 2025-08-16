@@ -30,7 +30,7 @@ export function NavSecondary({
               {item.render ? (
                 item.render(item)
               ) : (
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton size="sm" asChild>
                   <Link to={item.url!}>
                     <item.icon />
                     <span>{item.title}</span>
