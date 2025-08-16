@@ -14,14 +14,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install dependencies
-        run: npm ci
-      - name: Appwrite Login
+      - name: Generate Appwrite Client
         run: |
           npx appwrite client \
             --endpoint ${{ vars.APPWRITE_ENDPOINT }} \
             --project-id ${{ vars.APPWRITE_PROJECT_ID }} \
             --key ${{ secrets.APPWRITE_API_KEY }}
+        env:
+          APPWRITE_ENDPOINT: ${{ secrets.APPWRITE_ENDPOINT }}
+          APPWRITE_PROJECT_ID: ${{ secrets.APPWRITE_PROJECT_ID }}
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
       - name: Pull Appwrite Collections
         run: npx appwrite pull collections --all --force
       - name: Generate Appwrite Types
