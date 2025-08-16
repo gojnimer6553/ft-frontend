@@ -15,6 +15,7 @@ import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import useExecution from "@/hooks/use-execution";
 
 interface FeedbackFormProps {
   className?: string;
@@ -39,10 +40,25 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
     defaultValues: { email: "", message: "" },
   });
 
-  const onSubmit = () => {
-    toast.success(t("feedback.success"));
-    formMethods.reset();
-    onSubmitted?.();
+  const { mutate, status } = useExecution();
+
+  const onSubmit = (values: FormValues) => {
+    mutate(
+      {
+        functionId: "689feffd0007270a4aa1",
+        path: "/feedback",
+        method: "POST",
+        body: values,
+      },
+      {
+        onSuccess: () => {
+          toast.success(t("feedback.success"));
+          formMethods.reset();
+          onSubmitted?.();
+        },
+        onError: () => toast.error("Something went wrong."),
+      }
+    );
   };
 
   return (
@@ -85,7 +101,11 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+          loading={status === "pending" ? `${t("feedback.loading")}...` : undefined}
+        >
           {t("feedback.submit")}
         </Button>
       </form>
