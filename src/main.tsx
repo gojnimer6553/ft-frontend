@@ -42,11 +42,13 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <ThemeProvider>
-        <TolgeeProvider tolgee={tolgee} fallback={<FullPageLoader />}>
-          <RouterProvider router={router} />
-        </TolgeeProvider>
-      </ThemeProvider>
+      <div vaul-drawer-wrapper="" className="bg-background">
+        <ThemeProvider>
+          <TolgeeProvider tolgee={tolgee} fallback={<FullPageLoader />}>
+            <RouterProvider router={router} />
+          </TolgeeProvider>
+        </ThemeProvider>
+      </div>
     </StrictMode>
   );
 }
