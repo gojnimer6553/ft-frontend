@@ -42,7 +42,7 @@ function ContactUsPage() {
     },
   });
 
-  const onSubmit = () => {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     toast.success(t("contact.success"));
     form.reset();
   };
