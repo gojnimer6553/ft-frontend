@@ -42,6 +42,43 @@
                 }
             ],
             "indexes": []
+        },
+        {
+            "$id": "68a0d60800393c2b6d40",
+            "$permissions": [],
+            "databaseId": "689fe28a00290ebb7fb0",
+            "name": "feedbacks",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "email",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "format": "email",
+                    "default": null
+                },
+                {
+                    "key": "userId",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 128,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "feedback",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 600,
+                    "default": null,
+                    "encrypt": false
+                }
+            ],
+            "indexes": []
         }
     ]
 }

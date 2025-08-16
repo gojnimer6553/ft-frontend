@@ -7,3 +7,9 @@ export type Prospects = Models.Document & {
     email: string;
     submit_count: number;
 }
+
+export type Feedbacks = Models.Document & {
+    email: string;
+    userId: string | null;
+    feedback: string;
+}
