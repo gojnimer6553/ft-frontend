@@ -38,7 +38,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex h-full flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
+        className="chat-scrollbar flex h-full flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
       >
         {messages.map((m) => (
           <ChatBubble key={m.id} role={m.role}>
