@@ -28,10 +28,7 @@ jobs:
       - name: Generate Appwrite Types
         run: appwrite types src/types
       - name: Commit and push generated types and config
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/types appwrite.config.json
-          git commit -m "chore: update appwrite types and config [skip ci]" || echo "No changes to commit"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git push origin HEAD:main
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update appwrite types and config [skip ci]"
+          file_pattern: "src/types/** appwrite.config.json"
