@@ -43,6 +43,7 @@ export function Chat() {
             disabled={status !== "ready"}
             placeholders={placeholders}
             className={hasMessages ? "mt-auto" : "my-auto"}
+            showPrompt={!hasMessages}
           />
         </div>
       </div>
