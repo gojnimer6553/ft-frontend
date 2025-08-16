@@ -56,6 +56,16 @@
     "submit": "Entrar na lista",
     "success": "Obrigado! Entraremos em contato."
   },
+  "contact": {
+    "title": "Fale Conosco",
+    "description": "Tem perguntas? Estamos aqui para ajudar.",
+    "email": "Email",
+    "emailPlaceholder": "Digite seu email...",
+    "message": "Mensagem",
+    "messagePlaceholder": "Digite sua mensagem...",
+    "submit": "Enviar mensagem",
+    "success": "Obrigado! Entraremos em contato."
+  },
   "soon": "Em breve",
   "validation": {
     "invalidEmail": "Email inválido",
