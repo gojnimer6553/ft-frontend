@@ -25,7 +25,9 @@ export function ChatFooter({
       className={cn("w-full shrink-0 bg-background p-4", className)}
     >
       {showPrompt && (
-        <p className="mb-4 text-start text-2xl text-muted-foreground">
+        <p
+          className="mb-4 w-full max-w-xl mx-auto text-start text-2xl text-muted-foreground"
+        >
           {t("chat.prompt")}
         </p>
       )}
