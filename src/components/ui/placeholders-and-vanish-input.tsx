@@ -2,11 +2,12 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Paperclip } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PlaceholdersAndVanishInputProps {
   placeholders: string[];
-  onSubmit: (value: string) => void;
+  onSubmit: (value: string, files?: FileList | null) => void;
   disabled?: boolean;
 }
 
@@ -49,6 +50,8 @@ export function PlaceholdersAndVanishInput({
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [files, setFiles] = useState<FileList | null>(null);
 
   const draw = useCallback(() => {
     if (!inputRef.current) return;
@@ -152,24 +155,37 @@ export function PlaceholdersAndVanishInput({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !animating && !disabled) {
+    if (
+      e.key === "Enter" &&
+      !animating &&
+      !disabled &&
+      (value || (files && files.length > 0))
+    ) {
       vanishAndSubmit();
     }
   };
 
   const vanishAndSubmit = () => {
-    setAnimating(true);
-    draw();
-
     const currentValue = inputRef.current?.value || "";
-    if (currentValue && inputRef.current) {
+    if (!currentValue && (!files || files.length === 0)) return;
+
+    if (currentValue) {
+      setAnimating(true);
+      draw();
       const maxX = newDataRef.current.reduce(
         (prev, current) => (current.x > prev ? current.x : prev),
         0
       );
       animate(maxX);
-      onSubmit(currentValue);
+    } else {
+      setValue("");
     }
+
+    onSubmit(currentValue, files);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    setFiles(null);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -187,9 +203,25 @@ export function PlaceholdersAndVanishInput({
       )}
       onSubmit={handleSubmit}
     >
+      <input
+        ref={fileInputRef}
+        type="file"
+        multiple
+        className="hidden"
+        onChange={(e) => setFiles(e.target.files)}
+        disabled={disabled}
+      />
+      <button
+        type="button"
+        onClick={() => fileInputRef.current?.click()}
+        className="absolute left-2 top-1/2 z-50 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground disabled:opacity-50"
+        disabled={disabled}
+      >
+        <Paperclip className="h-4 w-4" />
+      </button>
       <canvas
         className={cn(
-          "absolute pointer-events-none  text-base transform scale-50 top-[20%] left-2 sm:left-8 origin-top-left filter invert dark:invert-0 pr-20",
+          "absolute pointer-events-none  text-base transform scale-50 top-[20%] left-12 sm:left-16 origin-top-left filter invert dark:invert-0 pr-20",
           !animating ? "opacity-0" : "opacity-100"
         )}
         ref={canvasRef}
@@ -206,13 +238,15 @@ export function PlaceholdersAndVanishInput({
         type="text"
         disabled={disabled}
         className={cn(
-          "relative z-50 h-full w-full rounded-full border-none bg-transparent pl-4 pr-20 sm:pl-10 text-sm sm:text-base text-foreground selection:bg-primary selection:text-primary-foreground focus:outline-none focus:ring-0",
+          "relative z-50 h-full w-full rounded-full border-none bg-transparent pl-12 pr-20 sm:pl-16 text-sm sm:text-base text-foreground selection:bg-primary selection:text-primary-foreground focus:outline-none focus:ring-0",
           animating && "text-transparent"
         )}
       />
 
       <button
-        disabled={disabled || !value}
+        disabled={
+          disabled || (!value && (!files || files.length === 0))
+        }
         type="submit"
         className="absolute right-2 top-1/2 z-50 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors duration-200 disabled:bg-muted disabled:text-muted-foreground"
       >
@@ -250,7 +284,7 @@ export function PlaceholdersAndVanishInput({
 
       <div className="pointer-events-none absolute inset-0 flex items-center rounded-full">
         <AnimatePresence mode="wait">
-          {!value && (
+          {!value && (!files || files.length === 0) && (
             <motion.p
               initial={{
                 y: 5,
@@ -269,7 +303,7 @@ export function PlaceholdersAndVanishInput({
                 duration: 0.3,
                 ease: "linear",
               }}
-              className="w-[calc(100%-2rem)] truncate pl-4 sm:pl-12 text-left text-sm sm:text-base font-normal text-muted-foreground"
+              className="w-[calc(100%-2rem)] truncate pl-12 sm:pl-16 text-left text-sm sm:text-base font-normal text-muted-foreground"
             >
               {placeholders[currentPlaceholder]}
             </motion.p>

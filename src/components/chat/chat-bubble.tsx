@@ -11,7 +11,7 @@ export function ChatBubble({ role, children }: ChatBubbleProps) {
     <div className={cn("flex", role === "user" ? "justify-end" : "justify-start")}> 
       <div
         className={cn(
-          "max-w-[80%] break-words whitespace-pre-wrap rounded-lg px-3 py-2 text-sm",
+          "max-w-[80%] break-words whitespace-pre-wrap rounded-lg px-3 py-2 text-sm space-y-2",
           role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
         )}
       >
