@@ -1,109 +1,163 @@
-import * as React from "react";
+"use client";
+
 import {
   Calendar,
   Command,
   LifeBuoy,
   Send,
   Bot,
-  type LucideIcon,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import { ContactCredenza } from "@/components/contact-credenza";
 import { FeedbackCredenza } from "@/components/feedback-credenza";
-
-import { NavMain } from "@/components/sidebar/nav-main";
-import { NavSecondary } from "@/components/sidebar/nav-secondary";
 import { NavUser } from "@/components/sidebar/nav-user";
+import { Menu } from "@/components/sidebar/menu";
+import { SidebarToggle } from "@/components/sidebar/sidebar-toggle";
+import { useSidebar } from "@/hooks/use-sidebar";
+import { useStore } from "@/hooks/use-store";
+import { Button } from "@/components/ui/button";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
+export function AppSidebar() {
+  const sidebar = useStore(useSidebar, (s) => s);
+  if (!sidebar) return null;
+  const { isOpen, toggleOpen, getOpenState, setIsHover, settings } = sidebar;
+
+  const groups = [
     {
-      title: "Chat",
-      url: "/chat",
-      icon: Bot,
+      groupLabel: "",
+      menus: [
+        { href: "/chat", label: "Chat", icon: Bot },
+        { href: "/home", label: "Calendário", icon: Calendar },
+      ],
     },
     {
-      title: "Calendário",
-      url: "/home",
-      icon: Calendar,
-      items: [
+      groupLabel: "",
+      menus: [
         {
-          title: "Início",
-          url: "/home",
+          label: "Support",
+          icon: LifeBuoy,
+          render: (open: boolean | undefined) => (
+            <TooltipProvider disableHoverableContent>
+              <Tooltip delayDuration={100}>
+                <ContactCredenza>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start h-10 mb-1"
+                    >
+                      <span className={cn(open === false ? "" : "mr-4")}>
+                        <LifeBuoy size={18} />
+                      </span>
+                      <p
+                        className={cn(
+                          "max-w-[200px] truncate",
+                          open === false
+                            ? "-translate-x-96 opacity-0"
+                            : "translate-x-0 opacity-100"
+                        )}
+                      >
+                        Support
+                      </p>
+                    </Button>
+                  </TooltipTrigger>
+                </ContactCredenza>
+                {open === false && (
+                  <TooltipContent side="right">Support</TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+          ),
+        },
+        {
+          label: "Feedback",
+          icon: Send,
+          render: (open: boolean | undefined) => (
+            <TooltipProvider disableHoverableContent>
+              <Tooltip delayDuration={100}>
+                <FeedbackCredenza>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start h-10 mb-1"
+                    >
+                      <span className={cn(open === false ? "" : "mr-4")}>
+                        <Send size={18} />
+                      </span>
+                      <p
+                        className={cn(
+                          "max-w-[200px] truncate",
+                          open === false
+                            ? "-translate-x-96 opacity-0"
+                            : "translate-x-0 opacity-100"
+                        )}
+                      >
+                        Feedback
+                      </p>
+                    </Button>
+                  </TooltipTrigger>
+                </FeedbackCredenza>
+                {open === false && (
+                  <TooltipContent side="right">Feedback</TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+          ),
         },
       ],
     },
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      icon: LifeBuoy,
-      render: (item: { title: string; icon: LucideIcon }) => (
-        <ContactCredenza>
-          <SidebarMenuButton size="sm">
-            <item.icon />
-            <span>{item.title}</span>
-          </SidebarMenuButton>
-        </ContactCredenza>
-      ),
-    },
-    {
-      title: "Feedback",
-      icon: Send,
-      render: (item: { title: string; icon: LucideIcon }) => (
-        <FeedbackCredenza>
-          <SidebarMenuButton size="sm">
-            <item.icon />
-            <span>{item.title}</span>
-          </SidebarMenuButton>
-        </FeedbackCredenza>
-      ),
-    },
-  ],
-  projects: [],
-};
+  ];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar variant="inset" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser />
-      </SidebarFooter>
-    </Sidebar>
+    <aside
+      className={cn(
+        "fixed top-0 left-0 z-20 h-screen -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300",
+        !getOpenState() ? "w-[90px]" : "w-72",
+        settings.disabled && "hidden"
+      )}
+    >
+      <SidebarToggle isOpen={isOpen} setIsOpen={toggleOpen} />
+      <div
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        className="relative h-full flex flex-col px-3 py-4 overflow-y-auto shadow-md dark:shadow-zinc-800"
+      >
+        <Button
+          className={cn(
+            "transition-transform ease-in-out duration-300 mb-1",
+            !getOpenState() ? "translate-x-1" : "translate-x-0"
+          )}
+          variant="link"
+          asChild
+        >
+          <Link to="/home">
+            <span className="flex items-center gap-2">
+              <Command className="w-6 h-6 mr-1" />
+              <h1
+                className={cn(
+                  "font-bold text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
+                  !getOpenState()
+                    ? "-translate-x-96 opacity-0 hidden"
+                    : "translate-x-0 opacity-100"
+                )}
+              >
+                Food Tracker
+              </h1>
+            </span>
+          </Link>
+        </Button>
+        <Menu isOpen={getOpenState()} groups={groups} />
+        <div className="mt-auto px-2">
+          <NavUser isOpen={getOpenState()} />
+        </div>
+      </div>
+    </aside>
   );
 }

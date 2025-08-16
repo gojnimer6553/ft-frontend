@@ -10,15 +10,19 @@ import {
   CredenzaTrigger,
 } from "@/components/ui/credenza";
 import { useTranslate } from "@tolgee/react";
-import { useState } from "react";
+import { useState, type ComponentPropsWithoutRef } from "react";
 
-export function FeedbackCredenza({ children }: { children?: React.ReactNode }) {
+type FeedbackCredenzaProps = {
+  children?: React.ReactNode;
+} & ComponentPropsWithoutRef<typeof CredenzaTrigger>;
+
+export function FeedbackCredenza({ children, ...props }: FeedbackCredenzaProps) {
   const { t } = useTranslate();
   const [open, setOpen] = useState(false);
 
   return (
     <Credenza open={open} onOpenChange={setOpen}>
-      <CredenzaTrigger asChild>
+      <CredenzaTrigger asChild {...props}>
         {children ?? <Button>{t("feedback.title")}</Button>}
       </CredenzaTrigger>
       <CredenzaContent>
