@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WaitlistRouteImport } from './routes/waitlist'
 import { Route as _authenticationLayoutRouteImport } from './routes/__authenticationLayout'
 import { Route as _authenticatedLayoutRouteImport } from './routes/__authenticatedLayout'
 import { Route as _authenticatedLayoutIndexRouteImport } from './routes/__authenticatedLayout/index'
@@ -17,6 +18,11 @@ import { Route as _authenticationLayoutLoginRouteImport } from './routes/__authe
 import { Route as _authenticatedLayoutHomeRouteImport } from './routes/__authenticatedLayout/home'
 import { Route as _authenticatedLayoutChatRouteImport } from './routes/__authenticatedLayout/chat'
 
+const WaitlistRoute = WaitlistRouteImport.update({
+  id: '/waitlist',
+  path: '/waitlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const _authenticationLayoutRoute = _authenticationLayoutRouteImport.update({
   id: '/__authenticationLayout',
   getParentRoute: () => rootRouteImport,
@@ -57,6 +63,7 @@ const _authenticatedLayoutChatRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/waitlist': typeof WaitlistRoute
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
   '/login': typeof _authenticationLayoutLoginRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/': typeof _authenticatedLayoutIndexRoute
 }
 export interface FileRoutesByTo {
+  '/waitlist': typeof WaitlistRoute
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
   '/login': typeof _authenticationLayoutLoginRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/__authenticatedLayout': typeof _authenticatedLayoutRouteWithChildren
   '/__authenticationLayout': typeof _authenticationLayoutRouteWithChildren
+  '/waitlist': typeof WaitlistRoute
   '/__authenticatedLayout/chat': typeof _authenticatedLayoutChatRoute
   '/__authenticatedLayout/home': typeof _authenticatedLayoutHomeRoute
   '/__authenticationLayout/login': typeof _authenticationLayoutLoginRoute
@@ -82,13 +91,14 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/chat' | '/home' | '/login' | '/register' | '/'
+  fullPaths: '/waitlist' | '/chat' | '/home' | '/login' | '/register' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/chat' | '/home' | '/login' | '/register' | '/'
+  to: '/waitlist' | '/chat' | '/home' | '/login' | '/register' | '/'
   id:
     | '__root__'
     | '/__authenticatedLayout'
     | '/__authenticationLayout'
+    | '/waitlist'
     | '/__authenticatedLayout/chat'
     | '/__authenticatedLayout/home'
     | '/__authenticationLayout/login'
@@ -99,10 +109,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   _authenticatedLayoutRoute: typeof _authenticatedLayoutRouteWithChildren
   _authenticationLayoutRoute: typeof _authenticationLayoutRouteWithChildren
+  WaitlistRoute: typeof WaitlistRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/waitlist': {
+      id: '/waitlist'
+      path: '/waitlist'
+      fullPath: '/waitlist'
+      preLoaderRoute: typeof WaitlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/__authenticationLayout': {
       id: '/__authenticationLayout'
       path: ''
@@ -188,6 +206,7 @@ const _authenticationLayoutRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   _authenticatedLayoutRoute: _authenticatedLayoutRouteWithChildren,
   _authenticationLayoutRoute: _authenticationLayoutRouteWithChildren,
+  WaitlistRoute: WaitlistRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
