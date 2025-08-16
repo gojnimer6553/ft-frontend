@@ -21,7 +21,6 @@ export const Route = createFileRoute("/contact-us")({
 
 function ContactUsPage() {
   const { t } = useTranslate();
-
   const formSchema = z.object({
     email: z.string().email({ message: t("validation.invalidEmail") }),
     message: z.string().min(1, { message: t("validation.required") }),
