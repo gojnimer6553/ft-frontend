@@ -21,7 +21,7 @@ function RouteComponent() {
     setHideRight(true);
   }, []);
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted py-6 md:py-10">
+    <div className="flex min-h-dvh flex-col items-center justify-center bg-muted py-6 md:py-10">
       <div className="w-full max-w-sm">
         <div className={cn("flex flex-col gap-6")}>
           <Card className="overflow-hidden">
