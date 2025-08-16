@@ -1,0 +1,42 @@
+{
+    "projectId": "689f9ca20006781866af",
+    "projectName": "Laranjito",
+    "databases": [
+        {
+            "$id": "689fe28a00290ebb7fb0",
+            "name": "landing",
+            "enabled": true
+        }
+    ],
+    "collections": [
+        {
+            "$id": "689fe2910035b796a01e",
+            "$permissions": [],
+            "databaseId": "689fe28a00290ebb7fb0",
+            "name": "prospects",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "email",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "submit_count",
+                    "type": "integer",
+                    "required": true,
+                    "array": false,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807,
+                    "default": null
+                }
+            ],
+            "indexes": []
+        }
+    ]
+}

@@ -8,8 +8,7 @@
     "build": "vite build && tsc",
     "serve": "vite preview",
     "test": "vitest run",
-    "tgee-pull": "tolgee pull",
-    "tgee-push": "tolgee push"
+    "generate-types": "npx appwrite types src/types"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

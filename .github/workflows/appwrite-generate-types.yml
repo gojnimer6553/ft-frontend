@@ -1,0 +1,35 @@
+name: Generate Appwrite Types
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
+      - name: Appwrite Login
+        run: |
+          npx appwrite client \
+            --endpoint ${{ vars.APPWRITE_ENDPOINT }} \
+            --project-id ${{ vars.APPWRITE_PROJECT_ID }} \
+            --key ${{ secrets.APPWRITE_API_KEY }}
+      - name: Pull Appwrite Collections
+        run: npx appwrite pull collections --all --force
+      - name: Generate Appwrite Types
+        run: npx appwrite types src/types
+      - name: Commit and push generated types and config
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/types appwrite.config.json
+          git commit -m "chore: update appwrite types and config" || echo "No changes to commit"
+          git push
