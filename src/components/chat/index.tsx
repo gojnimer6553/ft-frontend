@@ -28,7 +28,7 @@ export function Chat() {
   return (
     <>
       <ChatHeader />
-      <div className="flex w-full max-w-2xl flex-1 min-h-0 flex-col overflow-x-hidden overflow-y-auto">
+      <div className="flex w-full max-w-2xl flex-1 min-h-0 flex-col overflow-x-hidden">
         <ChatMessages messages={messages} isLoading={status !== "ready"} />
         <ChatFooter
           onSubmit={handleSubmit}
