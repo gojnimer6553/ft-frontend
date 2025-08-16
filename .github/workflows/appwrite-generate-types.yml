@@ -19,9 +19,9 @@ jobs:
         uses: appwrite/setup-for-appwrite@v1
         with:
           method: key
-          endpoint: ${{ secrets.APPWRITE_ENDPOINT }}
-          key: ${{ secrets.API_KEY }}
+          endpoint: ${{ vars.APPWRITE_ENDPOINT }}
           project: ${{ vars.PROJECT_ID }}
+          key: ${{ secrets.API_KEY }}
           force: true
       - name: Pull Appwrite Collections
         run: appwrite pull collections --all
