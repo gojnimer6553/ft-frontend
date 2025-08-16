@@ -2,8 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Loader2 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { OpenAIChatTransport } from "@/lib/openai-chat-transport";
 
 export function Chat() {
@@ -56,20 +55,14 @@ export function Chat() {
         )}
         <div ref={endRef} />
       </div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex gap-2 border-t bg-background p-4"
-      >
-        <Input
-          value={input}
+      <div className="border-t bg-background p-4">
+        <PlaceholdersAndVanishInput
+          placeholders={["Type your message"]}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message"
-          className="flex-1"
+          onSubmit={handleSubmit}
+          disabled={isLoading}
         />
-        <Button type="submit" disabled={isLoading || !input.trim()}>
-          Send
-        </Button>
-      </form>
+      </div>
     </div>
   );
 }
