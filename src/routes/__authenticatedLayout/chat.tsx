@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { TextStreamChatTransport } from "ai";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,10 +12,10 @@ export const Route = createFileRoute("/__authenticatedLayout/chat")({
 
 function ChatPage() {
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({
+    transport: new TextStreamChatTransport({
       api: "https://ai.laranjito.com/v1/chat/completions",
       credentials: "omit",
-      body: { model: "gpt-4o-mini", stream: true },
+      body: { model: "gpt-4o-mini", stream: { type: "text" } },
       prepareSendMessagesRequest({ messages, body }) {
         return {
           body: {
