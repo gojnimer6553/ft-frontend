@@ -76,6 +76,7 @@
   },
   "chat": {
     "title": "Bate-papo",
+    "prompt": "O que posso fazer por você?",
     "placeholder": {
       "typeYourMessage": "Digite sua mensagem",
       "askQuestion": "Faça uma pergunta",

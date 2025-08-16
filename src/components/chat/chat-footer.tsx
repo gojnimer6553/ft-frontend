@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useTranslate } from "@tolgee/react";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { cn } from "@/lib/utils";
 
@@ -15,11 +16,15 @@ export function ChatFooter({
   placeholders,
   className,
 }: ChatFooterProps) {
+  const { t } = useTranslate();
   return (
     <motion.div
       layout
       className={cn("w-full shrink-0 bg-background p-4", className)}
     >
+      <p className="mb-2 text-center text-sm text-muted-foreground">
+        {t("chat.prompt")}
+      </p>
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onSubmit={onSubmit}
