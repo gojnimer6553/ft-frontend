@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { ContactCredenza } from "@/components/contact-credenza";
+import { FeedbackCredenza } from "@/components/feedback-credenza";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavSecondary } from "@/components/sidebar/nav-secondary";
@@ -62,8 +63,15 @@ const data = {
     },
     {
       title: "Feedback",
-      url: "#",
       icon: Send,
+      render: (item: { title: string; icon: LucideIcon }) => (
+        <FeedbackCredenza>
+          <SidebarMenuButton size="sm">
+            <item.icon />
+            <span>{item.title}</span>
+          </SidebarMenuButton>
+        </FeedbackCredenza>
+      ),
     },
   ],
   projects: [],

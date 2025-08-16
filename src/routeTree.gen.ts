@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WaitlistDrawerTestRouteImport } from './routes/waitlist-drawer-test'
 import { Route as WaitlistRouteImport } from './routes/waitlist'
+import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as _authenticationLayoutRouteImport } from './routes/__authenticationLayout'
 import { Route as _authenticatedLayoutRouteImport } from './routes/__authenticatedLayout'
@@ -28,6 +29,11 @@ const WaitlistDrawerTestRoute = WaitlistDrawerTestRouteImport.update({
 const WaitlistRoute = WaitlistRouteImport.update({
   id: '/waitlist',
   path: '/waitlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -76,6 +82,7 @@ const _authenticatedLayoutChatRoute =
 
 export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
+  '/feedback': typeof FeedbackRoute
   '/waitlist': typeof WaitlistRoute
   '/waitlist-drawer-test': typeof WaitlistDrawerTestRoute
   '/chat': typeof _authenticatedLayoutChatRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
+  '/feedback': typeof FeedbackRoute
   '/waitlist': typeof WaitlistRoute
   '/waitlist-drawer-test': typeof WaitlistDrawerTestRoute
   '/chat': typeof _authenticatedLayoutChatRoute
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   '/__authenticatedLayout': typeof _authenticatedLayoutRouteWithChildren
   '/__authenticationLayout': typeof _authenticationLayoutRouteWithChildren
   '/contact': typeof ContactRoute
+  '/feedback': typeof FeedbackRoute
   '/waitlist': typeof WaitlistRoute
   '/waitlist-drawer-test': typeof WaitlistDrawerTestRoute
   '/__authenticatedLayout/chat': typeof _authenticatedLayoutChatRoute
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/contact'
+    | '/feedback'
     | '/waitlist'
     | '/waitlist-drawer-test'
     | '/chat'
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/contact'
+    | '/feedback'
     | '/waitlist'
     | '/waitlist-drawer-test'
     | '/chat'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/__authenticatedLayout'
     | '/__authenticationLayout'
     | '/contact'
+    | '/feedback'
     | '/waitlist'
     | '/waitlist-drawer-test'
     | '/__authenticatedLayout/chat'
@@ -146,6 +158,7 @@ export interface RootRouteChildren {
   _authenticatedLayoutRoute: typeof _authenticatedLayoutRouteWithChildren
   _authenticationLayoutRoute: typeof _authenticationLayoutRouteWithChildren
   ContactRoute: typeof ContactRoute
+  FeedbackRoute: typeof FeedbackRoute
   WaitlistRoute: typeof WaitlistRoute
   WaitlistDrawerTestRoute: typeof WaitlistDrawerTestRoute
 }
@@ -164,6 +177,13 @@ declare module '@tanstack/react-router' {
       path: '/waitlist'
       fullPath: '/waitlist'
       preLoaderRoute: typeof WaitlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -259,6 +279,7 @@ const rootRouteChildren: RootRouteChildren = {
   _authenticatedLayoutRoute: _authenticatedLayoutRouteWithChildren,
   _authenticationLayoutRoute: _authenticationLayoutRouteWithChildren,
   ContactRoute: ContactRoute,
+  FeedbackRoute: FeedbackRoute,
   WaitlistRoute: WaitlistRoute,
   WaitlistDrawerTestRoute: WaitlistDrawerTestRoute,
 }

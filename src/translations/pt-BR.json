@@ -8,7 +8,15 @@
       "funMessage": "Não se preocupe, nosso gato chef está sempre preparando algo delicioso! \uD83C\uDF7D️",
       "logoAlt": "Calendário de Refeições",
       "title": "Ops! Página não encontrada"
-    }
+    },
+    "title": "Enviar feedback",
+    "description": "Compartilhe suas ideias conosco.",
+    "email": "Email",
+    "emailPlaceholder": "Digite seu email...",
+    "message": "Mensagem",
+    "messagePlaceholder": "Digite seu feedback...",
+    "submit": "Enviar feedback",
+    "success": "Obrigado pelo feedback!"
   },
   "login": {
     "agreeTo": "Ao clicar em continuar, você concorda com nossos",
