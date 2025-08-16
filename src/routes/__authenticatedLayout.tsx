@@ -59,6 +59,7 @@ function RouteComponent() {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
           </div>
+          <div id="page-header-portal" className="flex-1" />
           <div className="ml-auto px-4">
             <ModeToggle />
           </div>
