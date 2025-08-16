@@ -1,29 +1,27 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Loader2 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { OpenAIChatTransport } from "@/lib/openai-chat-transport";
 
 export function Chat() {
   const transport = useMemo(() => new OpenAIChatTransport(), []);
   const { messages, sendMessage, status } = useChat({ transport });
-  const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!input.trim()) return;
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const input = e.currentTarget.querySelector("input");
+    const value = (input as HTMLInputElement)?.value ?? "";
+    if (!value.trim()) return;
     await sendMessage({
       role: "user",
-      parts: [{ type: "text", text: input }],
+      parts: [{ type: "text", text: value }],
     });
-    setInput("");
   }
 
   const isLoading = status !== "ready";
@@ -56,20 +54,14 @@ export function Chat() {
         )}
         <div ref={endRef} />
       </div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex gap-2 border-t bg-background p-4"
-      >
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message"
-          className="flex-1"
+      <div className="border-t bg-background p-4">
+        <PlaceholdersAndVanishInput
+          placeholders={["Type your message"]}
+          onChange={() => {}}
+          onSubmit={handleSubmit}
+          disabled={isLoading}
         />
-        <Button type="submit" disabled={isLoading || !input.trim()}>
-          Send
-        </Button>
-      </form>
+      </div>
     </div>
   );
 }
