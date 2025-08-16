@@ -11,7 +11,7 @@ import {
 import { useTranslate } from "@tolgee/react";
 import { useState } from "react";
 
-export function ContactDrawer({ children }: React.ComponentProps<"div">) {
+export function ContactDrawer({ children }: { children?: React.ReactNode }) {
   const { t } = useTranslate();
   const [open, setOpen] = useState(false);
 
