@@ -9,12 +9,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import useSession from "@/hooks/queries/user";
+import useExecution from "@/hooks/use-execution";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslate } from "@tolgee/react";
-import { useEffect } from "react";
+import { ExecutionMethod } from "appwrite";
 import { useForm } from "react-hook-form";
-import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -26,6 +27,7 @@ interface ContactFormProps {
 export function ContactForm({ className, onSubmitted }: ContactFormProps) {
   const { t } = useTranslate();
   const session = useSession().data;
+  const { mutate, status } = useExecution();
 
   const formSchema = z.object({
     email: z
@@ -42,16 +44,27 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
     defaultValues: { email: session?.email ?? "", message: "" },
   });
 
-  useEffect(() => {
-    if (session?.email) {
-      formMethods.setValue("email", session.email);
-    }
-  }, [session, formMethods]);
-
-  const onSubmit = () => {
-    toast.success(t("contact.success"));
-    formMethods.reset({ email: session?.email ?? "", message: "" });
-    onSubmitted?.();
+  const onSubmit = (values: FormValues) => {
+    mutate(
+      {
+        functionId: "689feffd0007270a4aa1",
+        body: {
+          email: values.email,
+          message: values.message,
+          userId: session?.$id ?? null,
+        },
+        path: "/contact",
+        method: ExecutionMethod.POST,
+      },
+      {
+        onSuccess: () => {
+          toast.success(t("contact.success"));
+          formMethods.reset({ email: session?.email ?? "", message: "" });
+          onSubmitted?.();
+        },
+        onError: (err: any) => toast.error(err.message),
+      }
+    );
   };
 
   return (
@@ -96,7 +109,13 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+          loading={
+            status === "pending" ? `${t("feedback.loading")}...` : undefined
+          }
+        >
           {t("contact.submit")}
         </Button>
       </form>
