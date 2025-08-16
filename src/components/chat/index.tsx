@@ -26,7 +26,7 @@ export function Chat() {
   ];
 
   return (
-    <div className="flex flex-1 min-h-0 flex-col items-center px-4 overflow-x-hidden overflow-y-auto">
+    <>
       <ChatHeader />
       <div className="flex w-full max-w-2xl flex-1 min-h-0 flex-col overflow-x-hidden overflow-y-auto">
         <ChatMessages messages={messages} isLoading={status !== "ready"} />
@@ -36,7 +36,7 @@ export function Chat() {
           placeholders={placeholders}
         />
       </div>
-    </div>
+    </>
   );
 }
 
