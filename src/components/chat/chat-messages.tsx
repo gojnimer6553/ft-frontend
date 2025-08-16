@@ -1,5 +1,6 @@
 import { ArrowDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { ChatBubble } from "./chat-bubble";
 import type { UIMessage } from "ai";
 
@@ -8,9 +9,27 @@ interface ChatMessagesProps {
   isLoading: boolean;
 }
 
+function AnimatedEllipsis() {
+  return (
+    <motion.span
+      className="inline-block overflow-hidden text-muted-foreground"
+      animate={{ width: ["0ch", "1ch", "2ch", "3ch", "0ch"] }}
+      transition={{
+        duration: 1.5,
+        ease: "linear",
+        repeat: Infinity,
+        times: [0, 0.25, 0.5, 0.75, 1],
+      }}
+    >
+      ...
+    </motion.span>
+  );
+}
+
 export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const prevIsLoading = useRef(isLoading);
 
   const scrollToBottom = () => {
     const el = containerRef.current;
@@ -24,6 +43,9 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       scrollToBottom();
     }
   }, [messages, isAtBottom]);
+  useEffect(() => {
+    prevIsLoading.current = isLoading;
+  }, [isLoading]);
 
   const handleScroll = () => {
     const el = containerRef.current;
@@ -40,14 +62,22 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
         onScroll={handleScroll}
         className="chat-scrollbar flex flex-1 min-h-0 flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
       >
-        {messages.map((m) => (
-          <ChatBubble key={m.id} role={m.role}>
+        {messages.map((m, idx) => (
+          <ChatBubble
+            key={m.id}
+            role={m.role}
+            layoutId={
+              !isLoading && prevIsLoading.current && idx === messages.length - 1 && m.role === "assistant"
+                ? "assistant-bubble"
+                : undefined
+            }
+          >
             {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
           </ChatBubble>
         ))}
         {isLoading && (
-          <ChatBubble role="assistant">
-            <span className="text-muted-foreground">...</span>
+          <ChatBubble role="assistant" layoutId="assistant-bubble">
+            <AnimatedEllipsis />
           </ChatBubble>
         )}
       </div>
