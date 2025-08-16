@@ -18,11 +18,12 @@ jobs:
       - name: Install Appwrite CLI
         run: npm install -g appwrite/cli
       - name: Generate Appwrite Client
-        run: |
-          appwrite client \
-            --endpoint ${{ secrets.APPWRITE_ENDPOINT }} \
-            --project-id ${{ secrets.APPWRITE_PROJECT_ID }} \
-            --key ${{ secrets.APPWRITE_API_KEY }}
+        uses: appwrite/setup-for-appwrite@v2
+        with:
+          method: key
+          endpoint: ${{ secrets.APPWRITE_ENDPOINT }}
+          key: ${{ secrets.API_KEY }}
+          project: ${{ vars.PROJECT_ID }}
       - name: Pull Appwrite Collections
         run: appwrite pull collections --all --force
       - name: Generate Appwrite Types
