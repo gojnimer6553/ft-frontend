@@ -34,7 +34,7 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   };
 
   return (
-    <div className="relative flex-1 w-full max-w-2xl">
+    <div className="relative flex-1 w-full min-h-0">
       <div
         ref={containerRef}
         onScroll={handleScroll}

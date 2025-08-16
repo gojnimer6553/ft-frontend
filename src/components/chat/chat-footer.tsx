@@ -8,7 +8,7 @@ interface ChatFooterProps {
 
 export function ChatFooter({ onSubmit, disabled, placeholders }: ChatFooterProps) {
   return (
-    <div className="w-full max-w-2xl bg-background p-4">
+    <div className="w-full bg-background p-4">
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onSubmit={onSubmit}
