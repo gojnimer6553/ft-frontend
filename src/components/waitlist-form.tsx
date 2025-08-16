@@ -4,11 +4,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslate } from "@tolgee/react";
@@ -17,12 +15,12 @@ import { toast } from "sonner";
 import { z } from "zod";
 import useFunction from "@/hooks/use-function";
 
-interface ContactFormProps {
+interface WaitlistFormProps {
   className?: string;
   onSubmitted?: () => void;
 }
 
-export function ContactForm({ className, onSubmitted }: ContactFormProps) {
+export function WaitlistForm({ className, onSubmitted }: WaitlistFormProps) {
   const { t } = useTranslate();
 
   const formSchema = z.object({
@@ -30,24 +28,23 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
       .string()
       .nonempty({ message: t("validation.required") })
       .email({ message: t("validation.invalidEmail") }),
-    message: z.string().nonempty({ message: t("validation.required") }),
   });
 
   type FormValues = z.infer<typeof formSchema>;
 
   const formMethods = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: "", message: "" },
+    defaultValues: { email: "" },
   });
 
-  const { mutate } = useFunction("689feffd0007270a4aa1");
+    const { mutate } = useFunction("689feffd0007270a4aa1");
 
   const onSubmit = (values: FormValues) => {
     mutate(
-      { body: values, path: "/feedback" },
+      { body: values, path: "/waitlist" },
       {
         onSuccess: () => {
-          toast.success(t("contact.success"));
+          toast.success(t("waitlist.success"));
           formMethods.reset();
           onSubmitted?.();
         },
@@ -69,28 +66,10 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("contact.email")}</FormLabel>
               <FormControl>
                 <Input
                   type="email"
-                  placeholder={t("contact.emailPlaceholder")}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={formMethods.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("contact.message")}</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder={t("contact.messagePlaceholder")}
-                  className="min-h-[120px]"
+                  placeholder={t("waitlist.emailPlaceholder")}
                   {...field}
                 />
               </FormControl>
@@ -99,9 +78,10 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
           )}
         />
         <Button type="submit" className="w-full">
-          {t("contact.submit")}
+          {t("waitlist.submit")}
         </Button>
       </form>
     </Form>
   );
 }
+
