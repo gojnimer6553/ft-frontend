@@ -28,7 +28,10 @@ function ChatPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim()) return;
-    await sendMessage({ text: input });
+    await sendMessage({
+      role: "user",
+      parts: [{ type: "text", text: input }],
+    });
     setInput("");
   }
 
