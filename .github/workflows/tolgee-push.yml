@@ -1,4 +1,4 @@
-name: Update Tolgee translations
+name: Update Translations Bucket
 
 on:
   push:
@@ -13,8 +13,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Check directory folders
-        run: ls
       - name: Push translations to Tolgee
         run: |
           npx @tolgee/cli push \
