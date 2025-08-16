@@ -1,14 +1,11 @@
-import { AppSidebar } from "@/components/sidebar";
-import { createFileRoute, redirect } from "@tanstack/react-router";
-
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { Sidebar } from "@/components/admin-panel/sidebar";
 import { ModeToggle } from "@/components/mode-toggle";
 import { account } from "@/lib/appwrite";
-import { Outlet } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
+import { useSidebar } from "@/hooks/use-sidebar";
+import { useStore } from "@/hooks/use-store";
+import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
+
 
 type ISession = Awaited<ReturnType<typeof account.get>>;
 
@@ -51,23 +48,28 @@ export const Route = createFileRoute("/__authenticatedLayout")({
 });
 
 function RouteComponent() {
+  const sidebar = useStore(useSidebar, (x) => x);
+  if (!sidebar) return null;
+  const { getOpenState, settings } = sidebar;
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset className="min-h-0 overflow-x-hidden overflow-y-auto">
-        <header className="flex h-16 shrink-0 items-center gap-2">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-          </div>
+    <>
+      <Sidebar />
+      <main
+        className={cn(
+          "min-h-screen transition-[margin-left] ease-in-out duration-300",
+          !settings.disabled && (!getOpenState() ? "lg:ml-[90px]" : "lg:ml-72")
+        )}
+      >
+        <header className="flex h-16 shrink-0 items-center gap-2 px-4">
           <div id="page-header-portal" className="flex-1" />
-          <div className="ml-auto px-4">
+          <div className="ml-auto">
             <ModeToggle />
           </div>
         </header>
-        <div className="flex flex-1 min-h-0 flex-col gap-4 p-4 pt-0 overflow-x-hidden overflow-y-auto">
+        <div className="p-4 pt-0">
           <Outlet />
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+      </main>
+    </>
   );
 }
