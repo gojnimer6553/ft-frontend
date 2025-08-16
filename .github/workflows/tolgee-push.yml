@@ -17,10 +17,9 @@ jobs:
         run: ls
       - name: Push translations to Tolgee
         run: |
-          npx @tolgee/cli@^2 push \
+          npx @tolgee/cli push \
             --api-url "$TOLGEE_API_URL" \
             --api-key "$TOLGEE_API_KEY" \
-            --files-template "./src/translations/{languageTag}.json" \
             --force-mode OVERRIDE
             --verbose
         env:
