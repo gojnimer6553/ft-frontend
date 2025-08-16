@@ -1,21 +1,6 @@
 import { useState } from "react";
-import { useTranslate } from "@tolgee/react";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
+import { ContactForm } from "@/components/contact-form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import {
   Drawer,
   DrawerTrigger,
@@ -24,31 +9,11 @@ import {
   DrawerTitle,
   DrawerDescription,
 } from "@/components/ui/drawer";
+import { useTranslate } from "@tolgee/react";
 
 export function ContactDrawer() {
   const { t } = useTranslate();
   const [open, setOpen] = useState(false);
-
-  const formSchema = z.object({
-    email: z
-      .string()
-      .nonempty({ message: t("validation.required") })
-      .email({ message: t("validation.invalidEmail") }),
-    message: z.string().nonempty({ message: t("validation.required") }),
-  });
-
-  type FormValues = z.infer<typeof formSchema>;
-
-  const formMethods = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: { email: "", message: "" },
-  });
-
-  const onSubmit = () => {
-    toast.success(t("contact.success"));
-    formMethods.reset();
-    setOpen(false);
-  };
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
@@ -65,47 +30,7 @@ export function ContactDrawer() {
           <DrawerTitle>{t("contact.title")}</DrawerTitle>
           <DrawerDescription>{t("contact.description")}</DrawerDescription>
         </DrawerHeader>
-        <Form {...formMethods}>
-          <form onSubmit={formMethods.handleSubmit(onSubmit)} className="flex flex-col gap-4 p-4">
-            <FormField
-              control={formMethods.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("contact.email")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder={t("contact.emailPlaceholder")}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={formMethods.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("contact.message")}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder={t("contact.messagePlaceholder")}
-                      className="min-h-[120px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full">
-              {t("contact.submit")}
-            </Button>
-          </form>
-        </Form>
+        <ContactForm className="p-4" onSubmitted={() => setOpen(false)} />
       </DrawerContent>
     </Drawer>
   );
