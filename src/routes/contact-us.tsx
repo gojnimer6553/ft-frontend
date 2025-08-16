@@ -25,7 +25,14 @@ function ContactUsPage() {
   const formSchema = z.object({
     email: z.string().email({ message: t("validation.invalidEmail") }),
     message: z.string().min(1, { message: t("validation.required") }),
-  });
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        email: z.string().email({ message: t("validation.invalidEmail") }),
+        message: z.string().min(1, { message: t("validation.required") }),
+      }),
+    [t]
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
