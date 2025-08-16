@@ -45,15 +45,15 @@ export function AppSidebar() {
           label: "Support",
           icon: LifeBuoy,
           render: (open: boolean | undefined) => (
-            <ContactCredenza>
-              <TooltipProvider disableHoverableContent>
-                <Tooltip delayDuration={100}>
+            <TooltipProvider disableHoverableContent>
+              <Tooltip delayDuration={100}>
+                <ContactCredenza>
                   <TooltipTrigger asChild>
                     <Button
                       variant="ghost"
                       className="w-full justify-start h-10 mb-1"
                     >
-                      <span className={cn(open === false ? "" : "mr-4")}> 
+                      <span className={cn(open === false ? "" : "mr-4")}>
                         <LifeBuoy size={18} />
                       </span>
                       <p
@@ -68,27 +68,27 @@ export function AppSidebar() {
                       </p>
                     </Button>
                   </TooltipTrigger>
-                  {open === false && (
-                    <TooltipContent side="right">Support</TooltipContent>
-                  )}
-                </Tooltip>
-              </TooltipProvider>
-            </ContactCredenza>
+                </ContactCredenza>
+                {open === false && (
+                  <TooltipContent side="right">Support</TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           ),
         },
         {
           label: "Feedback",
           icon: Send,
           render: (open: boolean | undefined) => (
-            <FeedbackCredenza>
-              <TooltipProvider disableHoverableContent>
-                <Tooltip delayDuration={100}>
+            <TooltipProvider disableHoverableContent>
+              <Tooltip delayDuration={100}>
+                <FeedbackCredenza>
                   <TooltipTrigger asChild>
                     <Button
                       variant="ghost"
                       className="w-full justify-start h-10 mb-1"
                     >
-                      <span className={cn(open === false ? "" : "mr-4")}> 
+                      <span className={cn(open === false ? "" : "mr-4")}>
                         <Send size={18} />
                       </span>
                       <p
@@ -103,12 +103,12 @@ export function AppSidebar() {
                       </p>
                     </Button>
                   </TooltipTrigger>
-                  {open === false && (
-                    <TooltipContent side="right">Feedback</TooltipContent>
-                  )}
-                </Tooltip>
-              </TooltipProvider>
-            </FeedbackCredenza>
+                </FeedbackCredenza>
+                {open === false && (
+                  <TooltipContent side="right">Feedback</TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           ),
         },
       ],

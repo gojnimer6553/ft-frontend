@@ -1,5 +1,5 @@
-import { ContactForm } from "@/components/contact-form"
-import { Button } from "@/components/ui/button"
+import { ContactForm } from "@/components/contact-form";
+import { Button } from "@/components/ui/button";
 import {
   Credenza,
   CredenzaContent,
@@ -8,17 +8,21 @@ import {
   CredenzaTitle,
   CredenzaTrigger,
   CredenzaBody,
-} from "@/components/ui/credenza"
-import { useTranslate } from "@tolgee/react"
-import { useState } from "react"
+} from "@/components/ui/credenza";
+import { useTranslate } from "@tolgee/react";
+import { useState, type ComponentPropsWithoutRef } from "react";
 
-export function ContactCredenza({ children }: { children?: React.ReactNode }) {
-  const { t } = useTranslate()
-  const [open, setOpen] = useState(false)
+type ContactCredenzaProps = {
+  children?: React.ReactNode;
+} & ComponentPropsWithoutRef<typeof CredenzaTrigger>;
+
+export function ContactCredenza({ children, ...props }: ContactCredenzaProps) {
+  const { t } = useTranslate();
+  const [open, setOpen] = useState(false);
 
   return (
     <Credenza open={open} onOpenChange={setOpen}>
-      <CredenzaTrigger asChild>
+      <CredenzaTrigger asChild {...props}>
         {children ?? <Button>{t("contact.title")}</Button>}
       </CredenzaTrigger>
       <CredenzaContent>
@@ -36,5 +40,5 @@ export function ContactCredenza({ children }: { children?: React.ReactNode }) {
         </CredenzaBody>
       </CredenzaContent>
     </Credenza>
-  )
+  );
 }
