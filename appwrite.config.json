@@ -69,13 +69,50 @@
                     "encrypt": false
                 },
                 {
-                    "key": "feedback",
+                    "key": "message",
                     "type": "string",
                     "required": true,
                     "array": false,
                     "size": 600,
                     "default": null,
                     "encrypt": false
+                }
+            ],
+            "indexes": []
+        },
+        {
+            "$id": "68a0f9930014600d22bf",
+            "$permissions": [],
+            "databaseId": "689fe28a00290ebb7fb0",
+            "name": "contacts",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [
+                {
+                    "key": "userId",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 128,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "message",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 512,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "email",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "format": "email",
+                    "default": null
                 }
             ],
             "indexes": []
