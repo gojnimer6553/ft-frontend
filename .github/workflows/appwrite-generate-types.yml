@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20
       - name: Install Appwrite CLI
-        run: npm install -g @appwrite/cli
+        run: npm install -g appwrite/cli
       - name: Generate Appwrite Client
         run: |
           appwrite client \
