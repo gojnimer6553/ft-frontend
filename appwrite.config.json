@@ -6,6 +6,11 @@
             "$id": "689fe28a00290ebb7fb0",
             "name": "landing",
             "enabled": true
+        },
+        {
+            "$id": "689fa94f0028b2d8f165",
+            "name": "Test",
+            "enabled": true
         }
     ],
     "collections": [
