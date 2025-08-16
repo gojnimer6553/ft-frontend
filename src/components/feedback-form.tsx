@@ -12,7 +12,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslate } from "@tolgee/react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -23,6 +25,7 @@ interface FeedbackFormProps {
 
 export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
   const { t } = useTranslate();
+  const { data } = useSession();
 
   const formSchema = z.object({
     email: z
@@ -36,12 +39,18 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
 
   const formMethods = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: "", message: "" },
+    defaultValues: { email: data?.email ?? "", message: "" },
   });
+
+  useEffect(() => {
+    if (data?.email) {
+      formMethods.setValue("email", data.email);
+    }
+  }, [data, formMethods]);
 
   const onSubmit = () => {
     toast.success(t("feedback.success"));
-    formMethods.reset();
+    formMethods.reset({ email: data?.email ?? "", message: "" });
     onSubmitted?.();
   };
 
@@ -51,23 +60,25 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
         onSubmit={formMethods.handleSubmit(onSubmit)}
         className={cn("flex flex-col gap-4", className)}
       >
-        <FormField
-          control={formMethods.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("feedback.email")}</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder={t("feedback.emailPlaceholder")}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {!data && (
+          <FormField
+            control={formMethods.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("feedback.email")}</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder={t("feedback.emailPlaceholder")}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={formMethods.control}
           name="message"
