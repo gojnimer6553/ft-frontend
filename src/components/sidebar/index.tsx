@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Calendar, Command, LifeBuoy, Send, Bot } from "lucide-react";
 
+import { ContactDrawer } from "@/components/contact-drawer";
+
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavSecondary } from "@/components/sidebar/nav-secondary";
 import { NavUser } from "@/components/sidebar/nav-user";
@@ -41,8 +43,15 @@ const data = {
   navSecondary: [
     {
       title: "Support",
-      url: "#",
       icon: LifeBuoy,
+      render: (item) => (
+        <ContactDrawer>
+          <SidebarMenuButton size="sm">
+            <item.icon />
+            <span>{item.title}</span>
+          </SidebarMenuButton>
+        </ContactDrawer>
+      ),
     },
     {
       title: "Feedback",
