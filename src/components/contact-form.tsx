@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { functions } from "@/lib/appwrite";
+import { ExecutionMethod } from "appwrite";
 
 interface ContactFormProps {
   className?: string;
@@ -47,7 +48,7 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
         JSON.stringify(values),
         false,
         "/feedback",
-        "POST"
+        ExecutionMethod.POST
       );
       toast.success(t("contact.success"));
       formMethods.reset();

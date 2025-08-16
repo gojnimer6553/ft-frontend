@@ -4,11 +4,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslate } from "@tolgee/react";
@@ -18,12 +16,12 @@ import { z } from "zod";
 import { functions } from "@/lib/appwrite";
 import { ExecutionMethod } from "appwrite";
 
-interface FeedbackFormProps {
+interface WaitlistFormProps {
   className?: string;
   onSubmitted?: () => void;
 }
 
-export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
+export function WaitlistForm({ className, onSubmitted }: WaitlistFormProps) {
   const { t } = useTranslate();
 
   const formSchema = z.object({
@@ -31,14 +29,13 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
       .string()
       .nonempty({ message: t("validation.required") })
       .email({ message: t("validation.invalidEmail") }),
-    message: z.string().nonempty({ message: t("validation.required") }),
   });
 
   type FormValues = z.infer<typeof formSchema>;
 
   const formMethods = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: "", message: "" },
+    defaultValues: { email: "" },
   });
 
   const onSubmit = async (values: FormValues) => {
@@ -47,10 +44,10 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
         "689feffd0007270a4aa1",
         JSON.stringify(values),
         false,
-        "/feedback",
+        "/waitlist",
         ExecutionMethod.POST
       );
-      toast.success(t("feedback.success"));
+      toast.success(t("waitlist.success"));
       formMethods.reset();
       onSubmitted?.();
     } catch (err: any) {
@@ -69,28 +66,10 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("feedback.email")}</FormLabel>
               <FormControl>
                 <Input
                   type="email"
-                  placeholder={t("feedback.emailPlaceholder")}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={formMethods.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("feedback.message")}</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder={t("feedback.messagePlaceholder")}
-                  className="min-h-[120px]"
+                  placeholder={t("waitlist.emailPlaceholder")}
                   {...field}
                 />
               </FormControl>
@@ -99,7 +78,7 @@ export function FeedbackForm({ className, onSubmitted }: FeedbackFormProps) {
           )}
         />
         <Button type="submit" className="w-full">
-          {t("feedback.submit")}
+          {t("waitlist.submit")}
         </Button>
       </form>
     </Form>
