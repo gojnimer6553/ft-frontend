@@ -67,6 +67,7 @@
     "success": "Thanks! We'll get back to you."
   },
   "chat": {
+    "title": "Chat",
     "placeholder": {
       "typeYourMessage": "Type your message",
       "askQuestion": "Ask a question",

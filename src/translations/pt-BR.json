@@ -67,6 +67,7 @@
     "success": "Obrigado! Entraremos em contato."
   },
   "chat": {
+    "title": "Chat",
     "placeholder": {
       "typeYourMessage": "Digite sua mensagem",
       "askQuestion": "Faça uma pergunta",
