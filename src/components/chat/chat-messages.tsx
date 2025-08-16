@@ -34,11 +34,11 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
   };
 
   return (
-    <div className="relative flex-1 w-full min-h-0">
+    <div className="relative flex flex-1 w-full min-h-0">
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="chat-scrollbar flex h-full flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
+        className="chat-scrollbar flex flex-1 min-h-0 flex-col space-y-4 overflow-y-auto overflow-x-hidden py-4"
       >
         {messages.map((m) => (
           <ChatBubble key={m.id} role={m.role}>
