@@ -15,8 +15,7 @@ import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { functions } from "@/lib/appwrite";
-import { ExecutionMethod } from "appwrite";
+import useFunction from "@/hooks/use-function";
 
 interface ContactFormProps {
   className?: string;
@@ -41,21 +40,22 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
     defaultValues: { email: "", message: "" },
   });
 
-  const onSubmit = async (values: FormValues) => {
-    try {
-      await functions.createExecution(
-        "689feffd0007270a4aa1",
-        JSON.stringify(values),
-        false,
-        "/feedback",
-        ExecutionMethod.POST
-      );
-      toast.success(t("contact.success"));
-      formMethods.reset();
-      onSubmitted?.();
-    } catch (err: any) {
-      toast.error(err.message);
-    }
+  const { mutate } = useFunction();
+
+  const onSubmit = (values: FormValues) => {
+    mutate(
+      { body: values, path: "/feedback" },
+      {
+        onSuccess: () => {
+          toast.success(t("contact.success"));
+          formMethods.reset();
+          onSubmitted?.();
+        },
+        onError: (err: any) => {
+          toast.error(err.message);
+        },
+      }
+    );
   };
 
   return (
