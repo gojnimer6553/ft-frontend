@@ -66,6 +66,13 @@
     "submit": "Send message",
     "success": "Thanks! We'll get back to you."
   },
+  "chat": {
+    "placeholder": {
+      "typeYourMessage": "Type your message",
+      "askQuestion": "Ask a question",
+      "shareThoughts": "Share your thoughts"
+    }
+  },
   "soon": "Soon",
   "validation": {
     "invalidEmail": "Invalid email",

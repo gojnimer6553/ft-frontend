@@ -3,8 +3,10 @@ import { useChat } from "@ai-sdk/react";
 import { Loader2 } from "lucide-react";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { OpenAIChatTransport } from "@/lib/openai-chat-transport";
+import { useTranslate } from "@tolgee/react";
 
 export function Chat() {
+  const { t } = useTranslate();
   const transport = useMemo(() => new OpenAIChatTransport(), []);
   const { messages, sendMessage, status } = useChat({ transport });
   const endRef = useRef<HTMLDivElement>(null);
@@ -54,9 +56,9 @@ export function Chat() {
         <div className="border-t bg-background p-4">
           <PlaceholdersAndVanishInput
             placeholders={[
-              "Type your message",
-              "Ask a question",
-              "Share your thoughts",
+              t("chat.placeholder.typeYourMessage"),
+              t("chat.placeholder.askQuestion"),
+              t("chat.placeholder.shareThoughts"),
             ]}
             onSubmit={handleSubmit}
             disabled={isLoading}

@@ -66,6 +66,13 @@
     "submit": "Enviar mensagem",
     "success": "Obrigado! Entraremos em contato."
   },
+  "chat": {
+    "placeholder": {
+      "typeYourMessage": "Digite sua mensagem",
+      "askQuestion": "Faça uma pergunta",
+      "shareThoughts": "Compartilhe seus pensamentos"
+    }
+  },
   "soon": "Em breve",
   "validation": {
     "invalidEmail": "Email inválido",

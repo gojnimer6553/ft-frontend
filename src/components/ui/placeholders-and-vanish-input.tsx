@@ -182,7 +182,7 @@ export function PlaceholdersAndVanishInput({
     <form
       className={cn(
         "relative mx-auto flex h-12 w-full max-w-xl items-center rounded-full border border-input bg-background dark:bg-input/30 overflow-hidden shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
-        value && "bg-muted",
+        value && "bg-muted/40 dark:bg-input/40",
         disabled && "opacity-50 cursor-not-allowed"
       )}
       onSubmit={handleSubmit}
