@@ -13,9 +13,15 @@ export class OpenAIChatTransport extends HttpChatTransport<UIMessage> {
             ...body,
             messages: messages.map((m) => ({
               role: m.role,
-              content: m.parts
-                .map((p) => (p.type === "text" ? p.text : ""))
-                .join(""),
+              content: m.parts.map((p) => {
+                if (p.type === "text") {
+                  return { type: "text", text: p.text };
+                }
+                if (p.type === "file" && p.mediaType.startsWith("image/")) {
+                  return { type: "image_url", image_url: { url: p.url } };
+                }
+                return { type: "text", text: "" };
+              }),
             })),
           },
         };

@@ -42,7 +42,35 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       >
         {messages.map((m) => (
           <ChatBubble key={m.id} role={m.role}>
-            {m.parts.map((p) => (p.type === "text" ? p.text : "")).join("")}
+            {m.parts
+              .filter((p) => p.type === "file")
+              .map((p, i) => (
+                <div key={`file-${i}`}>
+                  {p.mediaType.startsWith("image/") ? (
+                    <img
+                      src={p.url}
+                      alt={p.filename ?? "image"}
+                      className="rounded-lg max-w-full"
+                    />
+                  ) : (
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline"
+                    >
+                      {p.filename ?? "Download file"}
+                    </a>
+                  )}
+                </div>
+              ))}
+            {m.parts
+              .filter((p) => p.type === "text")
+              .map((p, i) => (
+                <div key={`text-${i}`}>
+                  <span>{p.text}</span>
+                </div>
+              ))}
           </ChatBubble>
         ))}
         {isLoading && (
