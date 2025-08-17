@@ -10,7 +10,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLoaderData } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
-import { ID } from "appwrite";
 import { useEffect, useRef } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { toast } from "sonner";
@@ -47,25 +46,28 @@ export function SettingsForm() {
       values: z.infer<typeof settingsSchema>;
       dirtyFields: Record<string, boolean>;
     }) => {
-      const actionToastId = ID.unique();
-      const mutationPromise = createMutationFn(
-        promptPasswordRef,
-        t,
-        actionToastId
-      )(params);
-      toast.promise(mutationPromise, {
-        id: actionToastId,
-        loading: t("settings.updating"),
-        success: t("settings.updateSuccess"),
-        error: (err) => err.message || t("settings.updateError"),
+      return createMutationFn(promptPasswordRef)(params);
+    },
+    onMutate: () => {
+      toast.dismiss("settings-save-alert");
+      toast.loading(t("settings.updating"), {
+        id: "settings-action-toast",
+        duration: Infinity,
       });
-      return mutationPromise;
     },
     onSuccess: (_data, context) => {
       formMethods.reset(context.values, { keepValues: true });
+      toast(t("settings.updateSuccess"), {
+        id: "settings-action-toast",
+        duration: 3000,
+      });
     },
     onError: () => {
       if (isDirty) showSaveToast();
+      toast.error(t("settings.updateError"), {
+        id: "settings-action-toast",
+        duration: 3000,
+      });
     },
   });
 

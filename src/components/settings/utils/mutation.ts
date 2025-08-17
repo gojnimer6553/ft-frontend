@@ -1,11 +1,6 @@
 import type { PromptPasswordRefProps } from "@/components/auth/PromptPassword";
 import { account } from "@/lib/appwrite";
 import { objectToArray } from "@/lib/utils";
-import {
-  type DefaultParamType,
-  type TFnType,
-  type TranslationKey,
-} from "@tolgee/react";
 import type { RefObject } from "react";
 import { toast } from "sonner";
 
@@ -23,11 +18,7 @@ const updateMethods: Record<string, UpdateMethod> = {
 };
 
 const createMutationFn =
-  (
-    promptPasswordRef: RefObject<PromptPasswordRefProps | null>,
-    t: TFnType<DefaultParamType, string, TranslationKey>,
-    toastId: string
-  ) =>
+  (promptPasswordRef: RefObject<PromptPasswordRefProps | null>) =>
   async (props: {
     values: Record<string, any>;
     dirtyFields: Record<string, boolean>;
@@ -46,13 +37,13 @@ const createMutationFn =
         })
       );
     if (needPasswordConfirmation) {
-      toast.dismiss(toastId);
+      toast.dismiss("settings-action-toast");
       return new Promise((resolve, reject) => {
         promptPasswordRef.current?.prompt(
           generatePromise,
           resolve,
           undefined,
-          () => reject(new Error(t("settings.interactionCancelled")))
+          () => reject()
         );
       });
     }
