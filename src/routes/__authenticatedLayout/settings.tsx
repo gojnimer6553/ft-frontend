@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -181,7 +181,7 @@ function SettingsPage() {
   const fieldConfigs: {
     name: keyof FormValues;
     label: string;
-    render: (field: any) => JSX.Element;
+    render: (field: any) => ReactNode;
   }[] = [
     { name: "name", label: "Name", render: (field) => <Input {...field} /> },
     {
