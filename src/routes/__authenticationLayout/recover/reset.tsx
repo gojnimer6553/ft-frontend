@@ -74,7 +74,12 @@ function RouteComponent() {
         <Card>
           <CardContent className="p-6">
             <div className="flex flex-col gap-6">
-              <div className="flex flex-col items-center text-center">
+              <div className="flex flex-col items-center gap-6 text-center">
+                <img
+                  src="/assets/mascot/mascot_sad_face.png"
+                  alt={t("resetPassword.title")}
+                  className="w-40"
+                />
                 <h1 className="text-2xl font-bold">{t("resetPassword.title")}</h1>
               </div>
               <Form {...formMethods}>
