@@ -14,4 +14,8 @@ function getInitials(name: string): string {
     .join("");
 }
 
-export { getInitials, cn };
+function objectToArray(obj: Record<string, unknown>) {
+  return Object.entries(obj).map(([key, value]) => ({ key, value }));
+}
+
+export { getInitials, cn, objectToArray };

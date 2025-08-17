@@ -10,8 +10,13 @@ vi.mock('@tanstack/react-query', () => ({
   useMutation: () => ({ mutate: vi.fn(), status: 'idle' }),
 }))
 
+vi.mock('@tolgee/react', () => ({
+  useTranslate: () => ({ t: (key: string) => key }),
+}))
+
 vi.mock('@tanstack/react-router', () => ({
   useNavigate: () => () => {},
+  Link: ({ children }: any) => <a>{children}</a>,
 }))
 
 vi.mock('@/lib/appwrite', () => ({
