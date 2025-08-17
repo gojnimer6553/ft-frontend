@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -104,7 +104,7 @@ function SettingsPage() {
   });
   const [promptOpen, setPromptOpen] = useState(false);
   const [pendingValues, setPendingValues] = useState<FormValues | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
+  const unsavedToast = useRef<string | number | null>(null);
 
   const watchedValues = formMethods.watch();
   const hasChanges = useMemo(() => {
@@ -119,7 +119,6 @@ function SettingsPage() {
   }, [watchedValues, session]);
 
   const handleSave = async (values: FormValues, password?: string) => {
-    setIsSaving(true);
     try {
       if (values.name !== session?.name) {
         await nameMutation.mutateAsync(values.name);
@@ -157,8 +156,6 @@ function SettingsPage() {
         toast.error(err.message);
       }
       throw err;
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -179,6 +176,28 @@ function SettingsPage() {
       } catch {}
     }
   };
+
+  useEffect(() => {
+    if (hasChanges && !unsavedToast.current) {
+      unsavedToast.current = toast.custom(
+        () => (
+          <div className="flex items-center gap-4">
+            <span>You have unsaved changes</span>
+            <Button
+              size="sm"
+              onClick={() => formMethods.handleSubmit(onSubmit)()}
+            >
+              APPLY
+            </Button>
+          </div>
+        ),
+        { duration: Infinity }
+      );
+    } else if (!hasChanges && unsavedToast.current) {
+      toast.dismiss(unsavedToast.current);
+      unsavedToast.current = null;
+    }
+  }, [hasChanges, formMethods, onSubmit]);
 
   return (
     <div className="max-w-xl mx-auto space-y-10">
@@ -260,10 +279,6 @@ function SettingsPage() {
               </FormItem>
             )}
           />
-
-          <Button type="submit" disabled={!hasChanges || isSaving}>
-            Save changes
-          </Button>
         </form>
       </Form>
 
