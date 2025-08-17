@@ -9,21 +9,18 @@ import { Button } from "@/components/ui/button";
 import { account } from "@/lib/appwrite";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
-import { OtpCredenza } from "./otp-credenza";
+import { PasswordCredenza } from "./password-credenza";
 
 export function UpdateEmailForm() {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
-  const schema = z.object({
-    email: z.string().email(),
-    password: z.string().min(1),
-  });
-  const form = useForm<{ email: string; password: string }>({
+  const schema = z.object({ email: z.string().email() });
+  const form = useForm<{ email: string }>({
     resolver: zodResolver(schema),
-    defaultValues: { email: session?.email ?? "", password: "" },
+    defaultValues: { email: session?.email ?? "" },
   });
   useEffect(() => {
-    form.reset({ email: session?.email ?? "", password: "" });
+    form.reset({ email: session?.email ?? "" });
   }, [session]);
 
   const mutation = useMutation({
@@ -36,17 +33,17 @@ export function UpdateEmailForm() {
     onError: (err: any) => toast.error(err.message),
   });
 
-  const [otpOpen, setOtpOpen] = useState(false);
-  const [pending, setPending] = useState<{ email: string; password: string }>();
+  const [passwordOpen, setPasswordOpen] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState<string>();
 
-  function handleSubmit(values: { email: string; password: string }) {
-    setPending(values);
-    setOtpOpen(true);
+  function handleSubmit(values: { email: string }) {
+    setPendingEmail(values.email);
+    setPasswordOpen(true);
   }
 
-  function confirmOtp() {
-    if (pending) {
-      mutation.mutate(pending);
+  function confirmPassword(password: string) {
+    if (pendingEmail) {
+      mutation.mutate({ email: pendingEmail, password });
     }
   }
 
@@ -68,30 +65,17 @@ export function UpdateEmailForm() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <Button type="submit" loading={mutation.status === "pending"}>
             Save
           </Button>
         </form>
       </Form>
-      <OtpCredenza
-        open={otpOpen}
-        onOpenChange={setOtpOpen}
-        onConfirm={() => {
-          setOtpOpen(false);
-          confirmOtp();
+      <PasswordCredenza
+        open={passwordOpen}
+        onOpenChange={setPasswordOpen}
+        onConfirm={(password) => {
+          setPasswordOpen(false);
+          confirmPassword(password);
         }}
       />
     </div>

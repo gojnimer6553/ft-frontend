@@ -14,24 +14,24 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const otpSchema = z.object({ otp: z.string().min(1) });
+const passwordSchema = z.object({ password: z.string().min(1) });
 
-export function OtpCredenza({
+export function PasswordCredenza({
   open,
   onOpenChange,
   onConfirm,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onConfirm: (otp: string) => void;
+  onConfirm: (password: string) => void;
 }) {
-  const form = useForm<{ otp: string }>({
-    resolver: zodResolver(otpSchema),
-    defaultValues: { otp: "" },
+  const form = useForm<{ password: string }>({
+    resolver: zodResolver(passwordSchema),
+    defaultValues: { password: "" },
   });
 
   return (
-    <Credenza open={open} onOpenChange={onOpenChange}>
+    <Credenza open={open} onOpenChange={(o) => { onOpenChange(o); if (!o) form.reset(); }}>
       <CredenzaContent>
         <CredenzaHeader>
           <CredenzaTitle>Confirm Update</CredenzaTitle>
@@ -39,21 +39,21 @@ export function OtpCredenza({
         <CredenzaBody>
           <Form {...form}>
             <form
-              id="otp-form"
-              onSubmit={form.handleSubmit(({ otp }) => {
-                onConfirm(otp);
+              id="password-form"
+              onSubmit={form.handleSubmit(({ password }) => {
+                onConfirm(password);
                 form.reset();
               })}
               className="space-y-4"
             >
               <FormField
                 control={form.control}
-                name="otp"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>OTP Code</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -68,7 +68,7 @@ export function OtpCredenza({
               Cancel
             </Button>
           </CredenzaClose>
-          <Button type="submit" form="otp-form">
+          <Button type="submit" form="password-form">
             Confirm
           </Button>
         </CredenzaFooter>

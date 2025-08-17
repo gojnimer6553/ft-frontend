@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { account } from "@/lib/appwrite";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
-import { OtpCredenza } from "./otp-credenza";
 
 export function UpdateNameForm() {
   const queryClient = useQueryClient();
@@ -32,18 +31,8 @@ export function UpdateNameForm() {
     onError: (err: any) => toast.error(err.message),
   });
 
-  const [otpOpen, setOtpOpen] = useState(false);
-  const [pending, setPending] = useState<{ name: string }>();
-
   function handleSubmit(values: { name: string }) {
-    setPending(values);
-    setOtpOpen(true);
-  }
-
-  function confirmOtp() {
-    if (pending) {
-      mutation.mutate(pending);
-    }
+    mutation.mutate(values);
   }
 
   return (
@@ -69,14 +58,6 @@ export function UpdateNameForm() {
           </Button>
         </form>
       </Form>
-      <OtpCredenza
-        open={otpOpen}
-        onOpenChange={setOtpOpen}
-        onConfirm={() => {
-          setOtpOpen(false);
-          confirmOtp();
-        }}
-      />
     </div>
   );
 }

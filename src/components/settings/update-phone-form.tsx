@@ -9,21 +9,18 @@ import { Button } from "@/components/ui/button";
 import { account } from "@/lib/appwrite";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
-import { OtpCredenza } from "./otp-credenza";
+import { PasswordCredenza } from "./password-credenza";
 
 export function UpdatePhoneForm() {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
-  const schema = z.object({
-    phone: z.string().min(1),
-    password: z.string().min(1),
-  });
-  const form = useForm<{ phone: string; password: string }>({
+  const schema = z.object({ phone: z.string().min(1) });
+  const form = useForm<{ phone: string }>({
     resolver: zodResolver(schema),
-    defaultValues: { phone: session?.phone ?? "", password: "" },
+    defaultValues: { phone: session?.phone ?? "" },
   });
   useEffect(() => {
-    form.reset({ phone: session?.phone ?? "", password: "" });
+    form.reset({ phone: session?.phone ?? "" });
   }, [session]);
 
   const mutation = useMutation({
@@ -31,23 +28,23 @@ export function UpdatePhoneForm() {
       account.updatePhone(phone, password),
     onSuccess: () => {
       toast.success("Phone updated");
-      form.reset({ phone: "", password: "" });
+      form.reset({ phone: "" });
       queryClient.invalidateQueries({ queryKey: ["session"] });
     },
     onError: (err: any) => toast.error(err.message),
   });
 
-  const [otpOpen, setOtpOpen] = useState(false);
-  const [pending, setPending] = useState<{ phone: string; password: string }>();
+  const [passwordOpen, setPasswordOpen] = useState(false);
+  const [pendingPhone, setPendingPhone] = useState<string>();
 
-  function handleSubmit(values: { phone: string; password: string }) {
-    setPending(values);
-    setOtpOpen(true);
+  function handleSubmit(values: { phone: string }) {
+    setPendingPhone(values.phone);
+    setPasswordOpen(true);
   }
 
-  function confirmOtp() {
-    if (pending) {
-      mutation.mutate(pending);
+  function confirmPassword(password: string) {
+    if (pendingPhone) {
+      mutation.mutate({ phone: pendingPhone, password });
     }
   }
 
@@ -69,30 +66,17 @@ export function UpdatePhoneForm() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <Button type="submit" loading={mutation.status === "pending"}>
             Save
           </Button>
         </form>
       </Form>
-      <OtpCredenza
-        open={otpOpen}
-        onOpenChange={setOtpOpen}
-        onConfirm={() => {
-          setOtpOpen(false);
-          confirmOtp();
+      <PasswordCredenza
+        open={passwordOpen}
+        onOpenChange={setPasswordOpen}
+        onConfirm={(password) => {
+          setPasswordOpen(false);
+          confirmPassword(password);
         }}
       />
     </div>

@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { UpdateNameForm } from "@/components/settings/update-name-form";
 import { UpdateEmailForm } from "@/components/settings/update-email-form";
-import { UpdatePasswordForm } from "@/components/settings/update-password-form";
 import { UpdatePhoneForm } from "@/components/settings/update-phone-form";
 import { UpdatePreferencesForm } from "@/components/settings/update-preferences-form";
 import { SessionsList } from "@/components/settings/sessions-list";
@@ -15,7 +14,6 @@ function SettingsPage() {
     <div className="grid gap-6 md:grid-cols-2">
       <UpdateNameForm />
       <UpdateEmailForm />
-      <UpdatePasswordForm />
       <UpdatePhoneForm />
       <UpdatePreferencesForm className="md:col-span-2" />
       <SessionsList className="md:col-span-2" />
