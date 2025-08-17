@@ -43,12 +43,14 @@
   },
   "recover": {
     "title": "Recover password",
-    "sendEmail": "Send reset link",
+    "sendCode": "Send code",
+    "code": "Code",
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
     "submit": "Reset password",
-    "emailSent": "Check your email for the password reset link",
+    "emailSent": "Check your email for the verification code",
     "success": "Password reset successfully",
+    "passwordMismatch": "Passwords do not match",
     "backToLogin": "Back to login"
   },
   "register": {

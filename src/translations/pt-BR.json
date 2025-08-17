@@ -42,12 +42,14 @@
   },
   "recover": {
     "title": "Recuperar senha",
-    "sendEmail": "Enviar link",
+    "sendCode": "Enviar código",
+    "code": "Código",
     "newPassword": "Nova senha",
     "confirmPassword": "Confirmar senha",
     "submit": "Redefinir senha",
-    "emailSent": "Verifique seu email pelo link de recuperação",
+    "emailSent": "Verifique seu email pelo código de recuperação",
     "success": "Senha redefinida com sucesso",
+    "passwordMismatch": "As senhas não coincidem",
     "backToLogin": "Voltar para login"
   },
   "register": {
