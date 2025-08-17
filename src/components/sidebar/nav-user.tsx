@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsUpDown, LogOut } from "lucide-react";
+import { ChevronsUpDown, LogOut, Settings } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -21,7 +21,8 @@ import useSession from "@/hooks/queries/user";
 import { account } from "@/lib/appwrite";
 import { getInitials } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useTranslate } from "@tolgee/react";
 import { toast } from "sonner";
 
 const LogoutItem = () => {
@@ -56,6 +57,7 @@ const LogoutItem = () => {
 };
 
 export function NavUser() {
+  const { t } = useTranslate();
   const { data } = useSession();
   const { isMobile } = useSidebar();
   if (!data) return;
@@ -108,29 +110,14 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {/*             
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
+            <DropdownMenuItem asChild>
+              <Link to="/settings">
+                <Settings />
+                {t("settings.title")}
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
+
             <LogoutItem />
           </DropdownMenuContent>
         </DropdownMenu>

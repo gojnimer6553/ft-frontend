@@ -1,14 +1,17 @@
 import { AppSidebar } from "@/components/sidebar";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
+import { ModeToggle } from "@/components/mode-toggle";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { ModeToggle } from "@/components/mode-toggle";
+import useSession from "@/hooks/queries/user";
 import { account } from "@/lib/appwrite";
 import { Outlet } from "@tanstack/react-router";
+import { useTolgee } from "@tolgee/react";
+import { useEffect } from "react";
 
 type ISession = Awaited<ReturnType<typeof account.get>>;
 
@@ -51,6 +54,11 @@ export const Route = createFileRoute("/__authenticatedLayout")({
 });
 
 function RouteComponent() {
+  const defaultLanguage = useSession().data?.prefs?.language;
+  const tolgee = useTolgee(["language"]);
+  useEffect(() => {
+    tolgee.changeLanguage(defaultLanguage || "pt-BR");
+  }, [tolgee]);
   return (
     <SidebarProvider>
       <AppSidebar />

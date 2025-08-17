@@ -1,7 +1,7 @@
+import { FormatIcu } from "@tolgee/format-icu";
 import {
   BackendFetch,
   DevTools,
-  FormatSimple,
   LanguageDetector,
   LanguageStorage,
   Tolgee,
@@ -14,9 +14,10 @@ const {
   VITE_TRANSLATION_DELIVERY_ID: translationBucketDeliveryId,
 } = import.meta.env;
 
+const availableLanguages = ["en", "pt-BR"];
 export default Tolgee()
   .use(DevTools())
-  .use(FormatSimple())
+  .use(FormatIcu())
   .use(LanguageStorage())
   .use(LanguageDetector())
   .use(
@@ -26,10 +27,10 @@ export default Tolgee()
   )
   .init({
     defaultLanguage: "pt-BR",
-    availableLanguages: ["en", "pt-BR"],
+    availableLanguages,
     // for development
     apiUrl: tolgeeApiUrl,
     apiKey: tolgeeApiKey,
   });
 
-export { TolgeeProvider };
+export { availableLanguages, TolgeeProvider };

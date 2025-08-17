@@ -1,12 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import useSession from "@/hooks/queries/user";
@@ -18,6 +11,7 @@ import { ExecutionMethod } from "appwrite";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import FormBase from "./form-base";
 
 interface ContactFormProps {
   className?: string;
@@ -84,17 +78,13 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
             control={formMethods.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("contact.email")}</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder={t("contact.emailPlaceholder")}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+              <FormBase label={t("contact.email")}>
+                <Input
+                  type="email"
+                  placeholder={t("contact.emailPlaceholder")}
+                  {...field}
+                />
+              </FormBase>
             )}
           />
         )}
@@ -102,33 +92,22 @@ export function ContactForm({ className, onSubmitted }: ContactFormProps) {
           control={formMethods.control}
           name="subject"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("contact.subject")}</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={t("contact.subjectPlaceholder")}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+            <FormBase label={t("contact.subject")}>
+              <Input placeholder={t("contact.subjectPlaceholder")} {...field} />
+            </FormBase>
           )}
         />
         <FormField
           control={formMethods.control}
           name="message"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("contact.message")}</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder={t("contact.messagePlaceholder")}
-                  className="min-h-[120px]"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+            <FormBase label={t("contact.message")}>
+              <Textarea
+                placeholder={t("contact.messagePlaceholder")}
+                className="min-h-[120px]"
+                {...field}
+              />
+            </FormBase>
           )}
         />
         <Button
