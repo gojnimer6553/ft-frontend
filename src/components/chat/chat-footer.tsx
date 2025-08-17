@@ -4,7 +4,7 @@ import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-van
 import { cn } from "@/lib/utils";
 
 interface ChatFooterProps {
-  onSubmit: (value: string, files?: File[]) => void;
+  onSubmit: (value: string, files?: FileList) => void;
   disabled: boolean;
   placeholders: string[];
   className?: string;

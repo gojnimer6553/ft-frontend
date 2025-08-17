@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface PlaceholdersAndVanishInputProps {
   placeholders: string[];
-  onSubmit: (value: string, files?: File[]) => void;
+  onSubmit: (value: string, files?: FileList) => void;
   disabled?: boolean;
 }
 
@@ -53,6 +53,12 @@ export function PlaceholdersAndVanishInput({
   const [animating, setAnimating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
+
+  const toFileList = (fileArray: File[]): FileList => {
+    const dataTransfer = new DataTransfer();
+    fileArray.forEach((file) => dataTransfer.items.add(file));
+    return dataTransfer.files;
+  };
 
   const draw = useCallback(() => {
     if (!inputRef.current) return;
@@ -182,7 +188,8 @@ export function PlaceholdersAndVanishInput({
       setValue("");
     }
 
-    onSubmit(currentValue, files);
+    const fileList = files.length > 0 ? toFileList(files) : undefined;
+    onSubmit(currentValue, fileList);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
