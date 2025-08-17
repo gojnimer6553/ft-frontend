@@ -20,6 +20,9 @@ import { Route as _authenticationLayoutRegisterRouteImport } from './routes/__au
 import { Route as _authenticationLayoutLoginRouteImport } from './routes/__authenticationLayout/login'
 import { Route as _authenticatedLayoutHomeRouteImport } from './routes/__authenticatedLayout/home'
 import { Route as _authenticatedLayoutChatRouteImport } from './routes/__authenticatedLayout/chat'
+import { Route as _authenticationLayoutRecoverIndexRouteImport } from './routes/__authenticationLayout/recover/index'
+import { Route as _authenticationLayoutRecoverSuccessRouteImport } from './routes/__authenticationLayout/recover/success'
+import { Route as _authenticationLayoutRecoverResetRouteImport } from './routes/__authenticationLayout/recover/reset'
 
 const WaitlistDrawerTestRoute = WaitlistDrawerTestRouteImport.update({
   id: '/waitlist-drawer-test',
@@ -79,6 +82,24 @@ const _authenticatedLayoutChatRoute =
     path: '/chat',
     getParentRoute: () => _authenticatedLayoutRoute,
   } as any)
+const _authenticationLayoutRecoverIndexRoute =
+  _authenticationLayoutRecoverIndexRouteImport.update({
+    id: '/recover/',
+    path: '/recover/',
+    getParentRoute: () => _authenticationLayoutRoute,
+  } as any)
+const _authenticationLayoutRecoverSuccessRoute =
+  _authenticationLayoutRecoverSuccessRouteImport.update({
+    id: '/recover/success',
+    path: '/recover/success',
+    getParentRoute: () => _authenticationLayoutRoute,
+  } as any)
+const _authenticationLayoutRecoverResetRoute =
+  _authenticationLayoutRecoverResetRouteImport.update({
+    id: '/recover/reset',
+    path: '/recover/reset',
+    getParentRoute: () => _authenticationLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
@@ -90,6 +111,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof _authenticationLayoutLoginRoute
   '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
+  '/recover/reset': typeof _authenticationLayoutRecoverResetRoute
+  '/recover/success': typeof _authenticationLayoutRecoverSuccessRoute
+  '/recover': typeof _authenticationLayoutRecoverIndexRoute
 }
 export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
@@ -101,6 +125,9 @@ export interface FileRoutesByTo {
   '/login': typeof _authenticationLayoutLoginRoute
   '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
+  '/recover/reset': typeof _authenticationLayoutRecoverResetRoute
+  '/recover/success': typeof _authenticationLayoutRecoverSuccessRoute
+  '/recover': typeof _authenticationLayoutRecoverIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -115,6 +142,9 @@ export interface FileRoutesById {
   '/__authenticationLayout/login': typeof _authenticationLayoutLoginRoute
   '/__authenticationLayout/register': typeof _authenticationLayoutRegisterRoute
   '/__authenticatedLayout/': typeof _authenticatedLayoutIndexRoute
+  '/__authenticationLayout/recover/reset': typeof _authenticationLayoutRecoverResetRoute
+  '/__authenticationLayout/recover/success': typeof _authenticationLayoutRecoverSuccessRoute
+  '/__authenticationLayout/recover/': typeof _authenticationLayoutRecoverIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -128,6 +158,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/'
+    | '/recover/reset'
+    | '/recover/success'
+    | '/recover'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/contact'
@@ -139,6 +172,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/'
+    | '/recover/reset'
+    | '/recover/success'
+    | '/recover'
   id:
     | '__root__'
     | '/__authenticatedLayout'
@@ -152,6 +188,9 @@ export interface FileRouteTypes {
     | '/__authenticationLayout/login'
     | '/__authenticationLayout/register'
     | '/__authenticatedLayout/'
+    | '/__authenticationLayout/recover/reset'
+    | '/__authenticationLayout/recover/success'
+    | '/__authenticationLayout/recover/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -242,6 +281,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedLayoutChatRouteImport
       parentRoute: typeof _authenticatedLayoutRoute
     }
+    '/__authenticationLayout/recover/': {
+      id: '/__authenticationLayout/recover/'
+      path: '/recover'
+      fullPath: '/recover'
+      preLoaderRoute: typeof _authenticationLayoutRecoverIndexRouteImport
+      parentRoute: typeof _authenticationLayoutRoute
+    }
+    '/__authenticationLayout/recover/success': {
+      id: '/__authenticationLayout/recover/success'
+      path: '/recover/success'
+      fullPath: '/recover/success'
+      preLoaderRoute: typeof _authenticationLayoutRecoverSuccessRouteImport
+      parentRoute: typeof _authenticationLayoutRoute
+    }
+    '/__authenticationLayout/recover/reset': {
+      id: '/__authenticationLayout/recover/reset'
+      path: '/recover/reset'
+      fullPath: '/recover/reset'
+      preLoaderRoute: typeof _authenticationLayoutRecoverResetRouteImport
+      parentRoute: typeof _authenticationLayoutRoute
+    }
   }
 }
 
@@ -263,11 +323,20 @@ const _authenticatedLayoutRouteWithChildren =
 interface _authenticationLayoutRouteChildren {
   _authenticationLayoutLoginRoute: typeof _authenticationLayoutLoginRoute
   _authenticationLayoutRegisterRoute: typeof _authenticationLayoutRegisterRoute
+  _authenticationLayoutRecoverResetRoute: typeof _authenticationLayoutRecoverResetRoute
+  _authenticationLayoutRecoverSuccessRoute: typeof _authenticationLayoutRecoverSuccessRoute
+  _authenticationLayoutRecoverIndexRoute: typeof _authenticationLayoutRecoverIndexRoute
 }
 
 const _authenticationLayoutRouteChildren: _authenticationLayoutRouteChildren = {
   _authenticationLayoutLoginRoute: _authenticationLayoutLoginRoute,
   _authenticationLayoutRegisterRoute: _authenticationLayoutRegisterRoute,
+  _authenticationLayoutRecoverResetRoute:
+    _authenticationLayoutRecoverResetRoute,
+  _authenticationLayoutRecoverSuccessRoute:
+    _authenticationLayoutRecoverSuccessRoute,
+  _authenticationLayoutRecoverIndexRoute:
+    _authenticationLayoutRecoverIndexRoute,
 }
 
 const _authenticationLayoutRouteWithChildren =

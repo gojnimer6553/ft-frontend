@@ -22,6 +22,8 @@
     "agreeTo": "Ao clicar em continuar, você concorda com nossos",
     "and": "e",
     "dontHaveAccount": "Não tem uma conta?",
+    "forgotPassword": "Esqueceu sua senha?",
+    "recover": "Recupere",
     "email": "Email",
     "email-placeholder": "Digite aqui...",
     "login": "Entrar",
@@ -56,6 +58,27 @@
     "signUpWithGoogle": "Cadastre-se com Google",
     "termsOfService": "Termos de Serviço"
   },
+  "recover": {
+    "title": "Recuperar senha",
+    "description": "Digite seu email para receber um link de recuperação",
+    "email": "Email",
+    "emailPlaceholder": "Digite aqui...",
+    "submit": "Enviar email de recuperação",
+    "success": "Email de recuperação enviado"
+  },
+  "resetPassword": {
+    "title": "Redefinir senha",
+    "password": "Nova senha",
+    "passwordPlaceholder": "Digite aqui...",
+    "confirmPassword": "Confirmar nova senha",
+    "confirmPasswordPlaceholder": "Digite aqui...",
+    "submit": "Alterar senha"
+  },
+  "passwordChanged": {
+    "title": "Senha alterada",
+    "description": "Agora você pode entrar com sua nova senha.",
+    "login": "Ir para o login"
+  },
   "waitlist": {
     "title": "Entre na lista de espera",
     "description": "Seja o primeiro a saber quando lançarmos.",
@@ -89,6 +112,7 @@
   "validation": {
     "invalidEmail": "Email inválido",
     "passwordMin": "Mínimo de {{count}} caracteres",
+    "passwordMismatch": "As senhas não coincidem",
     "required": "Campo obrigatório"
   }
 }
