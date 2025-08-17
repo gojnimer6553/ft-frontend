@@ -93,7 +93,6 @@
   },
   "settings": {
     "title": "Configurações",
-    "save": "Salvar",
     "passwordCredenza": {
       "title": "Confirmar atualização",
       "password": "Senha",
@@ -103,9 +102,9 @@
     "sessions": {
       "title": "Sessões",
       "sessionRemoved": "Sessão removida",
-      "allSessionsRemoved": "Todas as sessões removidas",
+      "otherSessionsRemoved": "Outras sessões removidas",
       "revoke": "Revogar",
-      "revokeAll": "Revogar todas as sessões"
+      "revokeOthers": "Revogar outras sessões"
     },
     "updateEmail": {
       "title": "Atualizar email",

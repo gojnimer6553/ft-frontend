@@ -18,10 +18,13 @@ export function SessionsList({ className }: { className?: string }) {
     },
     onError: (err: any) => toast.error(err.message),
   });
-  const deleteAllSessionsMutation = useMutation({
-    mutationFn: () => account.deleteSessions(),
+  const deleteOtherSessionsMutation = useMutation({
+    mutationFn: async () => {
+      const sessions = (await account.listSessions()).sessions;
+      await Promise.all(sessions.filter((s) => !s.current).map((s) => account.deleteSession(s.$id)));
+    },
     onSuccess: () => {
-      toast.success(t("settings.sessions.allSessionsRemoved"));
+      toast.success(t("settings.sessions.otherSessionsRemoved"));
       refetch();
     },
     onError: (err: any) => toast.error(err.message),
@@ -40,19 +43,20 @@ export function SessionsList({ className }: { className?: string }) {
             <Button
               variant="outline"
               size="sm"
+              disabled={s.current}
               onClick={() => deleteSessionMutation.mutate(s.$id)}
             >
               {t("settings.sessions.revoke")}
             </Button>
           </div>
         ))}
-        {sessionsData && sessionsData.length > 0 && (
+        {sessionsData && sessionsData.some((s) => !s.current) && (
           <Button
             variant="destructive"
-            loading={deleteAllSessionsMutation.status === "pending"}
-            onClick={() => deleteAllSessionsMutation.mutate()}
+            loading={deleteOtherSessionsMutation.status === "pending"}
+            onClick={() => deleteOtherSessionsMutation.mutate()}
           >
-            {t("settings.sessions.revokeAll")}
+            {t("settings.sessions.revokeOthers")}
           </Button>
         )}
       </div>

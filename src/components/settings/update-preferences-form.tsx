@@ -4,7 +4,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { account } from "@/lib/appwrite";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
@@ -59,7 +58,14 @@ export function UpdatePreferencesForm({ className }: { className?: string }) {
               <FormItem>
                 <FormLabel>{t("settings.preferences.language")}</FormLabel>
                 <FormControl>
-                  <select {...field} className="w-full rounded border px-2 py-1">
+                  <select
+                    {...field}
+                    className="w-full rounded border px-2 py-1"
+                    onBlur={() => {
+                      field.onBlur();
+                      form.handleSubmit((v) => mutation.mutate(v))();
+                    }}
+                  >
                     <option value="en">{t("settings.preferences.english")}</option>
                     <option value="pt-BR">{t("settings.preferences.portuguese")}</option>
                   </select>
@@ -78,15 +84,16 @@ export function UpdatePreferencesForm({ className }: { className?: string }) {
                     type="checkbox"
                     checked={field.value}
                     onChange={(e) => field.onChange(e.target.checked)}
+                    onBlur={() => {
+                      field.onBlur();
+                      form.handleSubmit((v) => mutation.mutate(v))();
+                    }}
                   />
                 </FormControl>
                 <FormLabel className="!mt-0">{t("settings.preferences.newsletter")}</FormLabel>
               </FormItem>
             )}
           />
-          <Button type="submit" loading={mutation.status === "pending"}>
-            {t("settings.save")}
-          </Button>
         </form>
       </Form>
     </div>

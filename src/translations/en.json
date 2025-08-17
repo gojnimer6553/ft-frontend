@@ -94,7 +94,6 @@
   },
   "settings": {
     "title": "Settings",
-    "save": "Save",
     "passwordCredenza": {
       "title": "Confirm Update",
       "password": "Password",
@@ -104,9 +103,9 @@
     "sessions": {
       "title": "Sessions",
       "sessionRemoved": "Session removed",
-      "allSessionsRemoved": "All sessions removed",
+      "otherSessionsRemoved": "Other sessions removed",
       "revoke": "Revoke",
-      "revokeAll": "Revoke All Sessions"
+      "revokeOthers": "Revoke Other Sessions"
     },
     "updateEmail": {
       "title": "Update Email",

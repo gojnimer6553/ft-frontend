@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { InputWithButton } from "@/components/ui/input-with-button";
+import { Input } from "@/components/ui/input";
 import { account } from "@/lib/appwrite";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
@@ -33,6 +33,7 @@ export function UpdateNameForm() {
   });
 
   function handleSubmit(values: { name: string }) {
+    if (values.name === session?.name) return;
     mutation.mutate(values);
   }
 
@@ -48,10 +49,12 @@ export function UpdateNameForm() {
               <FormItem>
                 <FormLabel>{t("settings.updateName.name")}</FormLabel>
                 <FormControl>
-                  <InputWithButton
+                  <Input
                     {...field}
-                    buttonLabel={t("settings.save")}
-                    loading={mutation.status === "pending"}
+                    onBlur={() => {
+                      field.onBlur();
+                      form.handleSubmit(handleSubmit)();
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
