@@ -20,6 +20,7 @@ import { Route as _authenticationLayoutRegisterRouteImport } from './routes/__au
 import { Route as _authenticationLayoutLoginRouteImport } from './routes/__authenticationLayout/login'
 import { Route as _authenticatedLayoutHomeRouteImport } from './routes/__authenticatedLayout/home'
 import { Route as _authenticatedLayoutChatRouteImport } from './routes/__authenticatedLayout/chat'
+import { Route as _authenticatedLayoutSettingsIndexRouteImport } from './routes/__authenticatedLayout/settings/index'
 
 const WaitlistDrawerTestRoute = WaitlistDrawerTestRouteImport.update({
   id: '/waitlist-drawer-test',
@@ -79,6 +80,12 @@ const _authenticatedLayoutChatRoute =
     path: '/chat',
     getParentRoute: () => _authenticatedLayoutRoute,
   } as any)
+const _authenticatedLayoutSettingsIndexRoute =
+  _authenticatedLayoutSettingsIndexRouteImport.update({
+    id: '/settings/',
+    path: '/settings/',
+    getParentRoute: () => _authenticatedLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof _authenticationLayoutLoginRoute
   '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
+  '/settings': typeof _authenticatedLayoutSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
@@ -101,6 +109,7 @@ export interface FileRoutesByTo {
   '/login': typeof _authenticationLayoutLoginRoute
   '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
+  '/settings': typeof _authenticatedLayoutSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -115,6 +124,7 @@ export interface FileRoutesById {
   '/__authenticationLayout/login': typeof _authenticationLayoutLoginRoute
   '/__authenticationLayout/register': typeof _authenticationLayoutRegisterRoute
   '/__authenticatedLayout/': typeof _authenticatedLayoutIndexRoute
+  '/__authenticatedLayout/settings/': typeof _authenticatedLayoutSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/contact'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/'
+    | '/settings'
   id:
     | '__root__'
     | '/__authenticatedLayout'
@@ -152,6 +164,7 @@ export interface FileRouteTypes {
     | '/__authenticationLayout/login'
     | '/__authenticationLayout/register'
     | '/__authenticatedLayout/'
+    | '/__authenticatedLayout/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -242,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedLayoutChatRouteImport
       parentRoute: typeof _authenticatedLayoutRoute
     }
+    '/__authenticatedLayout/settings/': {
+      id: '/__authenticatedLayout/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof _authenticatedLayoutSettingsIndexRouteImport
+      parentRoute: typeof _authenticatedLayoutRoute
+    }
   }
 }
 
@@ -249,12 +269,15 @@ interface _authenticatedLayoutRouteChildren {
   _authenticatedLayoutChatRoute: typeof _authenticatedLayoutChatRoute
   _authenticatedLayoutHomeRoute: typeof _authenticatedLayoutHomeRoute
   _authenticatedLayoutIndexRoute: typeof _authenticatedLayoutIndexRoute
+  _authenticatedLayoutSettingsIndexRoute: typeof _authenticatedLayoutSettingsIndexRoute
 }
 
 const _authenticatedLayoutRouteChildren: _authenticatedLayoutRouteChildren = {
   _authenticatedLayoutChatRoute: _authenticatedLayoutChatRoute,
   _authenticatedLayoutHomeRoute: _authenticatedLayoutHomeRoute,
   _authenticatedLayoutIndexRoute: _authenticatedLayoutIndexRoute,
+  _authenticatedLayoutSettingsIndexRoute:
+    _authenticatedLayoutSettingsIndexRoute,
 }
 
 const _authenticatedLayoutRouteWithChildren =
