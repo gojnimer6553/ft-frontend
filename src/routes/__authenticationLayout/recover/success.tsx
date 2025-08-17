@@ -13,7 +13,12 @@ function RouteComponent() {
     <div className="flex min-h-dvh flex-col items-center justify-center bg-muted py-6 md:py-10">
       <div className="w-full max-w-sm">
         <Card>
-          <CardContent className="p-6 text-center flex flex-col gap-4">
+          <CardContent className="p-6 text-center flex flex-col items-center gap-6">
+            <img
+              src="/assets/mascot/mascot_satisfied_face.png"
+              alt={t("passwordChanged.title")}
+              className="w-40"
+            />
             <h1 className="text-2xl font-bold">
               {t("passwordChanged.title")}
             </h1>
