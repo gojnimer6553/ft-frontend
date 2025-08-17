@@ -23,6 +23,8 @@
     "agreeTo": "By clicking continue, you agree to our",
     "and": "and",
     "dontHaveAccount": "Don't have an account?",
+    "forgotPassword": "Forgot your password?",
+    "recover": "Recover it",
     "email": "Email",
     "email-placeholder": "Write here...",
     "login": "Login",
@@ -57,6 +59,27 @@
     "signUpWithGoogle": "Sign up with Google",
     "termsOfService": "Terms of Service"
   },
+  "recover": {
+    "title": "Recover password",
+    "description": "Enter your email to receive a recovery link",
+    "email": "Email",
+    "emailPlaceholder": "Write here...",
+    "submit": "Send recovery email",
+    "success": "Recovery email sent"
+  },
+  "resetPassword": {
+    "title": "Reset password",
+    "password": "New password",
+    "passwordPlaceholder": "Write here...",
+    "confirmPassword": "Confirm new password",
+    "confirmPasswordPlaceholder": "Write here...",
+    "submit": "Change password"
+  },
+  "passwordChanged": {
+    "title": "Password changed",
+    "description": "You can now log in with your new password.",
+    "login": "Go to login"
+  },
   "waitlist": {
     "title": "Join the waitlist",
     "description": "Be the first to know when we launch.",
@@ -90,6 +113,7 @@
   "validation": {
     "invalidEmail": "Invalid email",
     "passwordMin": "Minimum {{count}} characters",
+    "passwordMismatch": "Passwords don't match",
     "required": "Required field"
   }
 }
