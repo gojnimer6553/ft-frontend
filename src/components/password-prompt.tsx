@@ -13,16 +13,32 @@ import {
 
 interface PasswordPromptProps {
   open: boolean;
-  onConfirm: (password: string) => void;
+  onConfirm: (password: string) => Promise<void> | void;
   onCancel: () => void;
 }
 
 export function PasswordPrompt({ open, onConfirm, onCancel }: PasswordPromptProps) {
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleClose = () => {
     setPassword("");
+    setError(null);
     onCancel();
+  };
+
+  const handleConfirm = async () => {
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      await onConfirm(password);
+      handleClose();
+    } catch (err: any) {
+      setError(err?.message ?? "Invalid password");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -39,17 +55,14 @@ export function PasswordPrompt({ open, onConfirm, onCancel }: PasswordPromptProp
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
+          disabled={isSubmitting}
         />
+        {error && <p className="text-sm text-destructive mt-2">{error}</p>}
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="outline" onClick={handleClose} disabled={isSubmitting}>
             Cancel
           </Button>
-          <Button
-            onClick={() => {
-              onConfirm(password);
-              setPassword("");
-            }}
-          >
+          <Button onClick={handleConfirm} disabled={isSubmitting || !password}>
             Confirm
           </Button>
         </DialogFooter>

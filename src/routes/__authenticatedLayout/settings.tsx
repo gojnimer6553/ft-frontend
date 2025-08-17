@@ -13,8 +13,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select } from "@/components/ui/select";
 import { PasswordPrompt } from "@/components/password-prompt";
 import { account } from "@/lib/appwrite";
+import tolgee from "@/lib/tolgee";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
 
@@ -26,6 +28,7 @@ type FormValues = {
   name: string;
   email: string;
   password: string;
+  language: string;
   prefs: string;
 };
 
@@ -38,6 +41,7 @@ function SettingsPage() {
       name: "",
       email: "",
       password: "",
+      language: "en",
       prefs: "{}",
     },
   });
@@ -48,6 +52,7 @@ function SettingsPage() {
         name: session.name,
         email: session.email,
         password: "",
+        language: session.prefs?.language ?? "en",
         prefs: JSON.stringify(session.prefs ?? {}, null, 2),
       });
     }
@@ -108,6 +113,7 @@ function SettingsPage() {
       watchedValues.name !== session.name ||
       watchedValues.email !== session.email ||
       watchedValues.password !== "" ||
+      watchedValues.language !== (session.prefs?.language ?? "en") ||
       watchedValues.prefs !== JSON.stringify(session.prefs ?? {}, null, 2)
     );
   }, [watchedValues, session]);
@@ -126,9 +132,14 @@ function SettingsPage() {
         if (!password) throw new Error("Password required");
         await passwordMutation.mutateAsync({ password: values.password, old: password });
       }
-      if (values.prefs !== JSON.stringify(session?.prefs ?? {}, null, 2)) {
+      if (
+        values.language !== session?.prefs?.language ||
+        values.prefs !== JSON.stringify(session?.prefs ?? {}, null, 2)
+      ) {
         const parsed = JSON.parse(values.prefs);
+        parsed.language = values.language;
         await prefsMutation.mutateAsync(parsed);
+        tolgee.changeLanguage(values.language);
       }
 
       const updated: any = queryClient.getQueryData(["session"]);
@@ -136,6 +147,7 @@ function SettingsPage() {
         name: updated?.name ?? values.name,
         email: updated?.email ?? values.email,
         password: "",
+        language: updated?.prefs?.language ?? values.language,
         prefs: JSON.stringify(updated?.prefs ?? {}, null, 2),
       });
     } catch (err: any) {
@@ -144,12 +156,13 @@ function SettingsPage() {
       } else if (err?.message) {
         toast.error(err.message);
       }
+      throw err;
     } finally {
       setIsSaving(false);
     }
   };
 
-  const onSubmit = (values: FormValues) => {
+  const onSubmit = async (values: FormValues) => {
     try {
       JSON.parse(values.prefs);
     } catch {
@@ -161,7 +174,9 @@ function SettingsPage() {
       setPendingValues(values);
       setPromptOpen(true);
     } else {
-      handleSave(values);
+      try {
+        await handleSave(values);
+      } catch {}
     }
   };
 
@@ -172,73 +187,79 @@ function SettingsPage() {
           onSubmit={formMethods.handleSubmit(onSubmit)}
           className="space-y-10"
         >
-          <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Profile</h2>
-            <FormField
-              control={formMethods.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </section>
+          <FormField
+            control={formMethods.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Email</h2>
-            <FormField
-              control={formMethods.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </section>
+          <FormField
+            control={formMethods.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Password</h2>
-            <FormField
-              control={formMethods.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>New Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="New password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </section>
+  
+          <FormField
+            control={formMethods.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>New Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="New password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Preferences</h2>
-            <FormField
-              control={formMethods.control}
-              name="prefs"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Preferences (JSON)</FormLabel>
-                  <FormControl>
-                    <Textarea rows={5} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </section>
+          <FormField
+            control={formMethods.control}
+            name="language"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Language</FormLabel>
+                <FormControl>
+                  <Select {...field}>
+                    <option value="en">English</option>
+                    <option value="pt-BR">Português (Brasil)</option>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={formMethods.control}
+            name="prefs"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Preferences (JSON)</FormLabel>
+                <FormControl>
+                  <Textarea rows={5} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button type="submit" disabled={!hasChanges || isSaving}>
             Save changes
@@ -285,12 +306,11 @@ function SettingsPage() {
           setPromptOpen(false);
           setPendingValues(null);
         }}
-        onConfirm={(password) => {
+        onConfirm={async (password) => {
           if (pendingValues) {
-            handleSave(pendingValues, password);
+            await handleSave(pendingValues, password);
             setPendingValues(null);
           }
-          setPromptOpen(false);
         }}
       />
     </div>
