@@ -54,10 +54,10 @@ export const Route = createFileRoute("/__authenticatedLayout")({
 });
 
 function RouteComponent() {
-  const defaultLanguage = useSession().data?.prefs?.language;
+  const session = useSession().data as any;
   const tolgee = useTolgee(["language"]);
   useEffect(() => {
-    tolgee.changeLanguage(defaultLanguage || "pt-BR");
+    tolgee.changeLanguage(session.prefs?.language || "pt-BR");
   }, [tolgee]);
   return (
     <SidebarProvider>
