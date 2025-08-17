@@ -12,9 +12,9 @@ export function Chat() {
   const transport = useMemo(() => new OpenAIChatTransport(), []);
   const { messages, sendMessage, status } = useChat({ transport });
 
-  async function handleSubmit(value: string, files?: FileList | null) {
-    const uploadFiles = files ?? undefined;
-    if (!value.trim() && (!uploadFiles || uploadFiles.length === 0)) return;
+  async function handleSubmit(value: string, files?: File[]) {
+    const uploadFiles = files && files.length > 0 ? files : undefined;
+    if (!value.trim() && !uploadFiles) return;
     await sendMessage({ text: value, files: uploadFiles });
   }
 

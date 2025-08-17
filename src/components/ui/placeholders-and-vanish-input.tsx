@@ -2,12 +2,13 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Paperclip } from "lucide-react";
+import { Paperclip, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 interface PlaceholdersAndVanishInputProps {
   placeholders: string[];
-  onSubmit: (value: string, files?: FileList | null) => void;
+  onSubmit: (value: string, files?: File[]) => void;
   disabled?: boolean;
 }
 
@@ -51,7 +52,7 @@ export function PlaceholdersAndVanishInput({
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [files, setFiles] = useState<FileList | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
 
   const draw = useCallback(() => {
     if (!inputRef.current) return;
@@ -159,7 +160,7 @@ export function PlaceholdersAndVanishInput({
       e.key === "Enter" &&
       !animating &&
       !disabled &&
-      (value || (files && files.length > 0))
+      (value || files.length > 0)
     ) {
       vanishAndSubmit();
     }
@@ -167,7 +168,7 @@ export function PlaceholdersAndVanishInput({
 
   const vanishAndSubmit = () => {
     const currentValue = inputRef.current?.value || "";
-    if (!currentValue && (!files || files.length === 0)) return;
+    if (!currentValue && files.length === 0) return;
 
     if (currentValue) {
       setAnimating(true);
@@ -185,7 +186,11 @@ export function PlaceholdersAndVanishInput({
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-    setFiles(null);
+    setFiles([]);
+  };
+
+  const removeFile = (index: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -195,22 +200,45 @@ export function PlaceholdersAndVanishInput({
     }
   };
   return (
-    <form
-      className={cn(
-        "relative mx-auto flex h-12 w-full max-w-xl items-center rounded-full border border-input bg-background dark:bg-input/30 overflow-hidden shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
-        value && "bg-muted/40 dark:bg-input/40",
-        disabled && "opacity-50 cursor-not-allowed"
+    <div className="flex flex-col gap-2 w-full mx-auto max-w-xl">
+      {files.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {files.map((file, index) => (
+            <Badge key={index} variant="secondary" className="flex items-center gap-1">
+              <span className="max-w-[150px] truncate">{file.name}</span>
+              <button
+                type="button"
+                onClick={() => removeFile(index)}
+                className="rounded-full hover:text-foreground"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          ))}
+        </div>
       )}
-      onSubmit={handleSubmit}
-    >
-      <input
-        ref={fileInputRef}
-        type="file"
-        multiple
-        className="hidden"
-        onChange={(e) => setFiles(e.target.files)}
-        disabled={disabled}
-      />
+      <form
+        className={cn(
+          "relative mx-auto flex h-12 w-full items-center rounded-full border border-input bg-background dark:bg-input/30 overflow-hidden shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+          value && "bg-muted/40 dark:bg-input/40",
+          disabled && "opacity-50 cursor-not-allowed"
+        )}
+        onSubmit={handleSubmit}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          className="hidden"
+          onChange={(e) => {
+            const selected = Array.from(e.target.files || []);
+            if (selected.length) {
+              setFiles((prev) => [...prev, ...selected]);
+            }
+            e.target.value = "";
+          }}
+          disabled={disabled}
+        />
       <button
         type="button"
         onClick={() => fileInputRef.current?.click()}
@@ -244,9 +272,7 @@ export function PlaceholdersAndVanishInput({
       />
 
       <button
-        disabled={
-          disabled || (!value && (!files || files.length === 0))
-        }
+        disabled={disabled || (!value && files.length === 0)}
         type="submit"
         className="absolute right-2 top-1/2 z-50 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors duration-200 disabled:bg-muted disabled:text-muted-foreground"
       >
@@ -284,7 +310,7 @@ export function PlaceholdersAndVanishInput({
 
       <div className="pointer-events-none absolute inset-0 flex items-center rounded-full">
         <AnimatePresence mode="wait">
-          {!value && (!files || files.length === 0) && (
+          {!value && files.length === 0 && (
             <motion.p
               initial={{
                 y: 5,
@@ -310,7 +336,8 @@ export function PlaceholdersAndVanishInput({
           )}
         </AnimatePresence>
       </div>
-    </form>
+      </form>
+    </div>
   );
 }
 
