@@ -21,17 +21,10 @@ function TooltipProvider({
   )
 }
 
-function Tooltip({
-  children,
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
-  return (
-    <TooltipProvider>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props}>
-        {children}
-      </TooltipPrimitive.Root>
-    </TooltipProvider>
-  )
+function Tooltip(
+  props: React.ComponentProps<typeof TooltipPrimitive.Root>
+) {
+  return <TooltipPrimitive.Root data-slot="tooltip" {...props} />
 }
 
 function TooltipTrigger({
