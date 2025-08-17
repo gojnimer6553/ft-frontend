@@ -1,12 +1,13 @@
-import { objectToArray } from "@/lib/utils";
-import { account } from "@/lib/appwrite";
 import type { PromptPasswordRefProps } from "@/components/prompt-password";
+import { account } from "@/lib/appwrite";
+import { objectToArray } from "@/lib/utils";
 import {
   type DefaultParamType,
   type TFnType,
   type TranslationKey,
 } from "@tolgee/react";
 import type { RefObject } from "react";
+import { toast } from "sonner";
 
 interface UpdateMethod {
   needPasswordConfirmation?: boolean;
@@ -21,10 +22,12 @@ const updateMethods: Record<string, UpdateMethod> = {
   },
 };
 
-const createMutationFn = (
-  promptPasswordRef: RefObject<PromptPasswordRefProps | null>,
-  t: TFnType<DefaultParamType, string, TranslationKey>
-) =>
+const createMutationFn =
+  (
+    promptPasswordRef: RefObject<PromptPasswordRefProps | null>,
+    t: TFnType<DefaultParamType, string, TranslationKey>,
+    toastId: string
+  ) =>
   async (props: {
     values: Record<string, any>;
     dirtyFields: Record<string, boolean>;
@@ -43,6 +46,7 @@ const createMutationFn = (
         })
       );
     if (needPasswordConfirmation) {
+      toast.dismiss(toastId);
       return new Promise((resolve, reject) => {
         promptPasswordRef.current?.prompt(
           generatePromise,
@@ -56,4 +60,3 @@ const createMutationFn = (
   };
 
 export { createMutationFn };
-

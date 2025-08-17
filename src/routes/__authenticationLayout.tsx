@@ -21,6 +21,9 @@ export const Route = createFileRoute("/__authenticationLayout")({
         to: search.redirect ?? "/",
       });
   },
+  loader: ({ context }) => ({
+    session: context.session,
+  }),
   validateSearch: (search: Record<string, unknown>): LoginSearch => {
     return {
       redirect: search.redirect as string | undefined,

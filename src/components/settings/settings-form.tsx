@@ -1,14 +1,16 @@
 import FormBase from "@/components/form-base";
-import PromptPassword, { type PromptPasswordRefProps } from "@/components/prompt-password";
+import PromptPassword, {
+  type PromptPasswordRefProps,
+} from "@/components/prompt-password";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import useSession from "@/hooks/queries/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useLoaderData } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
-import type { Models } from "appwrite";
+import { ID } from "appwrite";
 import { useEffect, useRef } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { toast } from "sonner";
@@ -25,14 +27,18 @@ export function SettingsForm() {
   const submitRef = useRef<HTMLButtonElement>(null);
   const promptPasswordRef = useRef<PromptPasswordRefProps>(null);
   const { t } = useTranslate();
-  const { data: sessionData } = useSession();
-  const session = sessionData as Models.User<Models.Preferences>;
+  const session = useLoaderData({
+    from: "/__authenticatedLayout/settings",
+  }).session;
 
   const showSaveToast = () =>
     toast(t("settings.unsavedChanges"), {
       id: "settings-save-alert",
       duration: Infinity,
-      action: { label: t("settings.apply"), onClick: () => submitRef.current?.click() },
+      action: {
+        label: t("settings.apply"),
+        onClick: () => submitRef.current?.click(),
+      },
       position: "bottom-center",
     });
 
@@ -41,7 +47,12 @@ export function SettingsForm() {
       values: z.infer<typeof settingsSchema>;
       dirtyFields: Record<string, boolean>;
     }) => {
-      const mutationPromise = createMutationFn(promptPasswordRef, t)(params);
+      const actionToastId = ID.unique();
+      const mutationPromise = createMutationFn(
+        promptPasswordRef,
+        t,
+        actionToastId
+      )(params);
       toast.promise(mutationPromise, {
         loading: t("settings.updating"),
         success: t("settings.updateSuccess"),
