@@ -238,7 +238,7 @@ export function PlaceholdersAndVanishInput({
         type="text"
         disabled={disabled}
         className={cn(
-          "relative z-50 h-full w-full rounded-full border-none bg-transparent pl-12 pr-20 sm:pl-16 text-sm sm:text-base text-foreground selection:bg-primary selection:text-primary-foreground focus:outline-none focus:ring-0",
+          "relative z-0 h-full w-full rounded-full border-none bg-transparent pl-12 pr-20 sm:pl-16 text-sm sm:text-base text-foreground selection:bg-primary selection:text-primary-foreground focus:outline-none focus:ring-0",
           animating && "text-transparent"
         )}
       />
