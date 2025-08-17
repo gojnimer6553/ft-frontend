@@ -58,32 +58,6 @@ function SettingsPage() {
     }
   }, [session, formMethods]);
 
-  const nameMutation = useMutation({
-    mutationFn: (name: string) => account.updateName(name),
-    onSuccess: (data) => {
-      queryClient.setQueryData(["session"], data);
-    },
-  });
-
-  const emailMutation = useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) =>
-      account.updateEmail(email, password),
-    onSuccess: (data) => {
-      queryClient.setQueryData(["session"], data);
-    },
-  });
-  const passwordMutation = useMutation({
-    mutationFn: ({ password, old }: { password: string; old: string }) =>
-      account.updatePassword(password, old),
-  });
-
-  const prefsMutation = useMutation({
-    mutationFn: (prefs: Record<string, unknown>) => account.updatePrefs(prefs),
-    onSuccess: (data) => {
-      queryClient.setQueryData(["session"], data);
-    },
-  });
-
   const sessionsQuery = useQuery({
     queryKey: ["sessions"],
     queryFn: () => account.listSessions().then((res: any) => res.sessions),
@@ -114,28 +88,40 @@ function SettingsPage() {
 
   const handleSave = async (values: FormValues, password?: string) => {
     try {
+      const updates: Promise<unknown>[] = [];
+
       if (values.name !== session?.name) {
-        await nameMutation.mutateAsync(values.name);
+        updates.push(account.updateName(values.name));
       }
+
       if (values.email !== session?.email) {
         if (!password) throw new Error("Password required");
-        await emailMutation.mutateAsync({ email: values.email, password });
+        updates.push(account.updateEmail(values.email, password));
       }
+
       if (values.password) {
         if (!password) throw new Error("Password required");
-        await passwordMutation.mutateAsync({ password: values.password, old: password });
+        updates.push(account.updatePassword(values.password, password));
       }
+
       if (
         values.language !== session?.prefs?.language ||
         values.prefs !== JSON.stringify(session?.prefs ?? {}, null, 2)
       ) {
         const parsed = JSON.parse(values.prefs);
         parsed.language = values.language;
-        await prefsMutation.mutateAsync(parsed);
+        updates.push(account.updatePrefs(parsed));
+      }
+
+      await Promise.all(updates);
+
+      if (values.language !== session?.prefs?.language) {
         tolgee.changeLanguage(values.language);
       }
 
-      const updated: any = queryClient.getQueryData(["session"]);
+      const updated: any = await account.get();
+      queryClient.setQueryData(["session"], updated);
+
       formMethods.reset({
         name: updated?.name ?? values.name,
         email: updated?.email ?? values.email,
