@@ -26,7 +26,7 @@ function RootComponent() {
       <div className="flex flex-1 min-h-0 flex-col overflow-x-hidden overflow-y-auto">
         <TanStackRouterDevtools position="top-right" />
         <Outlet />
-        <Toaster position="top-center" offset={60} />
+        <Toaster position="bottom-center" offset={60} />
       </div>
     </QueryClientProvider>
   );
