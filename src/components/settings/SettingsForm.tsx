@@ -57,7 +57,7 @@ export function SettingsForm() {
     },
     onSuccess: (_data, context) => {
       formMethods.reset(context.values, { keepValues: true });
-      toast(t("settings.updateSuccess"), {
+      toast.success(t("settings.updateSuccess"), {
         id: "settings-action-toast",
         duration: 3000,
       });
