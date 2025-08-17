@@ -12,6 +12,7 @@ vi.mock('@tanstack/react-query', () => ({
 
 vi.mock('@tanstack/react-router', () => ({
   useNavigate: () => () => {},
+  Link: ({ children, ...props }: any) => <a {...props}>{children}</a>,
 }))
 
 vi.mock('@/lib/appwrite', () => ({
