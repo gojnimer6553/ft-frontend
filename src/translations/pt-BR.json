@@ -36,7 +36,8 @@
     "privacyPolicy": "Política de Privacidade",
     "signUp": "Cadastre-se",
     "termsOfService": "Termos de Serviço",
-    "welcomeBack": "Bem-vindo de volta"
+    "welcomeBack": "Bem-vindo de volta",
+    "forgotPassword": "Esqueceu a senha?"
   },
   "register": {
     "agreeTo": "Ao clicar em cadastrar, você concorda com nossos",
@@ -55,6 +56,19 @@
     "signUpWithAppleOrGoogle": "Cadastre-se com sua conta",
     "signUpWithGoogle": "Cadastre-se com Google",
     "termsOfService": "Termos de Serviço"
+  },
+  "recover": {
+    "title": "Recuperar senha",
+    "email": "Email",
+    "emailPlaceholder": "Digite seu email...",
+    "send": "Enviar link de recuperação",
+    "emailSent": "Confira seu email para o link de recuperação",
+    "newPassword": "Nova senha",
+    "confirmPassword": "Confirmar senha",
+    "submit": "Alterar senha",
+    "successTitle": "Senha alterada",
+    "successDescription": "Agora você pode entrar com sua nova senha.",
+    "backToLogin": "Voltar para o login"
   },
   "waitlist": {
     "title": "Entre na lista de espera",
@@ -89,6 +103,7 @@
   "validation": {
     "invalidEmail": "Email inválido",
     "passwordMin": "Mínimo de {{count}} caracteres",
-    "required": "Campo obrigatório"
+    "required": "Campo obrigatório",
+    "passwordMismatch": "As senhas não coincidem"
   }
 }

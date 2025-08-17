@@ -17,6 +17,8 @@ import { Route as _authenticationLayoutRouteImport } from './routes/__authentica
 import { Route as _authenticatedLayoutRouteImport } from './routes/__authenticatedLayout'
 import { Route as _authenticatedLayoutIndexRouteImport } from './routes/__authenticatedLayout/index'
 import { Route as _authenticationLayoutRegisterRouteImport } from './routes/__authenticationLayout/register'
+import { Route as _authenticationLayoutRecoverRouteImport } from './routes/__authenticationLayout/recover'
+import { Route as _authenticationLayoutPasswordChangedRouteImport } from './routes/__authenticationLayout/password-changed'
 import { Route as _authenticationLayoutLoginRouteImport } from './routes/__authenticationLayout/login'
 import { Route as _authenticatedLayoutHomeRouteImport } from './routes/__authenticatedLayout/home'
 import { Route as _authenticatedLayoutChatRouteImport } from './routes/__authenticatedLayout/chat'
@@ -61,6 +63,18 @@ const _authenticationLayoutRegisterRoute =
     path: '/register',
     getParentRoute: () => _authenticationLayoutRoute,
   } as any)
+const _authenticationLayoutRecoverRoute =
+  _authenticationLayoutRecoverRouteImport.update({
+    id: '/recover',
+    path: '/recover',
+    getParentRoute: () => _authenticationLayoutRoute,
+  } as any)
+const _authenticationLayoutPasswordChangedRoute =
+  _authenticationLayoutPasswordChangedRouteImport.update({
+    id: '/password-changed',
+    path: '/password-changed',
+    getParentRoute: () => _authenticationLayoutRoute,
+  } as any)
 const _authenticationLayoutLoginRoute =
   _authenticationLayoutLoginRouteImport.update({
     id: '/login',
@@ -88,6 +102,8 @@ export interface FileRoutesByFullPath {
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
   '/login': typeof _authenticationLayoutLoginRoute
+  '/password-changed': typeof _authenticationLayoutPasswordChangedRoute
+  '/recover': typeof _authenticationLayoutRecoverRoute
   '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
 }
@@ -99,6 +115,8 @@ export interface FileRoutesByTo {
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
   '/login': typeof _authenticationLayoutLoginRoute
+  '/password-changed': typeof _authenticationLayoutPasswordChangedRoute
+  '/recover': typeof _authenticationLayoutRecoverRoute
   '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
 }
@@ -113,6 +131,8 @@ export interface FileRoutesById {
   '/__authenticatedLayout/chat': typeof _authenticatedLayoutChatRoute
   '/__authenticatedLayout/home': typeof _authenticatedLayoutHomeRoute
   '/__authenticationLayout/login': typeof _authenticationLayoutLoginRoute
+  '/__authenticationLayout/password-changed': typeof _authenticationLayoutPasswordChangedRoute
+  '/__authenticationLayout/recover': typeof _authenticationLayoutRecoverRoute
   '/__authenticationLayout/register': typeof _authenticationLayoutRegisterRoute
   '/__authenticatedLayout/': typeof _authenticatedLayoutIndexRoute
 }
@@ -126,6 +146,8 @@ export interface FileRouteTypes {
     | '/chat'
     | '/home'
     | '/login'
+    | '/password-changed'
+    | '/recover'
     | '/register'
     | '/'
   fileRoutesByTo: FileRoutesByTo
@@ -137,6 +159,8 @@ export interface FileRouteTypes {
     | '/chat'
     | '/home'
     | '/login'
+    | '/password-changed'
+    | '/recover'
     | '/register'
     | '/'
   id:
@@ -150,6 +174,8 @@ export interface FileRouteTypes {
     | '/__authenticatedLayout/chat'
     | '/__authenticatedLayout/home'
     | '/__authenticationLayout/login'
+    | '/__authenticationLayout/password-changed'
+    | '/__authenticationLayout/recover'
     | '/__authenticationLayout/register'
     | '/__authenticatedLayout/'
   fileRoutesById: FileRoutesById
@@ -221,6 +247,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticationLayoutRegisterRouteImport
       parentRoute: typeof _authenticationLayoutRoute
     }
+    '/__authenticationLayout/recover': {
+      id: '/__authenticationLayout/recover'
+      path: '/recover'
+      fullPath: '/recover'
+      preLoaderRoute: typeof _authenticationLayoutRecoverRouteImport
+      parentRoute: typeof _authenticationLayoutRoute
+    }
+    '/__authenticationLayout/password-changed': {
+      id: '/__authenticationLayout/password-changed'
+      path: '/password-changed'
+      fullPath: '/password-changed'
+      preLoaderRoute: typeof _authenticationLayoutPasswordChangedRouteImport
+      parentRoute: typeof _authenticationLayoutRoute
+    }
     '/__authenticationLayout/login': {
       id: '/__authenticationLayout/login'
       path: '/login'
@@ -262,11 +302,16 @@ const _authenticatedLayoutRouteWithChildren =
 
 interface _authenticationLayoutRouteChildren {
   _authenticationLayoutLoginRoute: typeof _authenticationLayoutLoginRoute
+  _authenticationLayoutPasswordChangedRoute: typeof _authenticationLayoutPasswordChangedRoute
+  _authenticationLayoutRecoverRoute: typeof _authenticationLayoutRecoverRoute
   _authenticationLayoutRegisterRoute: typeof _authenticationLayoutRegisterRoute
 }
 
 const _authenticationLayoutRouteChildren: _authenticationLayoutRouteChildren = {
   _authenticationLayoutLoginRoute: _authenticationLayoutLoginRoute,
+  _authenticationLayoutPasswordChangedRoute:
+    _authenticationLayoutPasswordChangedRoute,
+  _authenticationLayoutRecoverRoute: _authenticationLayoutRecoverRoute,
   _authenticationLayoutRegisterRoute: _authenticationLayoutRegisterRoute,
 }
 

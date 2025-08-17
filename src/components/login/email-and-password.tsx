@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { account } from "@/lib/appwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch, Link } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -108,6 +108,15 @@ const EmailAndPasswordForm = () => {
               </FormItem>
             )}
           />
+        </div>
+        <div className="text-right text-sm">
+          <Link
+            to="/recover"
+            search={{ userId: undefined, secret: undefined }}
+            className="underline underline-offset-4"
+          >
+            {t("login.forgotPassword")}
+          </Link>
         </div>
         <Button
           loading={isPending ? `${t("feedback.loading")}...` : undefined}
