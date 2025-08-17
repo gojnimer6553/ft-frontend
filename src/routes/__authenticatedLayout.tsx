@@ -7,11 +7,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import useSession from "@/hooks/queries/user";
-import { account } from "@/lib/appwrite";
 import { Outlet } from "@tanstack/react-router";
-import { useTolgee } from "@tolgee/react";
-import { useEffect } from "react";
+import { account } from "@/lib/appwrite";
+import { useLanguageStore } from "@/hooks/use-language-store";
 
 type ISession = Awaited<ReturnType<typeof account.get>>;
 
@@ -54,11 +52,7 @@ export const Route = createFileRoute("/__authenticatedLayout")({
 });
 
 function RouteComponent() {
-  const session = useSession().data as any;
-  const tolgee = useTolgee(["language"]);
-  useEffect(() => {
-    tolgee.changeLanguage(session.prefs?.language || "pt-BR");
-  }, [tolgee]);
+  useLanguageStore();
   return (
     <SidebarProvider>
       <AppSidebar />
