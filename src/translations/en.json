@@ -109,11 +109,38 @@
       "shareThoughts": "Share your thoughts"
     }
   },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage your account preferences.",
+    "name": "Name",
+    "phone": "Phone",
+    "language": "Language",
+    "unsavedChanges": "You have unsaved changes",
+    "apply": "Apply",
+    "interactionCancelled": "Interaction cancelled",
+    "languageUpdated": "Language updated",
+    "updating": "Updating settings...",
+    "updateSuccess": "Settings updated",
+    "updateError": "Failed to update settings"
+  },
+  "promptPassword": {
+    "title": "Confirm password",
+    "description": "Please enter your password to continue.",
+    "submit": "Confirm"
+  },
   "soon": "Soon",
   "validation": {
     "invalidEmail": "Invalid email",
     "passwordMin": "Minimum {{count}} characters",
     "passwordMismatch": "Passwords don't match",
-    "required": "Required field"
+    "required": "Required field",
+    "error": "Error"
+  },
+  "appwrite": {
+    "errors": {
+      "user_invalid_credentials": {
+        "description": "Invalid credentials"
+      }
+    }
   }
 }
