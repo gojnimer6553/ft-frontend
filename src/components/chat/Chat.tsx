@@ -2,10 +2,10 @@ import { useMemo } from "react";
 import { useChat } from "@ai-sdk/react";
 import { useTranslate } from "@tolgee/react";
 import { OpenAIChatTransport } from "@/lib/openai-chat-transport";
-import { ChatHeader } from "./chat-header";
-import { ChatMessages } from "./chat-messages";
-import { ChatFooter } from "./chat-footer";
-import { Portal } from "@/components/portal";
+import { ChatHeader } from "./ChatHeader";
+import { ChatMessages } from "./ChatMessages";
+import { ChatFooter } from "./ChatFooter";
+import { Portal } from "@/components/common/Portal";
 
 export function Chat() {
   const { t } = useTranslate();

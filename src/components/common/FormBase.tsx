@@ -1,4 +1,4 @@
-import { FormControl, FormItem, FormLabel, FormMessage } from "./ui/form";
+import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 
 export default function FormBase({
   label,

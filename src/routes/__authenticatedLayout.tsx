@@ -1,7 +1,7 @@
-import { AppSidebar } from "@/components/sidebar";
+import { AppSidebar } from "@/components/navigation/sidebar/Sidebar";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { ModeToggle } from "@/components/mode-toggle";
+import { ModeToggle } from "@/components/theme/ModeToggle";
 import {
   SidebarInset,
   SidebarProvider,

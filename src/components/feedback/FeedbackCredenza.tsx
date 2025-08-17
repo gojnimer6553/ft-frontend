@@ -1,4 +1,4 @@
-import { FeedbackForm } from "@/components/feedback-form";
+import { FeedbackForm } from "@/components/feedback/FeedbackForm";
 import { Button } from "@/components/ui/button";
 import {
   Credenza,

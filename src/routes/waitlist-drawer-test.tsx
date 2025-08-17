@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { WaitlistCredenza } from "@/components/waitlist-credenza";
+import { WaitlistCredenza } from "@/components/waitlist/WaitlistCredenza";
 
 export const Route = createFileRoute("/waitlist-drawer-test")({
   component: WaitlistDrawerTest,

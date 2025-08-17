@@ -1,4 +1,4 @@
-import SoonBadge from "@/components/feedback/soon-badge";
+import SoonBadge from "@/components/feedback/SoonBadge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
