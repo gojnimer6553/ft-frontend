@@ -62,7 +62,6 @@ function SettingsPage() {
     mutationFn: (name: string) => account.updateName(name),
     onSuccess: (data) => {
       queryClient.setQueryData(["session"], data);
-      toast.success("Name updated");
     },
   });
 
@@ -71,22 +70,17 @@ function SettingsPage() {
       account.updateEmail(email, password),
     onSuccess: (data) => {
       queryClient.setQueryData(["session"], data);
-      toast.success("Email updated");
     },
   });
   const passwordMutation = useMutation({
     mutationFn: ({ password, old }: { password: string; old: string }) =>
       account.updatePassword(password, old),
-    onSuccess: () => {
-      toast.success("Password updated");
-    },
   });
 
   const prefsMutation = useMutation({
     mutationFn: (prefs: Record<string, unknown>) => account.updatePrefs(prefs),
     onSuccess: (data) => {
       queryClient.setQueryData(["session"], data);
-      toast.success("Preferences updated");
     },
   });
 
@@ -149,6 +143,13 @@ function SettingsPage() {
         language: updated?.prefs?.language ?? values.language,
         prefs: JSON.stringify(updated?.prefs ?? {}, null, 2),
       });
+
+      if (unsavedToast.current) {
+        toast.success("Changes saved", { id: unsavedToast.current });
+        unsavedToast.current = null;
+      } else {
+        toast.success("Changes saved");
+      }
     } catch (err: any) {
       if (err instanceof SyntaxError) {
         toast.error("Invalid JSON");
@@ -177,21 +178,52 @@ function SettingsPage() {
     }
   };
 
+  const fieldConfigs: {
+    name: keyof FormValues;
+    label: string;
+    render: (field: any) => JSX.Element;
+  }[] = [
+    { name: "name", label: "Name", render: (field) => <Input {...field} /> },
+    {
+      name: "email",
+      label: "Email",
+      render: (field) => <Input type="email" {...field} />,
+    },
+    {
+      name: "password",
+      label: "New Password",
+      render: (field) => (
+        <Input type="password" placeholder="New password" {...field} />
+      ),
+    },
+    {
+      name: "language",
+      label: "Language",
+      render: (field) => (
+        <Select {...field}>
+          <option value="en">English</option>
+          <option value="pt-BR">Português (Brasil)</option>
+        </Select>
+      ),
+    },
+    {
+      name: "prefs",
+      label: "Preferences (JSON)",
+      render: (field) => <Textarea rows={5} {...field} />,
+    },
+  ];
+
   useEffect(() => {
     if (hasChanges && !unsavedToast.current) {
-      unsavedToast.current = toast.custom(
-        () => (
-          <div className="flex items-center gap-4">
-            <span>You have unsaved changes</span>
-            <Button
-              size="sm"
-              onClick={() => formMethods.handleSubmit(onSubmit)()}
-            >
-              APPLY
-            </Button>
-          </div>
-        ),
-        { duration: Infinity }
+      unsavedToast.current = toast(
+        "You have unsaved changes",
+        {
+          duration: Infinity,
+          action: {
+            label: "APPLY",
+            onClick: () => formMethods.handleSubmit(onSubmit)(),
+          },
+        }
       );
     } else if (!hasChanges && unsavedToast.current) {
       toast.dismiss(unsavedToast.current);
@@ -206,79 +238,20 @@ function SettingsPage() {
           onSubmit={formMethods.handleSubmit(onSubmit)}
           className="space-y-10"
         >
-          <FormField
-            control={formMethods.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={formMethods.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-  
-          <FormField
-            control={formMethods.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>New Password</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="New password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={formMethods.control}
-            name="language"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Language</FormLabel>
-                <FormControl>
-                  <Select {...field}>
-                    <option value="en">English</option>
-                    <option value="pt-BR">Português (Brasil)</option>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={formMethods.control}
-            name="prefs"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Preferences (JSON)</FormLabel>
-                <FormControl>
-                  <Textarea rows={5} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {fieldConfigs.map(({ name, label, render }) => (
+            <FormField
+              key={name}
+              control={formMethods.control}
+              name={name}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{label}</FormLabel>
+                  <FormControl>{render(field)}</FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
         </form>
       </Form>
 
