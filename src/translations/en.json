@@ -36,8 +36,19 @@
     "password-placeholder": "Write here...",
     "privacyPolicy": "Privacy Policy",
     "signUp": "Sign up",
+    "forgotPassword": "Forgot your password?",
+    "recoverPassword": "Recover",
     "termsOfService": "Terms of Service",
     "welcomeBack": "Welcome back"
+  },
+  "recover": {
+    "title": "Recover password",
+    "sendCode": "Send code",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "submit": "Reset password",
+    "success": "Password reset successfully",
+    "backToLogin": "Back to login"
   },
   "register": {
     "agreeTo": "By clicking sign up, you agree to our",

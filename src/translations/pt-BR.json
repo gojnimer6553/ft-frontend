@@ -35,8 +35,19 @@
     "password-placeholder": "Digite aqui...",
     "privacyPolicy": "Política de Privacidade",
     "signUp": "Cadastre-se",
+    "forgotPassword": "Esqueceu sua senha?",
+    "recoverPassword": "Recuperar",
     "termsOfService": "Termos de Serviço",
     "welcomeBack": "Bem-vindo de volta"
+  },
+  "recover": {
+    "title": "Recuperar senha",
+    "sendCode": "Enviar código",
+    "newPassword": "Nova senha",
+    "confirmPassword": "Confirmar senha",
+    "submit": "Redefinir senha",
+    "success": "Senha redefinida com sucesso",
+    "backToLogin": "Voltar para login"
   },
   "register": {
     "agreeTo": "Ao clicar em cadastrar, você concorda com nossos",

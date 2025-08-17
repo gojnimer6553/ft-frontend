@@ -61,6 +61,15 @@ function RouteComponent() {
                   </div>
                   <EmailAndPasswordForm />
                   <div className="text-center text-sm">
+                    {t("login.forgotPassword")}{" "}
+                    <Link
+                      to="/recover"
+                      className="underline underline-offset-4"
+                    >
+                      {t("login.recoverPassword")}
+                    </Link>
+                  </div>
+                  <div className="text-center text-sm">
                     {t("login.dontHaveAccount")}{" "}
                     <Link
                       to="/register"
