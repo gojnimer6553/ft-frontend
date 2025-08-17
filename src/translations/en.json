@@ -43,10 +43,11 @@
   },
   "recover": {
     "title": "Recover password",
-    "sendCode": "Send code",
+    "sendEmail": "Send reset link",
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
     "submit": "Reset password",
+    "emailSent": "Check your email for the password reset link",
     "success": "Password reset successfully",
     "backToLogin": "Back to login"
   },

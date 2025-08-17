@@ -1,40 +1,40 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
 import { account } from "@/lib/appwrite";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { useState } from "react";
 
+interface RecoverSearch {
+  userId?: string;
+  secret?: string;
+}
+
 export const Route = createFileRoute("/__authenticationLayout/recover")({
   component: RecoverPage,
+  validateSearch: (search: Record<string, unknown>): RecoverSearch => {
+    return {
+      userId: search.userId as string | undefined,
+      secret: search.secret as string | undefined,
+    };
+  },
 });
 
 function RecoverPage() {
   const { t } = useTranslate();
   const [email, setEmail] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [userId, setUserId] = useState("");
-  const [otp, setOtp] = useState("");
+  const search = Route.useSearch();
+  const [linkSent, setLinkSent] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const sendCode = async (e: React.FormEvent) => {
+  const sendLink = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await account.createRecovery(
-        email,
-        `${window.location.origin}/recover`
-      );
-      setUserId(res.userId);
-      setOtpSent(true);
+      await account.createRecovery(email, `${window.location.origin}/recover`);
+      setLinkSent(true);
     } catch (err) {
       console.error(err);
     }
@@ -44,7 +44,7 @@ function RecoverPage() {
     e.preventDefault();
     try {
       if (password !== passwordAgain) return;
-      await account.updateRecovery(userId, otp, password);
+      await account.updateRecovery(search.userId!, search.secret!, password);
       setSuccess(true);
     } catch (err) {
       console.error(err);
@@ -64,37 +64,24 @@ function RecoverPage() {
                       {t("recover.title")}
                     </h1>
                   </div>
-                  {!otpSent && !success && (
-                    <form onSubmit={sendCode} className="flex flex-col gap-4">
+                  {!search.userId && !search.secret && !linkSent && !success && (
+                    <form onSubmit={sendLink} className="flex flex-col gap-4">
                       <Input
                         type="email"
                         placeholder={t("login.email-placeholder")}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
-                      <Button type="submit">{t("recover.sendCode")}</Button>
+                      <Button type="submit">{t("recover.sendEmail")}</Button>
                     </form>
                   )}
-                  {otpSent && !success && (
-                    <form
-                      onSubmit={resetPassword}
-                      className="flex flex-col gap-4"
-                    >
-                      <InputOTP
-                        maxLength={6}
-                        value={otp}
-                        onChange={(value) => setOtp(value)}
-                      >
-                        <InputOTPGroup>
-                          <InputOTPSlot index={0} />
-                          <InputOTPSlot index={1} />
-                          <InputOTPSlot index={2} />
-                          <InputOTPSeparator />
-                          <InputOTPSlot index={3} />
-                          <InputOTPSlot index={4} />
-                          <InputOTPSlot index={5} />
-                        </InputOTPGroup>
-                      </InputOTP>
+                  {linkSent && !search.userId && !search.secret && !success && (
+                    <div className="text-center text-sm">
+                      <p>{t("recover.emailSent")}</p>
+                    </div>
+                  )}
+                  {search.userId && search.secret && !success && (
+                    <form onSubmit={resetPassword} className="flex flex-col gap-4">
                       <Input
                         type="password"
                         placeholder={t("recover.newPassword")}
