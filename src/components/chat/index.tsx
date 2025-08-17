@@ -13,8 +13,9 @@ export function Chat() {
   const { messages, sendMessage, status } = useChat({ transport });
 
   async function handleSubmit(value: string, files?: FileList | null) {
-    if (!value.trim() && (!files || files.length === 0)) return;
-    await sendMessage({ text: value, files });
+    const uploadFiles = files ?? undefined;
+    if (!value.trim() && (!uploadFiles || uploadFiles.length === 0)) return;
+    await sendMessage({ text: value, files: uploadFiles });
   }
 
   const placeholders = [
