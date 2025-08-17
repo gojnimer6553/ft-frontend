@@ -5,6 +5,7 @@ import {
   LifeBuoy,
   Send,
   Bot,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 
@@ -46,6 +47,11 @@ const data = {
           url: "/home",
         },
       ],
+    },
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: Settings,
     },
   ],
   navSecondary: [

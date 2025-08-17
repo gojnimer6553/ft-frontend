@@ -18,6 +18,7 @@ import { Route as _authenticatedLayoutRouteImport } from './routes/__authenticat
 import { Route as _authenticatedLayoutIndexRouteImport } from './routes/__authenticatedLayout/index'
 import { Route as _authenticationLayoutRegisterRouteImport } from './routes/__authenticationLayout/register'
 import { Route as _authenticationLayoutLoginRouteImport } from './routes/__authenticationLayout/login'
+import { Route as _authenticatedLayoutSettingsRouteImport } from './routes/__authenticatedLayout/settings'
 import { Route as _authenticatedLayoutHomeRouteImport } from './routes/__authenticatedLayout/home'
 import { Route as _authenticatedLayoutChatRouteImport } from './routes/__authenticatedLayout/chat'
 
@@ -67,6 +68,12 @@ const _authenticationLayoutLoginRoute =
     path: '/login',
     getParentRoute: () => _authenticationLayoutRoute,
   } as any)
+const _authenticatedLayoutSettingsRoute =
+  _authenticatedLayoutSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => _authenticatedLayoutRoute,
+  } as any)
 const _authenticatedLayoutHomeRoute =
   _authenticatedLayoutHomeRouteImport.update({
     id: '/home',
@@ -87,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/waitlist-drawer-test': typeof WaitlistDrawerTestRoute
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
+  '/settings': typeof _authenticatedLayoutSettingsRoute
   '/login': typeof _authenticationLayoutLoginRoute
   '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
   '/waitlist-drawer-test': typeof WaitlistDrawerTestRoute
   '/chat': typeof _authenticatedLayoutChatRoute
   '/home': typeof _authenticatedLayoutHomeRoute
+  '/settings': typeof _authenticatedLayoutSettingsRoute
   '/login': typeof _authenticationLayoutLoginRoute
   '/register': typeof _authenticationLayoutRegisterRoute
   '/': typeof _authenticatedLayoutIndexRoute
@@ -112,6 +121,7 @@ export interface FileRoutesById {
   '/waitlist-drawer-test': typeof WaitlistDrawerTestRoute
   '/__authenticatedLayout/chat': typeof _authenticatedLayoutChatRoute
   '/__authenticatedLayout/home': typeof _authenticatedLayoutHomeRoute
+  '/__authenticatedLayout/settings': typeof _authenticatedLayoutSettingsRoute
   '/__authenticationLayout/login': typeof _authenticationLayoutLoginRoute
   '/__authenticationLayout/register': typeof _authenticationLayoutRegisterRoute
   '/__authenticatedLayout/': typeof _authenticatedLayoutIndexRoute
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/waitlist-drawer-test'
     | '/chat'
     | '/home'
+    | '/settings'
     | '/login'
     | '/register'
     | '/'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
     | '/waitlist-drawer-test'
     | '/chat'
     | '/home'
+    | '/settings'
     | '/login'
     | '/register'
     | '/'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
     | '/waitlist-drawer-test'
     | '/__authenticatedLayout/chat'
     | '/__authenticatedLayout/home'
+    | '/__authenticatedLayout/settings'
     | '/__authenticationLayout/login'
     | '/__authenticationLayout/register'
     | '/__authenticatedLayout/'
@@ -228,6 +241,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticationLayoutLoginRouteImport
       parentRoute: typeof _authenticationLayoutRoute
     }
+    '/__authenticatedLayout/settings': {
+      id: '/__authenticatedLayout/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof _authenticatedLayoutSettingsRouteImport
+      parentRoute: typeof _authenticatedLayoutRoute
+    }
     '/__authenticatedLayout/home': {
       id: '/__authenticatedLayout/home'
       path: '/home'
@@ -248,12 +268,14 @@ declare module '@tanstack/react-router' {
 interface _authenticatedLayoutRouteChildren {
   _authenticatedLayoutChatRoute: typeof _authenticatedLayoutChatRoute
   _authenticatedLayoutHomeRoute: typeof _authenticatedLayoutHomeRoute
+  _authenticatedLayoutSettingsRoute: typeof _authenticatedLayoutSettingsRoute
   _authenticatedLayoutIndexRoute: typeof _authenticatedLayoutIndexRoute
 }
 
 const _authenticatedLayoutRouteChildren: _authenticatedLayoutRouteChildren = {
   _authenticatedLayoutChatRoute: _authenticatedLayoutChatRoute,
   _authenticatedLayoutHomeRoute: _authenticatedLayoutHomeRoute,
+  _authenticatedLayoutSettingsRoute: _authenticatedLayoutSettingsRoute,
   _authenticatedLayoutIndexRoute: _authenticatedLayoutIndexRoute,
 }
 
