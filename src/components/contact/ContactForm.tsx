@@ -11,7 +11,7 @@ import { ExecutionMethod } from "appwrite";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import FormBase from "./form-base";
+import FormBase from "@/components/common/FormBase";
 
 interface ContactFormProps {
   className?: string;

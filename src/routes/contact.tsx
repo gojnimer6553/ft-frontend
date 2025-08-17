@@ -1,4 +1,4 @@
-import { ContactForm } from "@/components/contact-form";
+import { ContactForm } from "@/components/contact/ContactForm";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 

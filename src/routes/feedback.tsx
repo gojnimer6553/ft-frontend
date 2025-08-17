@@ -1,5 +1,5 @@
-import { FeedbackForm } from "@/components/feedback-form";
-import { AppVersion } from "@/components/app-version";
+import { FeedbackForm } from "@/components/feedback/FeedbackForm";
+import { AppVersion } from "@/components/common/AppVersion";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 

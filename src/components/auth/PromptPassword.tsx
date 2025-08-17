@@ -5,9 +5,9 @@ import { AlertCircleIcon } from "lucide-react";
 import React, { useImperativeHandle, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import FormBase from "./form-base";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { Button } from "./ui/button";
+import FormBase from "@/components/common/FormBase";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Credenza,
   CredenzaBody,
@@ -16,9 +16,9 @@ import {
   CredenzaFooter,
   CredenzaHeader,
   CredenzaTitle,
-} from "./ui/credenza";
-import { Form, FormField } from "./ui/form";
-import { Input } from "./ui/input";
+} from "@/components/ui/credenza";
+import { Form, FormField } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 interface PromptPasswordRefProps {
   prompt: (

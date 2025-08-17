@@ -1,7 +1,7 @@
-import FormBase from "@/components/form-base";
+import FormBase from "@/components/common/FormBase";
 import PromptPassword, {
   type PromptPasswordRefProps,
-} from "@/components/prompt-password";
+} from "@/components/auth/PromptPassword";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormField } from "@/components/ui/form";
@@ -15,7 +15,7 @@ import { useEffect, useRef } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import LanguageSelect from "./language-select";
+import LanguageSelect from "./LanguageSelect";
 import { createMutationFn } from "./utils/mutation";
 
 const settingsSchema = z.object({

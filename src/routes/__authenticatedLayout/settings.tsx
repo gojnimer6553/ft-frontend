@@ -1,4 +1,4 @@
-import { SettingsForm } from "@/components/settings/settings-form";
+import { SettingsForm } from "@/components/settings/SettingsForm";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 

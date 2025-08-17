@@ -1,6 +1,6 @@
 import { ArrowDown, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { ChatBubble } from "./chat-bubble";
+import { ChatBubble } from "./ChatBubble";
 import type { UIMessage } from "ai";
 
 interface ChatMessagesProps {

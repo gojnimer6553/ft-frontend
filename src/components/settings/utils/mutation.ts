@@ -1,4 +1,4 @@
-import type { PromptPasswordRefProps } from "@/components/prompt-password";
+import type { PromptPasswordRefProps } from "@/components/auth/PromptPassword";
 import { account } from "@/lib/appwrite";
 import { objectToArray } from "@/lib/utils";
 import {

@@ -1,4 +1,4 @@
-import FormBase from "@/components/form-base";
+import FormBase from "@/components/common/FormBase";
 import {
   Select,
   SelectContent,

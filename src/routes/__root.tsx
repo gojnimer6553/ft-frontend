@@ -1,4 +1,4 @@
-import FullPageNotFound from "@/components/feedback/full-page-not-found";
+import FullPageNotFound from "@/components/feedback/FullPageNotFound";
 import { Toaster } from "@/components/ui/sonner";
 import { account } from "@/lib/appwrite";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

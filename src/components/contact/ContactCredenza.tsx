@@ -1,4 +1,4 @@
-import { ContactForm } from "@/components/contact-form"
+import { ContactForm } from "@/components/contact/ContactForm"
 import { Button } from "@/components/ui/button"
 import {
   Credenza,

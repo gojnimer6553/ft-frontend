@@ -8,12 +8,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { ContactCredenza } from "@/components/contact-credenza";
-import { FeedbackCredenza } from "@/components/feedback-credenza";
+import { ContactCredenza } from "@/components/contact/ContactCredenza";
+import { FeedbackCredenza } from "@/components/feedback/FeedbackCredenza";
 
-import { NavMain } from "@/components/sidebar/nav-main";
-import { NavSecondary } from "@/components/sidebar/nav-secondary";
-import { NavUser } from "@/components/sidebar/nav-user";
+import { NavMain } from "@/components/navigation/sidebar/NavMain";
+import { NavSecondary } from "@/components/navigation/sidebar/NavSecondary";
+import { NavUser } from "@/components/navigation/sidebar/NavUser";
 import {
   Sidebar,
   SidebarContent,

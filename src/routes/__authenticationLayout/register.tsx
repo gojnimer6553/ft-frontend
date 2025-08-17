@@ -1,7 +1,7 @@
-import RegisterEmailAndPasswordForm from "@/components/register/email-and-password";
-import OAuth2Button from "@/components/login/oauth2-button";
-import AppleIcon from "@/components/svg-icons/apple";
-import GoogleIcon from "@/components/svg-icons/google";
+import RegisterEmailAndPasswordForm from "@/components/auth/register/EmailAndPassword";
+import OAuth2Button from "@/components/auth/login/OAuth2Button";
+import AppleIcon from "@/components/icons/AppleIcon";
+import GoogleIcon from "@/components/icons/GoogleIcon";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
-import { NavUser } from './nav-user'
+import { NavUser } from './NavUser'
 
 vi.mock('@/hooks/queries/user', () => ({
   default: () => ({ data: { name: 'John Doe', email: 'john@example.com' } }),

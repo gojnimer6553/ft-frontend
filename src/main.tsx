@@ -10,8 +10,8 @@ import "./styles.css";
 
 import tolgee, { TolgeeProvider } from "@/lib/tolgee";
 import { QueryClient } from "@tanstack/react-query";
-import FullPageLoader from "./components/feedback/full-page-loader.tsx";
-import { ThemeProvider } from "@/components/theme-provider";
+import FullPageLoader from "@/components/feedback/FullPageLoader";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const queryClient = new QueryClient();
 
