@@ -54,6 +54,7 @@ export function SettingsForm() {
         actionToastId
       )(params);
       toast.promise(mutationPromise, {
+        id: actionToastId,
         loading: t("settings.updating"),
         success: t("settings.updateSuccess"),
         error: (err) => err.message || t("settings.updateError"),
