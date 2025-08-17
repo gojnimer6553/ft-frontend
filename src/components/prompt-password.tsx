@@ -91,10 +91,10 @@ export default function PromptPassword(props: { ref: PromptPasswordRef }) {
       open={isOpen}
       onOpenChange={(open) => {
         if (!open) {
-          promptConfig?.interactionClose?.();
-          setPromptConfig(undefined);
           formMethods.reset();
+          setPromptConfig(undefined);
           reset();
+          promptConfig?.interactionClose?.();
         }
         setIsOpen(open);
       }}
