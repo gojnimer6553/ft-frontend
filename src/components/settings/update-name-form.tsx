@@ -4,15 +4,16 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { InputWithButton } from "@/components/ui/input-with-button";
 import { account } from "@/lib/appwrite";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
+import { useTranslate } from "@tolgee/react";
 
 export function UpdateNameForm() {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
+  const { t } = useTranslate();
   const schema = z.object({ name: z.string().min(1) });
   const form = useForm<{ name: string }>({
     resolver: zodResolver(schema),
@@ -26,7 +27,7 @@ export function UpdateNameForm() {
     mutationFn: ({ name }: { name: string }) => account.updateName(name),
     onSuccess: (_, values) => {
       queryClient.setQueryData(["session"], (old: any) => ({ ...old, name: values.name }));
-      toast.success("Name updated");
+      toast.success(t("settings.updateName.success"));
     },
     onError: (err: any) => toast.error(err.message),
   });
@@ -37,7 +38,7 @@ export function UpdateNameForm() {
 
   return (
     <div className="space-y-4 rounded-lg border p-4">
-      <h2 className="text-lg font-semibold">Update Name</h2>
+      <h2 className="text-lg font-semibold">{t("settings.updateName.title")}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <FormField
@@ -45,17 +46,18 @@ export function UpdateNameForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{t("settings.updateName.name")}</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <InputWithButton
+                    {...field}
+                    buttonLabel={t("settings.save")}
+                    loading={mutation.status === "pending"}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" loading={mutation.status === "pending"}>
-            Save
-          </Button>
         </form>
       </Form>
     </div>

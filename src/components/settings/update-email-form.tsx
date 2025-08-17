@@ -4,16 +4,17 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { InputWithButton } from "@/components/ui/input-with-button";
 import { account } from "@/lib/appwrite";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
 import { PasswordCredenza } from "./password-credenza";
+import { useTranslate } from "@tolgee/react";
 
 export function UpdateEmailForm() {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
+  const { t } = useTranslate();
   const schema = z.object({ email: z.string().email() });
   const form = useForm<{ email: string }>({
     resolver: zodResolver(schema),
@@ -28,7 +29,7 @@ export function UpdateEmailForm() {
       account.updateEmail(email, password),
     onSuccess: (_, values) => {
       queryClient.setQueryData(["session"], (old: any) => ({ ...old, email: values.email }));
-      toast.success("Email updated");
+      toast.success(t("settings.updateEmail.success"));
     },
     onError: (err: any) => toast.error(err.message),
   });
@@ -49,7 +50,7 @@ export function UpdateEmailForm() {
 
   return (
     <div className="space-y-4 rounded-lg border p-4">
-      <h2 className="text-lg font-semibold">Update Email</h2>
+      <h2 className="text-lg font-semibold">{t("settings.updateEmail.title")}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <FormField
@@ -57,17 +58,18 @@ export function UpdateEmailForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t("settings.updateEmail.email")}</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <InputWithButton
+                    {...field}
+                    buttonLabel={t("settings.save")}
+                    loading={mutation.status === "pending"}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" loading={mutation.status === "pending"}>
-            Save
-          </Button>
         </form>
       </Form>
       <PasswordCredenza

@@ -2,8 +2,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { account } from "@/lib/appwrite";
 import { toast } from "sonner";
+import { useTranslate } from "@tolgee/react";
 
 export function SessionsList({ className }: { className?: string }) {
+  const { t } = useTranslate();
   const { data: sessionsData, refetch } = useQuery({
     queryKey: ["sessions"],
     queryFn: async () => (await account.listSessions()).sessions,
@@ -11,7 +13,7 @@ export function SessionsList({ className }: { className?: string }) {
   const deleteSessionMutation = useMutation({
     mutationFn: (id: string) => account.deleteSession(id),
     onSuccess: () => {
-      toast.success("Session removed");
+      toast.success(t("settings.sessions.sessionRemoved"));
       refetch();
     },
     onError: (err: any) => toast.error(err.message),
@@ -19,7 +21,7 @@ export function SessionsList({ className }: { className?: string }) {
   const deleteAllSessionsMutation = useMutation({
     mutationFn: () => account.deleteSessions(),
     onSuccess: () => {
-      toast.success("All sessions removed");
+      toast.success(t("settings.sessions.allSessionsRemoved"));
       refetch();
     },
     onError: (err: any) => toast.error(err.message),
@@ -27,7 +29,7 @@ export function SessionsList({ className }: { className?: string }) {
 
   return (
     <div className={`space-y-4 rounded-lg border p-4 ${className ?? ""}`}>
-      <h2 className="text-lg font-semibold">Sessions</h2>
+      <h2 className="text-lg font-semibold">{t("settings.sessions.title")}</h2>
       <div className="space-y-2">
         {sessionsData?.map((s) => (
           <div key={s.$id} className="flex items-center justify-between border-b pb-2">
@@ -40,7 +42,7 @@ export function SessionsList({ className }: { className?: string }) {
               size="sm"
               onClick={() => deleteSessionMutation.mutate(s.$id)}
             >
-              Revoke
+              {t("settings.sessions.revoke")}
             </Button>
           </div>
         ))}
@@ -50,7 +52,7 @@ export function SessionsList({ className }: { className?: string }) {
             loading={deleteAllSessionsMutation.status === "pending"}
             onClick={() => deleteAllSessionsMutation.mutate()}
           >
-            Revoke All Sessions
+            {t("settings.sessions.revokeAll")}
           </Button>
         )}
       </div>

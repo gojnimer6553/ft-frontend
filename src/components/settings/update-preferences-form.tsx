@@ -8,12 +8,13 @@ import { Button } from "@/components/ui/button";
 import { account } from "@/lib/appwrite";
 import useSession from "@/hooks/queries/user";
 import { toast } from "sonner";
-import { useTolgee } from "@tolgee/react";
+import { useTolgee, useTranslate } from "@tolgee/react";
 
 export function UpdatePreferencesForm({ className }: { className?: string }) {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
   const tolgee = useTolgee(["language"]);
+  const { t } = useTranslate();
   const schema = z.object({
     language: z.string().min(1),
     newsletter: z.boolean().optional(),
@@ -41,14 +42,14 @@ export function UpdatePreferencesForm({ className }: { className?: string }) {
         ...old,
         prefs: { ...(old?.prefs ?? {}), language: values.language, newsletter: values.newsletter },
       }));
-      toast.success("Preferences updated");
+      toast.success(t("settings.preferences.success"));
     },
     onError: (err: any) => toast.error(err.message),
   });
 
   return (
     <div className={`space-y-4 rounded-lg border p-4 ${className ?? ""}`}>
-      <h2 className="text-lg font-semibold">Preferences</h2>
+      <h2 className="text-lg font-semibold">{t("settings.preferences.title")}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit((v) => mutation.mutate(v))} className="space-y-4">
           <FormField
@@ -56,11 +57,11 @@ export function UpdatePreferencesForm({ className }: { className?: string }) {
             name="language"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Language</FormLabel>
+                <FormLabel>{t("settings.preferences.language")}</FormLabel>
                 <FormControl>
                   <select {...field} className="w-full rounded border px-2 py-1">
-                    <option value="en">English</option>
-                    <option value="pt-BR">Português (Brasil)</option>
+                    <option value="en">{t("settings.preferences.english")}</option>
+                    <option value="pt-BR">{t("settings.preferences.portuguese")}</option>
                   </select>
                 </FormControl>
                 <FormMessage />
@@ -79,12 +80,12 @@ export function UpdatePreferencesForm({ className }: { className?: string }) {
                     onChange={(e) => field.onChange(e.target.checked)}
                   />
                 </FormControl>
-                <FormLabel className="!mt-0">Newsletter</FormLabel>
+                <FormLabel className="!mt-0">{t("settings.preferences.newsletter")}</FormLabel>
               </FormItem>
             )}
           />
           <Button type="submit" loading={mutation.status === "pending"}>
-            Save
+            {t("settings.save")}
           </Button>
         </form>
       </Form>

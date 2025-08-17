@@ -13,6 +13,7 @@ import {
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useTranslate } from "@tolgee/react";
 
 const passwordSchema = z.object({ password: z.string().min(1) });
 
@@ -25,6 +26,7 @@ export function PasswordCredenza({
   onOpenChange: (open: boolean) => void;
   onConfirm: (password: string) => void;
 }) {
+  const { t } = useTranslate();
   const form = useForm<{ password: string }>({
     resolver: zodResolver(passwordSchema),
     defaultValues: { password: "" },
@@ -34,7 +36,7 @@ export function PasswordCredenza({
     <Credenza open={open} onOpenChange={(o) => { onOpenChange(o); if (!o) form.reset(); }}>
       <CredenzaContent>
         <CredenzaHeader>
-          <CredenzaTitle>Confirm Update</CredenzaTitle>
+          <CredenzaTitle>{t("settings.passwordCredenza.title")}</CredenzaTitle>
         </CredenzaHeader>
         <CredenzaBody>
           <Form {...form}>
@@ -51,7 +53,7 @@ export function PasswordCredenza({
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t("settings.passwordCredenza.password")}</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -65,11 +67,11 @@ export function PasswordCredenza({
         <CredenzaFooter>
           <CredenzaClose asChild>
             <Button type="button" variant="outline">
-              Cancel
+              {t("settings.passwordCredenza.cancel")}
             </Button>
           </CredenzaClose>
           <Button type="submit" form="password-form">
-            Confirm
+            {t("settings.passwordCredenza.confirm")}
           </Button>
         </CredenzaFooter>
       </CredenzaContent>

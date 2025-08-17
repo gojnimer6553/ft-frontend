@@ -90,5 +90,45 @@
     "invalidEmail": "Email inválido",
     "passwordMin": "Mínimo de {{count}} caracteres",
     "required": "Campo obrigatório"
+  },
+  "settings": {
+    "title": "Configurações",
+    "save": "Salvar",
+    "passwordCredenza": {
+      "title": "Confirmar atualização",
+      "password": "Senha",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    },
+    "sessions": {
+      "title": "Sessões",
+      "sessionRemoved": "Sessão removida",
+      "allSessionsRemoved": "Todas as sessões removidas",
+      "revoke": "Revogar",
+      "revokeAll": "Revogar todas as sessões"
+    },
+    "updateEmail": {
+      "title": "Atualizar email",
+      "email": "Email",
+      "success": "Email atualizado"
+    },
+    "updateName": {
+      "title": "Atualizar nome",
+      "name": "Nome",
+      "success": "Nome atualizado"
+    },
+    "updatePhone": {
+      "title": "Atualizar telefone",
+      "phone": "Telefone",
+      "success": "Telefone atualizado"
+    },
+    "preferences": {
+      "title": "Preferências",
+      "success": "Preferências atualizadas",
+      "language": "Idioma",
+      "english": "Inglês",
+      "portuguese": "Português (Brasil)",
+      "newsletter": "Newsletter"
+    }
   }
 }
