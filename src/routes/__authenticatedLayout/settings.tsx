@@ -1,6 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,21 +22,36 @@ export const Route = createFileRoute("/__authenticatedLayout/settings")({
   component: SettingsPage,
 });
 
+type FormValues = {
+  name: string;
+  email: string;
+  password: string;
+  prefs: string;
+};
+
 function SettingsPage() {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [prefs, setPrefs] = useState("{}");
+  const formMethods = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      prefs: "{}",
+    },
+  });
 
   useEffect(() => {
     if (session) {
-      setName(session.name);
-      setEmail(session.email);
-      setPrefs(JSON.stringify(session.prefs ?? {}, null, 2));
+      formMethods.reset({
+        name: session.name,
+        email: session.email,
+        password: "",
+        prefs: JSON.stringify(session.prefs ?? {}, null, 2),
+      });
     }
-  }, [session]);
+  }, [session, formMethods]);
 
   const nameMutation = useMutation({
     mutationFn: (name: string) => account.updateName(name),
@@ -37,8 +61,6 @@ function SettingsPage() {
     },
   });
 
-  const [pendingEmail, setPendingEmail] = useState("");
-  const [emailPromptOpen, setEmailPromptOpen] = useState(false);
   const emailMutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       account.updateEmail(email, password),
@@ -47,9 +69,6 @@ function SettingsPage() {
       toast.success("Email updated");
     },
   });
-
-  const [pendingPassword, setPendingPassword] = useState("");
-  const [passwordPromptOpen, setPasswordPromptOpen] = useState(false);
   const passwordMutation = useMutation({
     mutationFn: ({ password, old }: { password: string; old: string }) =>
       account.updatePassword(password, old),
@@ -78,109 +97,154 @@ function SettingsPage() {
       queryClient.invalidateQueries({ queryKey: ["sessions"] });
     },
   });
+  const [promptOpen, setPromptOpen] = useState(false);
+  const [pendingValues, setPendingValues] = useState<FormValues | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const watchedValues = formMethods.watch();
+  const hasChanges = useMemo(() => {
+    if (!session) return false;
+    return (
+      watchedValues.name !== session.name ||
+      watchedValues.email !== session.email ||
+      watchedValues.password !== "" ||
+      watchedValues.prefs !== JSON.stringify(session.prefs ?? {}, null, 2)
+    );
+  }, [watchedValues, session]);
+
+  const handleSave = async (values: FormValues, password?: string) => {
+    setIsSaving(true);
+    try {
+      if (values.name !== session?.name) {
+        await nameMutation.mutateAsync(values.name);
+      }
+      if (values.email !== session?.email) {
+        if (!password) throw new Error("Password required");
+        await emailMutation.mutateAsync({ email: values.email, password });
+      }
+      if (values.password) {
+        if (!password) throw new Error("Password required");
+        await passwordMutation.mutateAsync({ password: values.password, old: password });
+      }
+      if (values.prefs !== JSON.stringify(session?.prefs ?? {}, null, 2)) {
+        const parsed = JSON.parse(values.prefs);
+        await prefsMutation.mutateAsync(parsed);
+      }
+
+      const updated: any = queryClient.getQueryData(["session"]);
+      formMethods.reset({
+        name: updated?.name ?? values.name,
+        email: updated?.email ?? values.email,
+        password: "",
+        prefs: JSON.stringify(updated?.prefs ?? {}, null, 2),
+      });
+    } catch (err: any) {
+      if (err instanceof SyntaxError) {
+        toast.error("Invalid JSON");
+      } else if (err?.message) {
+        toast.error(err.message);
+      }
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const onSubmit = (values: FormValues) => {
+    try {
+      JSON.parse(values.prefs);
+    } catch {
+      toast.error("Invalid JSON");
+      return;
+    }
+
+    if (values.email !== session?.email || values.password) {
+      setPendingValues(values);
+      setPromptOpen(true);
+    } else {
+      handleSave(values);
+    }
+  };
 
   return (
     <div className="max-w-xl mx-auto space-y-10">
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold">Profile</h2>
+      <Form {...formMethods}>
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            nameMutation.mutate(name);
-          }}
-          className="space-y-2"
+          onSubmit={formMethods.handleSubmit(onSubmit)}
+          className="space-y-10"
         >
-          <Input value={name} onChange={(e) => setName(e.target.value)} />
-          <Button type="submit" disabled={nameMutation.isPending}>
-            Save name
-          </Button>
-        </form>
-      </section>
+          <section className="space-y-4">
+            <h2 className="text-lg font-semibold">Profile</h2>
+            <FormField
+              control={formMethods.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </section>
 
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold">Email</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setPendingEmail(email);
-            setEmailPromptOpen(true);
-          }}
-          className="space-y-2"
-        >
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Button type="submit" disabled={emailMutation.isPending}>
-            Save email
-          </Button>
-        </form>
-        <PasswordPrompt
-          open={emailPromptOpen}
-          onCancel={() => setEmailPromptOpen(false)}
-          onConfirm={(password) => {
-            emailMutation.mutate({ email: pendingEmail, password });
-            setEmailPromptOpen(false);
-          }}
-        />
-      </section>
+          <section className="space-y-4">
+            <h2 className="text-lg font-semibold">Email</h2>
+            <FormField
+              control={formMethods.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </section>
 
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold">Password</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setPendingPassword(pendingPassword);
-            setPasswordPromptOpen(true);
-          }}
-          className="space-y-2"
-        >
-          <Input
-            type="password"
-            value={pendingPassword}
-            onChange={(e) => setPendingPassword(e.target.value)}
-            placeholder="New password"
-          />
-          <Button type="submit" disabled={passwordMutation.isPending}>
-            Change password
-          </Button>
-        </form>
-        <PasswordPrompt
-          open={passwordPromptOpen}
-          onCancel={() => setPasswordPromptOpen(false)}
-          onConfirm={(oldPassword) => {
-            passwordMutation.mutate({ password: pendingPassword, old: oldPassword });
-            setPasswordPromptOpen(false);
-            setPendingPassword("");
-          }}
-        />
-      </section>
+          <section className="space-y-4">
+            <h2 className="text-lg font-semibold">Password</h2>
+            <FormField
+              control={formMethods.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>New Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="New password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </section>
 
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold">Preferences</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            try {
-              const parsed = JSON.parse(prefs);
-              prefsMutation.mutate(parsed);
-            } catch {
-              toast.error("Invalid JSON");
-            }
-          }}
-          className="space-y-2"
-        >
-          <Textarea
-            value={prefs}
-            onChange={(e) => setPrefs(e.target.value)}
-            rows={5}
-          />
-          <Button type="submit" disabled={prefsMutation.isPending}>
-            Save preferences
+          <section className="space-y-4">
+            <h2 className="text-lg font-semibold">Preferences</h2>
+            <FormField
+              control={formMethods.control}
+              name="prefs"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Preferences (JSON)</FormLabel>
+                  <FormControl>
+                    <Textarea rows={5} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </section>
+
+          <Button type="submit" disabled={!hasChanges || isSaving}>
+            Save changes
           </Button>
         </form>
-      </section>
+      </Form>
 
       <section className="space-y-4">
         <h2 className="text-lg font-semibold">Active Sessions</h2>
@@ -214,6 +278,21 @@ function SettingsPage() {
           ))}
         </ul>
       </section>
+
+      <PasswordPrompt
+        open={promptOpen}
+        onCancel={() => {
+          setPromptOpen(false);
+          setPendingValues(null);
+        }}
+        onConfirm={(password) => {
+          if (pendingValues) {
+            handleSave(pendingValues, password);
+            setPendingValues(null);
+          }
+          setPromptOpen(false);
+        }}
+      />
     </div>
   );
 }
