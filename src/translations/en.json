@@ -37,7 +37,8 @@
     "privacyPolicy": "Privacy Policy",
     "signUp": "Sign up",
     "termsOfService": "Terms of Service",
-    "welcomeBack": "Welcome back"
+    "welcomeBack": "Welcome back",
+    "forgotPassword": "Forgot password?"
   },
   "register": {
     "agreeTo": "By clicking sign up, you agree to our",
@@ -56,6 +57,19 @@
     "signUpWithAppleOrGoogle": "Sign up with your account",
     "signUpWithGoogle": "Sign up with Google",
     "termsOfService": "Terms of Service"
+  },
+  "recover": {
+    "title": "Recover password",
+    "email": "Email",
+    "emailPlaceholder": "Write your email...",
+    "send": "Send recovery email",
+    "emailSent": "Check your email for the recovery link",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "submit": "Change password",
+    "successTitle": "Password changed",
+    "successDescription": "You can now log in with your new password.",
+    "backToLogin": "Back to login"
   },
   "waitlist": {
     "title": "Join the waitlist",
@@ -90,6 +104,7 @@
   "validation": {
     "invalidEmail": "Invalid email",
     "passwordMin": "Minimum {{count}} characters",
-    "required": "Required field"
+    "required": "Required field",
+    "passwordMismatch": "Passwords do not match"
   }
 }
