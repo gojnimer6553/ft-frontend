@@ -1,7 +1,7 @@
-import FormBase from "@/components/common/FormBase";
 import PromptPassword, {
   type PromptPasswordRefProps,
 } from "@/components/auth/PromptPassword";
+import FormBase from "@/components/common/FormBase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormField } from "@/components/ui/form";
@@ -54,6 +54,7 @@ export function SettingsForm() {
         actionToastId
       )(params);
       toast.promise(mutationPromise, {
+        id: actionToastId,
         loading: t("settings.updating"),
         success: t("settings.updateSuccess"),
         error: (err) => err.message || t("settings.updateError"),
